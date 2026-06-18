@@ -1,0 +1,35 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Python (MkDocs / future tooling)
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+
+# Node (if we add a JS-based site generator later)
+node_modules/
+dist/
+.cache/
+
+# MkDocs
+site/
+
+# Jekyll
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+Gemfile.lock
+
+# Logs
+*.log
