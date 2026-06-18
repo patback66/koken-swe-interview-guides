@@ -14,6 +14,7 @@ Structured software engineering interview prep guides for a **Sr. Software Engin
 | [System Design](docs/guides/02-system-design.md) | Payments, reconciliation, AI-enhanced services |
 | [Coding & Technical Depth](docs/guides/03-coding-technical-depth.md) | Idempotency, concurrency, LLM pipelines, testing |
 | [References & Further Reading](docs/references.md) | Curated external resources by topic |
+| [48-Hour Cram Plan](docs/cram-plan.md) | Hour-by-hour study schedule |
 
 ## Local development
 

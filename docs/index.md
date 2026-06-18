@@ -23,8 +23,9 @@ This guide covers key topics for your onsite interview with the company's FinTec
 | System Design | ~50% | [guides/02-system-design.md](guides/02-system-design.md) |
 | Coding & Technical Depth | ~30% | [guides/03-coding-technical-depth.md](guides/03-coding-technical-depth.md) |
 | References & Further Reading | — | [references.md](references.md) |
+| **48-Hour Cram Plan** | — | **[cram-plan.md](cram-plan.md)** |
 
-> This guide is in depth, as I like to over prepare candidates.
+> **Short on time?** Follow the [48-Hour Cram Plan](cram-plan.md) for a hour-by-hour schedule aligned to interview weighting.
 
 ---
 

@@ -214,3 +214,4 @@ Curated external resources for deeper study. Links are grouped by topic — star
 | Behavioral & Past Experience | [guides/01-behavioral-past-experience.md](guides/01-behavioral-past-experience.md) |
 | System Design | [guides/02-system-design.md](guides/02-system-design.md) |
 | Coding & Technical Depth | [guides/03-coding-technical-depth.md](guides/03-coding-technical-depth.md) |
+| 48-Hour Cram Plan | [cram-plan.md](cram-plan.md) |

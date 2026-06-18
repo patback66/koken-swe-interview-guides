@@ -34,6 +34,7 @@ theme:
 
 nav:
   - Home: index.md
+  - 48-Hour Cram Plan: cram-plan.md
   - Guides:
     - Behavioral & Past Experience: guides/01-behavioral-past-experience.md
     - System Design: guides/02-system-design.md
