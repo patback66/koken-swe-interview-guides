@@ -131,6 +131,23 @@ A time-boxed study schedule for the onsite interview. Assumes **~16–20 hours o
 
 ---
 
+### Block 5b: Database design & CAP (1 hr)
+
+**Goal:** Explain schema choices and consistency trade-offs under probe.
+
+| Time | Task | Guide |
+|------|------|-------|
+| 30 min | Read CAP theorem, technology choices, schema design | [Database Design](02-system-design.md#database-design-cap-theorem) |
+| 15 min | Sketch `payments` + `ledger_entries` tables; explain why cents as BIGINT | [Schema Design](02-system-design.md#schema-design-for-fintech) |
+| 15 min | For each data type (ledger, cache, dashboard), state CP or AP | [CAP in Practice](02-system-design.md#cap-consistency-in-practice) |
+
+- [ ] Can explain C, A, P in one sentence each
+- [ ] Can justify PostgreSQL for ledger vs Redis for idempotency
+- [ ] Know why FLOAT is wrong for money
+- [ ] Can describe read replica vs sharding trade-off
+
+---
+
 ### Day 1 wrap-up (30 min)
 
 - [ ] List your 3 weakest topics from today
@@ -300,6 +317,8 @@ BEHAVIORAL (20%)
 
 SYSTEM DESIGN (50%)
   Clarify → diagram → deep dive → trade-offs
+  CAP: ledger=CP, cache/dashboard=AP + reconciliation
+  DB: Postgres (ACID ledger), Redis (idempotency), Kafka (events)
   Payments: idempotency, state machine, saga, outbox
   Reconciliation: double-entry, async match, Temporal, sharding
   AI: RAG → validate → human review (never trust raw LLM for money)

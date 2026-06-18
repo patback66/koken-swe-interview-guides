@@ -81,6 +81,23 @@ Curated external resources for deeper study. Links are grouped by topic — star
 
 ---
 
+## Database Design
+
+| Resource | Topic |
+|----------|-------|
+| [*Designing Data-Intensive Applications*](https://dataintensive.net/) (Martin Kleppmann) | Ch. 5–9: replication, partitioning, transactions, consistency |
+| [CAP Twelve Years Later](https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/) (Eric Brewer) | Modern interpretation of CAP for practitioners |
+| [PostgreSQL — Numeric Types](https://www.postgresql.org/docs/current/datatype-numeric.html) | Store money as `NUMERIC` / integer cents, not float |
+| [PostgreSQL — Table Partitioning](https://www.postgresql.org/docs/current/ddl-partitioning.html) | Time-based partitions for ledger tables |
+| [PostgreSQL — Explicit Locking](https://www.postgresql.org/docs/current/explicit-locking.html) | `FOR UPDATE`, advisory locks, deadlock behavior |
+| [PostgreSQL — Transaction Isolation](https://www.postgresql.org/docs/current/transaction-iso.html) | Isolation levels and anomaly prevention |
+| [AWS — Data Persistence Guidance](https://docs.aws.amazon.com/prescriptive-guidance/latest/modernization-data-persistence/welcome.html) | When to choose SQL vs NoSQL |
+| [Use The Index, Luke](https://use-the-index-luke.com/) | SQL indexing and query performance |
+| [Martin Kleppmann — Distributed Locking](https://martin.kleppmann.com/2016/08/08/how-to-do-distributed-locking.html) | Why distributed locks are harder than they look |
+| [System Design guide → Database Design](02-system-design.md#database-design-cap-theorem) | CAP, schemas, technology trade-offs (this repo) |
+
+---
+
 ## System Design & Architecture
 
 ### Scalability Patterns
@@ -163,14 +180,6 @@ Curated external resources for deeper study. Links are grouped by topic — star
 |----------|-------|
 | [Async/Await Best Practices](https://learn.microsoft.com/en-us/archive/msdn-magazine/2013/march/async-await-best-practices-in-asynchronous-programming) | Avoiding deadlocks and thread-pool starvation |
 | [.NET Task Parallel Library](https://learn.microsoft.com/en-us/dotnet/standard/parallel-programming/task-parallel-library-tpl) | Parallel and async patterns in C# |
-
-### Database & Locking
-
-| Resource | Topic |
-|----------|-------|
-| [PostgreSQL — Explicit Locking](https://www.postgresql.org/docs/current/explicit-locking.html) | `FOR UPDATE`, advisory locks, deadlock behavior |
-| [PostgreSQL — Transaction Isolation](https://www.postgresql.org/docs/current/transaction-iso.html) | Isolation levels and anomaly prevention |
-| [Martin Kleppmann — How to Do Distributed Locking](https://martin.kleppmann.com/2016/08/08/how-to-do-distributed-locking.html) | Why distributed locks are harder than they look |
 
 ### Resilience Patterns
 

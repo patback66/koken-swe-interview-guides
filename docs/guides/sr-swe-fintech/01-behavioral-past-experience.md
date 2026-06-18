@@ -84,6 +84,8 @@ Prepare **2–3 polished stories** covering at least two of these themes. Have a
 | **Vector DB** | Stores embeddings for similarity search ("find invoices like this one") |
 | **Temporal** | Workflow orchestration engine — durable steps, retries, compensation |
 | **Strangler fig** | Gradually replace legacy by routing traffic to new system incrementally |
+| **CAP theorem** | Pick 2 of Consistency, Availability, Partition tolerance — ledgers favor CP; caches may favor AP |
+| **CP vs AP** | CP = error rather than stale data on partition; AP = stay up, reconcile later |
 
 ### Theme 1: Ownership of Core Financial Services
 

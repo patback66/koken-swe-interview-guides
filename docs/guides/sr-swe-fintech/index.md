@@ -90,6 +90,7 @@ Design a real-time payment gateway for **100k+ TPS**:
 
 | Concept | Brief definition |
 |---------|------------------|
+| **CAP theorem** | Distributed systems trade Consistency, Availability, or Partition tolerance — fintech ledgers lean CP; caches/dashboards may lean AP with reconciliation |
 | **ACID** | Atomicity, Consistency, Isolation, Durability — traditional DB transactions; all-or-nothing, strong guarantees |
 | **BASE** | Basically Available, Soft state, Eventual consistency — distributed systems trade strict consistency for availability and scale |
 | **Saga** | Multi-step transaction across services with compensating rollbacks on failure |
@@ -143,6 +144,7 @@ Design automated invoicing with AI Agents for **10M+ users/transactions**:
 |----------|--------|
 | **Architecture** | Microservices in Go/C# (or modern langs); Docker/Kubernetes for production; workflow tools (Temporal/Cadence/Airflow) for migrations |
 | **Scalability & Reliability** | Event buses for async flows; caching (Redis for session data); error handling (replays, eventual consistency); monitoring (distributed tracing, metrics for incident resolution) |
+| **Database design** | CAP theorem (CP vs AP); SQL vs NoSQL; schema design for ledgers; read replicas vs sharding |
 | **Security / Fintech Nuances** | Compliance for financial data (audit trails, role-based access); vendor integrations (direct APIs to optimize costs); AI safeguards (making models deterministic for workflows) |
 | **Trade-offs** | Sync vs. async for user feedback; simple caching vs. complex sharding; legacy migration paths without downtime |
 

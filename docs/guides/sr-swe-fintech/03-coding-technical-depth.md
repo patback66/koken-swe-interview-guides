@@ -245,6 +245,8 @@ var results = await Task.WhenAll(tasks);
 
 ## Database Interactions
 
+For schema design, CAP theorem, and technology trade-offs (PostgreSQL vs Redis vs Kafka), see [System Design → Database Design](02-system-design.md#database-design-cap-theorem).
+
 ### Locking Strategies
 
 **Why locking?** Two transactions updating the same account balance concurrently can cause lost updates or overdrafts without coordination.

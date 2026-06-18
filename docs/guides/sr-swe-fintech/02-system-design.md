@@ -11,11 +11,12 @@
 3. [Reconciliation & Billing](#reconciliation-billing)
 4. [AI-Enhanced Services](#ai-enhanced-services)
 5. [Cross-Cutting Architecture](#cross-cutting-architecture)
-6. [Scalability & Reliability Patterns](#scalability-reliability-patterns)
-7. [Security & Fintech Compliance](#security-fintech-compliance)
-8. [Key Trade-offs](#key-trade-offs)
-9. [Diagram Templates](#diagram-templates)
-10. [References & Further Reading](#references-further-reading)
+6. [Database Design & CAP Theorem](#database-design-cap-theorem)
+7. [Scalability & Reliability Patterns](#scalability-reliability-patterns)
+8. [Security & Fintech Compliance](#security-fintech-compliance)
+9. [Key Trade-offs](#key-trade-offs)
+10. [Diagram Templates](#diagram-templates)
+11. [References & Further Reading](#references-further-reading)
 
 ---
 
@@ -474,6 +475,167 @@ Use an **event-driven notification service** — publish `InvoiceValidated`, `Di
 
 ---
 
+## Database Design & CAP Theorem
+
+Database choices drive consistency, scale, and operational complexity. In fintech interviews, be ready to justify **what you store where**, **how schemas enforce correctness**, and **what you sacrifice under failure**.
+
+### CAP Theorem
+
+**CAP** states that a distributed data store can guarantee at most **two** of three properties during a **network partition**:
+
+| Property | What it means |
+|----------|---------------|
+| **Consistency (C)** | Every read returns the latest write (or an error) — all nodes agree on the same data |
+| **Availability (A)** | Every request gets a response (not an error) — system stays up even if some nodes are stale |
+| **Partition tolerance (P)** | System continues operating when network links between nodes fail |
+
+**The reality:** Partitions **will** happen in distributed systems (AZ failure, network blip, split brain). So you are really choosing between **CP** and **AP** when things go wrong:
+
+| Choice | Behavior during partition | Fintech example |
+|--------|-------------------------|-----------------|
+| **CP** | Reject reads/writes rather than return stale data | Ledger balance query — return error if primary is unreachable; don't guess |
+| **AP** | Stay available; replicas may temporarily disagree | Payment status dashboard — show "processing" while replicas catch up; reconciliation fixes drift |
+
+**Important nuance:** CAP is about **distributed** stores under partition. A single PostgreSQL instance gives you ACID consistency without this trade-off until you add replicas or shard. Most fintech cores use **strong consistency for money** (CP-ish within the ledger DB) and **eventual consistency at the edges** (AP with reconciliation for analytics, caches, read replicas).
+
+```
+                    ┌─────────────────────────────────┐
+                    │         Network partition         │
+                    └─────────────────────────────────┘
+           CP choice                          AP choice
+    "I'd rather error than lie"        "I'd rather serve stale than go down"
+         Ledger write fails               Cache shows old balance
+         Client retries safely            Reconciliation catches up later
+```
+
+### Technology Choices
+
+| Technology | Type | Best for in fintech | Trade-offs |
+|------------|------|---------------------|------------|
+| **PostgreSQL** | Relational (SQL) | Ledger, payments, invoices — anything needing **ACID**, joins, constraints | Vertical scale limits; sharding is manual; excellent for correctness-first workloads |
+| **MySQL / Aurora** | Relational (SQL) | Same as Postgres; common in AWS-native stacks | Similar trade-offs; Aurora adds managed replication/failover |
+| **Redis** | In-memory key-value | Idempotency keys, rate limits, session cache, distributed locks | Not durable by default (use AOF/RDB); memory cost; not a system of record |
+| **Kafka** | Distributed log | Event bus, CDC stream, audit trail of events | Not a queryable database — consumers build views |
+| **DynamoDB / Cassandra** | Wide-column NoSQL | High-volume idempotency at scale, time-series events, global low-latency writes | Eventual consistency by default; no joins; schema design is access-pattern-first |
+| **pgvector / Pinecone** | Vector store | Similarity search for RAG (invoice matching) | Complements OLTP DB; not for transactional money |
+| **Snowflake / BigQuery** | Warehouse | Analytics, reconciliation reports, financial close | Not for OLTP; batch/near-real-time ingestion |
+
+**Default fintech stack (interview-safe):** PostgreSQL as system of record + Redis for ephemeral/fast lookups + Kafka for events. Add DynamoDB or sharding only when Postgres write TPS or global latency forces it.
+
+#### SQL vs. NoSQL — when to use which
+
+| Use SQL when | Use NoSQL when |
+|--------------|----------------|
+| Data has relationships (accounts → payments → ledger entries) | Access pattern is simple key-value or wide-column (e.g., `idempotency_key → response`) |
+| You need transactions across rows (double-entry) | You need horizontal write scale across regions with tunable consistency |
+| Schema integrity matters (foreign keys, CHECK constraints) | Schema is flexible or evolves rapidly (event payloads) |
+| You run complex queries (reconciliation joins) | You sacrifice ad-hoc queries for partition tolerance and throughput |
+
+**Rule of thumb for money:** If losing or corrupting a row costs real dollars, prefer **SQL with ACID** unless you have a specific scale problem and a reconciliation story.
+
+### Schema Design for Fintech
+
+Design schemas to make **incorrect states unrepresentable** where possible.
+
+#### Core tables (payments + ledger)
+
+```sql
+-- Payments: lifecycle state machine
+CREATE TABLE payments (
+    id              UUID PRIMARY KEY,
+    idempotency_key VARCHAR(255) UNIQUE NOT NULL,
+    account_id      UUID NOT NULL REFERENCES accounts(id),
+    amount_cents    BIGINT NOT NULL CHECK (amount_cents > 0),
+    currency        CHAR(3) NOT NULL,
+    status          VARCHAR(32) NOT NULL,  -- INITIATED, AUTHORIZED, CAPTURED, ...
+    version         INT NOT NULL DEFAULT 1, -- optimistic locking
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at      TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- Ledger: append-only double-entry
+CREATE TABLE ledger_entries (
+    id              UUID PRIMARY KEY,
+    transaction_id  UUID NOT NULL,
+    account_id      UUID NOT NULL,
+    debit_cents     BIGINT NOT NULL DEFAULT 0 CHECK (debit_cents >= 0),
+    credit_cents    BIGINT NOT NULL DEFAULT 0 CHECK (credit_cents >= 0),
+    CHECK (debit_cents = 0 OR credit_cents = 0),  -- one side only
+    CHECK (NOT (debit_cents = 0 AND credit_cents = 0)),
+    currency        CHAR(3) NOT NULL,
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT now()
+    -- no updated_at: entries are immutable
+);
+
+-- Outbox: atomic publish with business write
+CREATE TABLE outbox (
+    id              UUID PRIMARY KEY,
+    aggregate_id    UUID NOT NULL,
+    event_type      VARCHAR(128) NOT NULL,
+    payload         JSONB NOT NULL,
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
+    published_at    TIMESTAMPTZ  -- NULL until relay confirms
+);
+```
+
+#### Schema design principles
+
+| Principle | Why it matters |
+|-----------|----------------|
+| **Store money as integers (cents)** | Never `FLOAT`/`DOUBLE` — rounding errors compound at scale |
+| **Immutable ledger rows** | Corrections are new entries, not UPDATEs — audit trail stays intact |
+| **Idempotency key as UNIQUE constraint** | DB enforces dedup even if application logic fails |
+| **Optimistic `version` column** | Safe concurrent updates without long-held locks |
+| **Status as enum / CHECK constraint** | Illegal state transitions rejected at DB layer |
+| **Timestamps in UTC (`TIMESTAMPTZ`)** | Global ops; convert at display layer |
+| **Partition large tables by time** | `ledger_entries_2026_01` — efficient range scans for reconciliation |
+
+#### Normalization vs. denormalization
+
+| Approach | When to use |
+|----------|-------------|
+| **Normalized (3NF)** | Write path — payments, ledger, accounts. Avoid update anomalies |
+| **Denormalized read models** | CQRS dashboards — `daily_revenue_by_region` materialized view updated from events |
+| **Denormalize cautiously** | Only when read latency matters and you have a clear invalidation/rebuild path |
+
+### Database Architecture Patterns
+
+| Pattern | What it is | Fintech use |
+|---------|------------|-------------|
+| **Database per service** | Each microservice owns its schema; no cross-service JOINs | Payment service DB, ledger service DB — communicate via APIs/events |
+| **Shared database (anti-pattern)** | Multiple services write same tables | Avoid — coupling, schema conflicts, unclear ownership |
+| **Read replicas** | Async copy of primary for SELECT queries | Dashboards, reporting — accept replication lag (eventual consistency) |
+| **Sharding** | Split rows across DB instances by key | Scale writes when single Postgres maxes out (~10k+ sustained write TPS depending on workload) |
+| **Connection pooling (PgBouncer)** | Reuse DB connections | Essential at scale — pods don't open 1 connection each unbounded |
+
+### CAP + Consistency in Practice
+
+Map data types to consistency expectations:
+
+| Data type | Consistency model | Technology | On partition / failure |
+|-----------|-------------------|------------|------------------------|
+| Ledger balance | Strong (linearizable within shard) | PostgreSQL primary | Fail writes; don't serve stale balance |
+| Payment idempotency key | Strong dedup | PostgreSQL UNIQUE or Redis SETNX | Reject duplicate or return cached |
+| Payment status (user UI) | Read-your-writes | Primary or sticky session to primary | Brief error → retry |
+| Reconciliation dashboard | Eventual | Read replica or warehouse | Stale by minutes is OK |
+| Cache (vendor config) | Eventual | Redis with TTL | Stale config OK for seconds |
+| Event log | Ordered per partition | Kafka | Consumers track offset; replay on failure |
+
+### Key Trade-offs (Database)
+
+| Trade-off | Option A | Option B | Fintech guidance |
+|-----------|----------|----------|------------------|
+| **One DB vs. many** | Monolith DB | DB per service | Per-service for microservices; shared only during migration |
+| **Postgres vs. DynamoDB** | Relational ACID | Managed NoSQL scale | Postgres until proven write/latency need; Dynamo for specific hot paths |
+| **Sync replication vs. async** | Zero data loss (RPO=0) | Lower write latency | Sync for ledger primary; async OK for replicas |
+| **FK constraints vs. app-level** | DB enforces referential integrity | Service validates | Prefer FKs on ledger/payments — catch bugs early |
+| **Soft delete vs. hard delete** | `deleted_at` column | `DELETE` row | Financial records: **never hard delete** — soft delete or append-only |
+| **JSONB columns vs. rigid schema** | Flexible payloads (events, metadata) | All columns typed | JSONB for outbox/events; core money fields always typed columns |
+
+**Further reading:** [*DDIA* Ch. 5–9](https://dataintensive.net/) · [PostgreSQL Data Types — Numeric](https://www.postgresql.org/docs/current/datatype-numeric.html) · [CAP Twelve Years Later](https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/) · [References — Database Design](references.md#database-design)
+
+---
+
 ## Scalability & Reliability Patterns
 
 ### Scaling Strategies
@@ -552,6 +714,8 @@ SLOs  →  Error budgets, burn-rate alerts
 |-----------|----------|----------|-------------------|-------------------|
 | **Sync vs. async** | Sync confirmation | Async with polling/webhook | User waiting (checkout) | Batch reconciliation, reports |
 | **Caching vs. sharding** | Redis cache on single DB | Shard DB by account | < 10k TPS, simpler ops | > 50k TPS, hotspot accounts |
+| **SQL vs. NoSQL** | PostgreSQL ACID ledger | DynamoDB hot-path idempotency | Correctness-critical money flows | Proven horizontal write scale need |
+| **CP vs. AP** | Fail on partition (ledger) | Stay available (cache/dashboard) | Balances, captures, idempotency | Analytics, config cache, read replicas |
 | **2PC vs. saga** | Distributed transaction | Saga with compensation | Rare; only within single DB | Cross-service financial flows |
 | **Rules vs. AI** | Deterministic rules engine | LLM classification | Known patterns, regulatory audit | Novel patterns, unstructured data |
 | **Monolith vs. microservices** | Single deployable | Service per domain | Early stage, small team | Independent scaling, team ownership |
@@ -621,6 +785,7 @@ Client          API Gateway       Payment Svc       Idempotency Store    Vendor
 | **Foundational** | [*Designing Data-Intensive Applications*](https://dataintensive.net/), [System Design Primer](https://github.com/donnemartin/system-design-primer) |
 | **Payments & idempotency** | [Stripe — Idempotent Requests](https://docs.stripe.com/api/idempotent_requests), [Stripe Engineering Blog](https://stripe.com/blog/engineering) |
 | **Distributed transactions** | [Saga Pattern](https://microservices.io/patterns/data/saga.html), [Transactional Outbox](https://microservices.io/patterns/data/transactional-outbox.html), [Temporal Docs](https://docs.temporal.io/) |
+| **Database design & CAP** | [*DDIA*](https://dataintensive.net/), [CAP — Twelve Years Later](https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/) |
 | **Observability & SRE** | [Google SRE Book](https://sre.google/sre-book/table-of-contents/), [Prometheus Docs](https://prometheus.io/docs/introduction/overview/) |
 | **AI in production** | [RAG Paper](https://arxiv.org/abs/2005.11401), [OWASP LLM Top 10](https://owasp.org/www-project-top-10-for-large-language-model-applications/) |
 | **Full bibliography** | [References & Further Reading](references.md) |
