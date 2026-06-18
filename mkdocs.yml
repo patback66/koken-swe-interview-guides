@@ -34,12 +34,15 @@ theme:
 
 nav:
   - Home: index.md
-  - 48-Hour Cram Plan: cram-plan.md
   - Guides:
-    - Behavioral & Past Experience: guides/01-behavioral-past-experience.md
-    - System Design: guides/02-system-design.md
-    - Coding & Technical Depth: guides/03-coding-technical-depth.md
-  - References: references.md
+    - Overview: guides/index.md
+    - Sr. SWE, FinTech:
+      - Study Guide: guides/sr-swe-fintech/index.md
+      - 48-Hour Cram Plan: guides/sr-swe-fintech/cram-plan.md
+      - Behavioral & Past Experience: guides/sr-swe-fintech/01-behavioral-past-experience.md
+      - System Design: guides/sr-swe-fintech/02-system-design.md
+      - Coding & Technical Depth: guides/sr-swe-fintech/03-coding-technical-depth.md
+      - References: guides/sr-swe-fintech/references.md
 
 markdown_extensions:
   - tables

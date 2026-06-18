@@ -1,20 +1,27 @@
 # Koken SWE Interview Guides
 
-Structured software engineering interview prep guides for a **Sr. Software Engineer, FinTech** role (behavioral, system design, coding).
+Interview prep guides for software engineering roles — organized by position.
 
 **Live site:** [patback66.github.io/koken-swe-interview-guides](https://patback66.github.io/koken-swe-interview-guides/)  
 **Repo:** [github.com/patback66/koken-swe-interview-guides](https://github.com/patback66/koken-swe-interview-guides)
 
-## Contents
+## Guides
 
 | Guide | Description |
 |-------|-------------|
-| [Study Guide](docs/index.md) | High-level overview and quick reference |
-| [Behavioral & Past Experience](docs/guides/01-behavioral-past-experience.md) | STAR stories, culture fit, common probes |
-| [System Design](docs/guides/02-system-design.md) | Payments, reconciliation, AI-enhanced services |
-| [Coding & Technical Depth](docs/guides/03-coding-technical-depth.md) | Idempotency, concurrency, LLM pipelines, testing |
-| [References & Further Reading](docs/references.md) | Curated external resources by topic |
-| [48-Hour Cram Plan](docs/cram-plan.md) | Hour-by-hour study schedule |
+| [All guides](docs/guides/index.md) | Catalog of position-specific interview guides |
+| [Sr. SWE, FinTech](docs/guides/sr-swe-fintech/index.md) | Payments, reconciliation, billing, AI workflows |
+
+### Sr. SWE, FinTech — sections
+
+| Section | Link |
+|---------|------|
+| Study Guide | [docs/guides/sr-swe-fintech/index.md](docs/guides/sr-swe-fintech/index.md) |
+| 48-Hour Cram Plan | [docs/guides/sr-swe-fintech/cram-plan.md](docs/guides/sr-swe-fintech/cram-plan.md) |
+| Behavioral | [docs/guides/sr-swe-fintech/01-behavioral-past-experience.md](docs/guides/sr-swe-fintech/01-behavioral-past-experience.md) |
+| System Design | [docs/guides/sr-swe-fintech/02-system-design.md](docs/guides/sr-swe-fintech/02-system-design.md) |
+| Coding | [docs/guides/sr-swe-fintech/03-coding-technical-depth.md](docs/guides/sr-swe-fintech/03-coding-technical-depth.md) |
+| References | [docs/guides/sr-swe-fintech/references.md](docs/guides/sr-swe-fintech/references.md) |
 
 ## Local development
 
@@ -33,7 +40,11 @@ Open [http://127.0.0.1:8000](http://127.0.0.1:8000) after running `mkdocs serve`
 
 Pushes to `main` trigger [.github/workflows/deploy.yml](.github/workflows/deploy.yml), which builds and deploys to the `gh-pages` branch via `mkdocs gh-deploy`.
 
-After the first deploy, enable GitHub Pages: **Settings → Pages → Source: Deploy from branch → `gh-pages` / `/ (root)`**.
+## Adding a new guide
+
+1. Create `docs/guides/<slug>/` with `index.md` and section files
+2. Register in [docs/guides/index.md](docs/guides/index.md)
+3. Add to `mkdocs.yml` navigation under **Guides**
 
 ## License
 

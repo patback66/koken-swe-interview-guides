@@ -1,6 +1,6 @@
 # Coding & Technical Depth — In-Depth Guide
 
-[← Back to Study Guide](../index.md)
+[← Sr. SWE, FinTech Study Guide](index.md) · [← All Guides](../index.md)
 
 ---
 
@@ -49,7 +49,7 @@ Coding is **~30% of the interview** — expect **light live coding** with heavy 
 | **Dead letter queue** | Poison messages | Malformed event fails processing 5x — route to DLQ for investigation |
 | **Rate limiting** | Abuse / overload protection | Token bucket on payment API per merchant |
 
-**Further reading:** [Microservices.io — Saga](https://microservices.io/patterns/data/saga.html) · [Transactional Outbox](https://microservices.io/patterns/data/transactional-outbox.html) · [Martin Fowler — Circuit Breaker](https://martinfowler.com/bliki/CircuitBreaker.html) · [References — Resilience Patterns](../references.md#resilience-patterns)
+**Further reading:** [Microservices.io — Saga](https://microservices.io/patterns/data/saga.html) · [Transactional Outbox](https://microservices.io/patterns/data/transactional-outbox.html) · [Martin Fowler — Circuit Breaker](https://martinfowler.com/bliki/CircuitBreaker.html) · [References — Resilience Patterns](references.md#resilience-patterns)
 
 ---
 
@@ -235,7 +235,7 @@ var results = await Task.WhenAll(tasks);
 | Shared state protection | `sync.Mutex`, channels | `lock`, `ConcurrentDictionary` |
 | Cancellation | `context.Context` | `CancellationToken` |
 
-**Further reading:** [Effective Go](https://go.dev/doc/effective_go) · [Go Blog — Pipelines](https://go.dev/blog/pipelines) · [Async/Await Best Practices (C#)](https://learn.microsoft.com/en-us/archive/msdn-magazine/2013/march/async-await-best-practices-in-asynchronous-programming) · [References — Go](../references.md#go)
+**Further reading:** [Effective Go](https://go.dev/doc/effective_go) · [Go Blog — Pipelines](https://go.dev/blog/pipelines) · [Async/Await Best Practices (C#)](https://learn.microsoft.com/en-us/archive/msdn-magazine/2013/march/async-await-best-practices-in-asynchronous-programming) · [References — Go](references.md#go)
 
 ---
 
@@ -287,7 +287,7 @@ WHERE id = $1 AND version = $3;
 | **Repeatable Read** | Non-repeatable reads | Good for balance checks within a transaction |
 | **Serializable** | All anomalies | Use for ledger writes; highest safety, lowest concurrency |
 
-**Further reading:** [PostgreSQL — Explicit Locking](https://www.postgresql.org/docs/current/explicit-locking.html) · [PostgreSQL — Transaction Isolation](https://www.postgresql.org/docs/current/transaction-iso.html) · [References — Database & Locking](../references.md#database-locking)
+**Further reading:** [PostgreSQL — Explicit Locking](https://www.postgresql.org/docs/current/explicit-locking.html) · [PostgreSQL — Transaction Isolation](https://www.postgresql.org/docs/current/transaction-iso.html) · [References — Database & Locking](references.md#database-locking)
 
 ---
 
@@ -334,7 +334,7 @@ When a popular cache key expires, many requests hit the DB simultaneously.
 - **Cache vendor config** — safe with short TTL + pub/sub invalidation
 - **Don't cache PII** in shared caches without encryption
 
-**Further reading:** [Redis — Caching Strategies](https://redis.io/docs/latest/develop/use-cases/caching/) · [AWS — Caching Best Practices](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Strategies.html) · [References — Caching](../references.md#caching-performance)
+**Further reading:** [Redis — Caching Strategies](https://redis.io/docs/latest/develop/use-cases/caching/) · [AWS — Caching Best Practices](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Strategies.html) · [References — Caching](references.md#caching-performance)
 
 ---
 
@@ -424,7 +424,7 @@ Pipeline:
                               └──────────────┘
 ```
 
-**Further reading:** [LangChain Documentation](https://python.langchain.com/docs/introduction/) · [OpenAI — Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs) · [pgvector](https://github.com/pgvector/pgvector) · [References — AI / LLM](../references.md#ai-llm-in-production)
+**Further reading:** [LangChain Documentation](https://python.langchain.com/docs/introduction/) · [OpenAI — Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs) · [pgvector](https://github.com/pgvector/pgvector) · [References — AI / LLM](references.md#ai-llm-in-production)
 
 ---
 
@@ -527,7 +527,7 @@ func PaymentWorkflow(ctx workflow.Context, req PaymentRequest) error {
 - **Compensation** — undo previous steps on failure (saga pattern)
 - **Durable execution** — survives worker crashes; resumes from last checkpoint
 
-**Further reading:** [Temporal Documentation](https://docs.temporal.io/) · [Kubernetes Documentation](https://kubernetes.io/docs/home/) · [Argo Rollouts](https://argo-rollouts.readthedocs.io/) · [References — Infrastructure](../references.md#infrastructure-devops)
+**Further reading:** [Temporal Documentation](https://docs.temporal.io/) · [Kubernetes Documentation](https://kubernetes.io/docs/home/) · [Argo Rollouts](https://argo-rollouts.readthedocs.io/) · [References — Infrastructure](references.md#infrastructure-devops)
 
 ---
 
@@ -621,7 +621,7 @@ services:
     image: confluentinc/cp-kafka:7.5.0
 ```
 
-**Further reading:** [Martin Fowler — Test Pyramid](https://martinfowler.com/bliki/TestPyramid.html) · [Google Testing Blog](https://testing.googleblog.com/) · [Testcontainers](https://testcontainers.com/) · [References — Testing](../references.md#testing)
+**Further reading:** [Martin Fowler — Test Pyramid](https://martinfowler.com/bliki/TestPyramid.html) · [Google Testing Blog](https://testing.googleblog.com/) · [Testcontainers](https://testcontainers.com/) · [References — Testing](references.md#testing)
 
 ---
 
@@ -662,4 +662,4 @@ Given an LLM response for invoice classification (JSON), write a validator that 
 | **Database locking** | [PostgreSQL — Explicit Locking](https://www.postgresql.org/docs/current/explicit-locking.html) |
 | **Resilience** | [Circuit Breaker](https://martinfowler.com/bliki/CircuitBreaker.html), [*Release It!*](https://pragprog.com/titles/mnee2/release-it-second-edition/) |
 | **AI pipelines** | [LangChain Docs](https://python.langchain.com/docs/introduction/), [RAG Paper](https://arxiv.org/abs/2005.11401) |
-| **Full bibliography** | [References & Further Reading](../references.md) |
+| **Full bibliography** | [References & Further Reading](references.md) |

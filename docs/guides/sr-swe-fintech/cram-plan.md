@@ -1,6 +1,6 @@
 # 48-Hour Cram Plan
 
-[← Back to Study Guide](index.md)
+[← Sr. SWE, FinTech Study Guide](index.md)
 
 A time-boxed study schedule for the onsite interview. Assumes **~16–20 hours of focused work** across two days, aligned to interview weighting: **system design (50%)**, **coding (30%)**, **behavioral (20%)**.
 
@@ -36,9 +36,9 @@ A time-boxed study schedule for the onsite interview. Assumes **~16–20 hours o
 
 | Time | Task | Guide |
 |------|------|-------|
-| 30 min | Read STAR framework + story quality checklist | [Behavioral → STAR](guides/01-behavioral-past-experience.md#the-star-framework) |
-| 60 min | **Write** 3 stories (financial services, AI in finance, legacy migration) | [Core Story Themes](guides/01-behavioral-past-experience.md#core-story-themes) |
-| 30 min | **Speak** each story aloud; time yourself; add one metric per story | [Builder Culture Signals](guides/01-behavioral-past-experience.md#builder-culture-signals) |
+| 30 min | Read STAR framework + story quality checklist | [Behavioral → STAR](01-behavioral-past-experience.md#the-star-framework) |
+| 60 min | **Write** 3 stories (financial services, AI in finance, legacy migration) | [Core Story Themes](01-behavioral-past-experience.md#core-story-themes) |
+| 30 min | **Speak** each story aloud; time yourself; add one metric per story | [Builder Culture Signals](01-behavioral-past-experience.md#builder-culture-signals) |
 
 **Done when:** You can answer "Tell me about a time you owned a critical financial system" without notes.
 
@@ -55,8 +55,8 @@ A time-boxed study schedule for the onsite interview. Assumes **~16–20 hours o
 
 | Time | Task | Guide |
 |------|------|-------|
-| 30 min | Read Common Probes section; draft bullet answers for each | [Common Probes](guides/01-behavioral-past-experience.md#common-probes-deep-dive) |
-| 30 min | Practice 2 follow-up drills per story ("What would you do differently?") | [Preparation Checklist](guides/01-behavioral-past-experience.md#preparation-checklist) |
+| 30 min | Read Common Probes section; draft bullet answers for each | [Common Probes](01-behavioral-past-experience.md#common-probes-deep-dive) |
+| 30 min | Practice 2 follow-up drills per story ("What would you do differently?") | [Preparation Checklist](01-behavioral-past-experience.md#preparation-checklist) |
 
 **Done when:** You have a 30-second answer for sensitive data, AI reliability, and stakeholder collaboration.
 
@@ -73,9 +73,9 @@ A time-boxed study schedule for the onsite interview. Assumes **~16–20 hours o
 
 | Time | Task | Guide |
 |------|------|-------|
-| 30 min | Read interview approach + clarifying questions | [Interview Approach](guides/02-system-design.md#interview-approach) |
-| 60 min | Read payments section: state machine, idempotency, sagas | [Payments](guides/02-system-design.md#payments-transaction-processing) |
-| 30 min | **Sketch** architecture diagram from memory (no notes) | [Diagram Templates](guides/02-system-design.md#diagram-templates) |
+| 30 min | Read interview approach + clarifying questions | [Interview Approach](02-system-design.md#interview-approach) |
+| 60 min | Read payments section: state machine, idempotency, sagas | [Payments](02-system-design.md#payments-transaction-processing) |
+| 30 min | **Sketch** architecture diagram from memory (no notes) | [Diagram Templates](02-system-design.md#diagram-templates) |
 | 30 min | **Timed mock (45 min):** "Design a payment gateway for 100k TPS" — talk out loud | [Study Guide → Payments](index.md#payments-transaction-processing) |
 
 **Must-know concepts before moving on:**
@@ -96,9 +96,9 @@ A time-boxed study schedule for the onsite interview. Assumes **~16–20 hours o
 
 | Time | Task | Guide |
 |------|------|-------|
-| 45 min | Read reconciliation section: double-entry, Temporal, sharding | [Reconciliation](guides/02-system-design.md#reconciliation-billing) |
-| 45 min | **Sketch** data flow: sources → ingest → match → discrepancy → resolve | [Reconciliation architecture](guides/02-system-design.md#reconciliation-billing) |
-| 30 min | List hybrid sync/async decisions for a billing system | [Hybrid Sync/Async](guides/02-system-design.md#hybrid-syncasync) |
+| 45 min | Read reconciliation section: double-entry, Temporal, sharding | [Reconciliation](02-system-design.md#reconciliation-billing) |
+| 45 min | **Sketch** data flow: sources → ingest → match → discrepancy → resolve | [Reconciliation architecture](02-system-design.md#reconciliation-billing) |
+| 30 min | List hybrid sync/async decisions for a billing system | [Hybrid Sync/Async](02-system-design.md#hybrid-syncasync) |
 
 **Done when:** You can explain why reconciliation is async but payment confirmation is sync.
 
@@ -115,10 +115,10 @@ A time-boxed study schedule for the onsite interview. Assumes **~16–20 hours o
 
 | Time | Task | Guide |
 |------|------|-------|
-| 45 min | Read AI-enhanced services + RAG pipeline | [AI-Enhanced Services](guides/02-system-design.md#ai-enhanced-services) |
-| 30 min | Read scalability, observability, error handling | [Scalability & Reliability](guides/02-system-design.md#scalability-reliability-patterns) |
-| 30 min | Read security & compliance table | [Security](guides/02-system-design.md#security-fintech-compliance) |
-| 15 min | Review key trade-offs table | [Trade-offs](guides/02-system-design.md#key-trade-offs) |
+| 45 min | Read AI-enhanced services + RAG pipeline | [AI-Enhanced Services](02-system-design.md#ai-enhanced-services) |
+| 30 min | Read scalability, observability, error handling | [Scalability & Reliability](02-system-design.md#scalability-reliability-patterns) |
+| 30 min | Read security & compliance table | [Security](02-system-design.md#security-fintech-compliance) |
+| 15 min | Review key trade-offs table | [Trade-offs](02-system-design.md#key-trade-offs) |
 
 **Done when:** You can draw RAG pipeline + validation layer + human review queue.
 
@@ -146,9 +146,9 @@ A time-boxed study schedule for the onsite interview. Assumes **~16–20 hours o
 
 | Time | Task | Guide |
 |------|------|-------|
-| 30 min | Read backend patterns table | [Backend Patterns](guides/03-coding-technical-depth.md#backend-systems-patterns) |
-| 30 min | Read idempotent transaction handler + edge cases | [Idempotent Handler](guides/03-coding-technical-depth.md#idempotent-transaction-handler) |
-| 30 min | **Verbalize** the Go or C# sketch line-by-line without reading | [Implementation sketches](guides/03-coding-technical-depth.md#go-implementation-sketch) |
+| 30 min | Read backend patterns table | [Backend Patterns](03-coding-technical-depth.md#backend-systems-patterns) |
+| 30 min | Read idempotent transaction handler + edge cases | [Idempotent Handler](03-coding-technical-depth.md#idempotent-transaction-handler) |
+| 30 min | **Verbalize** the Go or C# sketch line-by-line without reading | [Implementation sketches](03-coding-technical-depth.md#go-implementation-sketch) |
 
 **Done when:** You can whiteboard idempotent handler with concurrent duplicate handling.
 
@@ -164,9 +164,9 @@ A time-boxed study schedule for the onsite interview. Assumes **~16–20 hours o
 
 | Time | Task | Guide |
 |------|------|-------|
-| 45 min | Concurrency: Go goroutines + C# async; when to use what | [Concurrency](guides/03-coding-technical-depth.md#concurrency-deep-dive) |
-| 45 min | Locking: pessimistic vs. optimistic; isolation levels | [Database](guides/03-coding-technical-depth.md#database-interactions) |
-| 30 min | Caching: cache-aside, stampede prevention, fintech rules | [Caching](guides/03-coding-technical-depth.md#caching-strategies) |
+| 45 min | Concurrency: Go goroutines + C# async; when to use what | [Concurrency](03-coding-technical-depth.md#concurrency-deep-dive) |
+| 45 min | Locking: pessimistic vs. optimistic; isolation levels | [Database](03-coding-technical-depth.md#database-interactions) |
+| 30 min | Caching: cache-aside, stampede prevention, fintech rules | [Caching](03-coding-technical-depth.md#caching-strategies) |
 
 - [ ] Explain `SELECT FOR UPDATE` vs. optimistic versioning
 - [ ] Why you never cache balances for write decisions
@@ -180,9 +180,9 @@ A time-boxed study schedule for the onsite interview. Assumes **~16–20 hours o
 
 | Time | Task | Guide |
 |------|------|-------|
-| 45 min | Read AI/agentic section + validation loop | [AI Integrations](guides/03-coding-technical-depth.md#ai-agentic-integrations) |
-| 30 min | Read Temporal workflow sketch + K8s essentials | [Production Ops](guides/03-coding-technical-depth.md#production-operations) |
-| 15 min | Read testing pyramid + idempotency test example | [Testing](guides/03-coding-technical-depth.md#testing-in-fintech) |
+| 45 min | Read AI/agentic section + validation loop | [AI Integrations](03-coding-technical-depth.md#ai-agentic-integrations) |
+| 30 min | Read Temporal workflow sketch + K8s essentials | [Production Ops](03-coding-technical-depth.md#production-operations) |
+| 15 min | Read testing pyramid + idempotency test example | [Testing](03-coding-technical-depth.md#testing-in-fintech) |
 
 - [ ] Validation loop: LLM → validator → retry or human review
 - [ ] Temporal: workflow vs. activity vs. compensation
@@ -197,11 +197,11 @@ A time-boxed study schedule for the onsite interview. Assumes **~16–20 hours o
 
 | Time | Problem | Guide |
 |------|---------|-------|
-| 20 min | Idempotent transaction handler | [Problem 1](guides/03-coding-technical-depth.md#problem-1-idempotent-transaction-handler) |
-| 20 min | Rate limiter (token bucket) | [Problem 2](guides/03-coding-technical-depth.md#problem-2-rate-limiter) |
-| 20 min | Reconciliation matcher (two sorted lists) | [Problem 3](guides/03-coding-technical-depth.md#problem-3-reconciliation-matcher) |
-| 15 min | Payment state machine | [Problem 4](guides/03-coding-technical-depth.md#problem-4-payment-state-machine) |
-| 15 min | LLM output validator | [Problem 5](guides/03-coding-technical-depth.md#problem-5-llm-output-validator) |
+| 20 min | Idempotent transaction handler | [Problem 1](03-coding-technical-depth.md#problem-1-idempotent-transaction-handler) |
+| 20 min | Rate limiter (token bucket) | [Problem 2](03-coding-technical-depth.md#problem-2-rate-limiter) |
+| 20 min | Reconciliation matcher (two sorted lists) | [Problem 3](03-coding-technical-depth.md#problem-3-reconciliation-matcher) |
+| 15 min | Payment state machine | [Problem 4](03-coding-technical-depth.md#problem-4-payment-state-machine) |
+| 15 min | LLM output validator | [Problem 5](03-coding-technical-depth.md#problem-5-llm-output-validator) |
 
 - [ ] All 5 problems verbalized with edge cases and tests mentioned
 
@@ -343,7 +343,8 @@ Cut in this order (lowest ROI first):
 | Resource | Link |
 |----------|------|
 | Study Guide | [index.md](index.md) |
-| Behavioral guide | [guides/01-behavioral-past-experience.md](guides/01-behavioral-past-experience.md) |
-| System design guide | [guides/02-system-design.md](guides/02-system-design.md) |
-| Coding guide | [guides/03-coding-technical-depth.md](guides/03-coding-technical-depth.md) |
+| Behavioral guide | [01-behavioral-past-experience.md](01-behavioral-past-experience.md) |
+| System design guide | [02-system-design.md](02-system-design.md) |
+| Coding guide | [03-coding-technical-depth.md](03-coding-technical-depth.md) |
 | References | [references.md](references.md) |
+| All guides | [Guides overview](../index.md) |

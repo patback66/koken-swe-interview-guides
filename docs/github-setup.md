@@ -33,11 +33,16 @@ mkdocs serve
 ├── requirements.txt
 ├── README.md
 ├── docs/
-│   ├── index.md                 # Study guide (site home)
-│   ├── github-setup.md          # This file
-│   └── guides/
-│       ├── 01-behavioral-past-experience.md
-│       ├── 02-system-design.md
-│       └── 03-coding-technical-depth.md
+│   ├── index.md                           # Site home
+│   ├── guides/
+│   │   ├── index.md                       # Guides catalog
+│   │   └── sr-swe-fintech/                # Position guide
+│   │       ├── index.md                   # Study guide overview
+│   │       ├── cram-plan.md
+│   │       ├── references.md
+│   │       ├── 01-behavioral-past-experience.md
+│   │       ├── 02-system-design.md
+│   │       └── 03-coding-technical-depth.md
+│   └── github-setup.md
 └── .github/workflows/deploy.yml
 ```

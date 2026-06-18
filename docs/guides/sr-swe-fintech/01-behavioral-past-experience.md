@@ -1,6 +1,6 @@
 # Behavioral & Past Experience — In-Depth Guide
 
-[← Back to Study Guide](../index.md)
+[← Sr. SWE, FinTech Study Guide](index.md) · [← All Guides](../index.md)
 
 ---
 
@@ -145,7 +145,7 @@ Prepare **2–3 polished stories** covering at least two of these themes. Have a
 **Sample answer structure:**
 > "In our payment service, card data never touched our application servers — we used a tokenization provider. Internal APIs required mTLS and service-level RBAC. Every read/write on financial records generated an audit event stored in an append-only log. We ran quarterly access reviews with Security."
 
-**Further reading:** [PCI DSS Documentation](https://www.pcisecuritystandards.org/document_library/) · [NIST Cybersecurity Framework](https://www.nist.gov/cyberframework) · [References — Security & Compliance](../references.md#security-compliance-fintech)
+**Further reading:** [PCI DSS Documentation](https://www.pcisecuritystandards.org/document_library/) · [NIST Cybersecurity Framework](https://www.nist.gov/cyberframework) · [References — Security & Compliance](references.md#security-compliance-fintech)
 
 ### AI Reliability in Production
 
@@ -162,7 +162,7 @@ Prepare **2–3 polished stories** covering at least two of these themes. Have a
 **Sample answer structure:**
 > "We treated the LLM as a suggestion engine, not a decision engine. Invoice matching proposals below 90% confidence went to a human queue. We logged every prompt, retrieval set, and output. Monthly, we reviewed false positives to tune retrieval and prompts. Auto-approved matches were limited to exact amount + vendor + date matches where the LLM agreed with a rules engine."
 
-**Further reading:** [RAG Paper](https://arxiv.org/abs/2005.11401) · [OWASP LLM Top 10](https://owasp.org/www-project-top-10-for-large-language-model-applications/) · [References — AI / LLM](../references.md#ai-llm-in-production)
+**Further reading:** [RAG Paper](https://arxiv.org/abs/2005.11401) · [OWASP LLM Top 10](https://owasp.org/www-project-top-10-for-large-language-model-applications/) · [References — AI / LLM](references.md#ai-llm-in-production)
 
 ### Collaboration with Non-Technical Stakeholders
 
@@ -202,7 +202,7 @@ The company's FinTech team values engineers who **build and run** their systems.
 | **AI as a tool, not a gimmick** | "We used LLMs where pattern matching failed — but kept rules-based validation as the gate before any money moved" |
 | **Global scale thinking** | "Designed for multi-region from day one — idempotency keys, timezone-aware billing cycles, currency precision" |
 
-**Further reading:** [Charity Majors — Ops is Everyone's Job](https://charity.wtf/2023/11/07/ops-is-everyones-job-now/) · [Google SRE — Managing Incidents](https://sre.google/sre-book/managing-incidents/) · [References — Behavioral](../references.md#behavioral-interview-skills)
+**Further reading:** [Charity Majors — Ops is Everyone's Job](https://charity.wtf/2023/11/07/ops-is-everyones-job-now/) · [Google SRE — Managing Incidents](https://sre.google/sre-book/managing-incidents/) · [References — Behavioral](references.md#behavioral-interview-skills)
 
 ---
 
@@ -240,4 +240,4 @@ The company's FinTech team values engineers who **build and run** their systems.
 | **Ownership & on-call** | [Charity Majors — Ops is Everyone's Job](https://charity.wtf/2023/11/07/ops-is-everyones-job-now/), [Google SRE Book](https://sre.google/sre-book/table-of-contents/) |
 | **Code review & mentoring** | [Google Engineering Practices — Code Review](https://google.github.io/eng-practices/review/) |
 | **Incidents & postmortems** | [Google SRE — Managing Incidents](https://sre.google/sre-book/managing-incidents/) |
-| **Full bibliography** | [References & Further Reading](../references.md) |
+| **Full bibliography** | [References & Further Reading](references.md) |
