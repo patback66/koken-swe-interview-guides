@@ -72,6 +72,19 @@ Result (15–20 sec)
 
 Prepare **2–3 polished stories** covering at least two of these themes. Have a **4th backup story** ready.
 
+### Terms you may need to explain
+
+| Term | One-line definition |
+|------|---------------------|
+| **Idempotency** | Same request twice = same result; prevents duplicate charges on retry |
+| **Outbox pattern** | DB write + event recorded atomically; separate process publishes to Kafka |
+| **Saga** | Multi-step flow across services; compensate (undo) earlier steps on failure |
+| **2PC** | Two-phase commit — all services must agree before commit; tight coupling, rarely used across microservices |
+| **RAG** | Retrieve similar records first, then ask LLM with that context |
+| **Vector DB** | Stores embeddings for similarity search ("find invoices like this one") |
+| **Temporal** | Workflow orchestration engine — durable steps, retries, compensation |
+| **Strangler fig** | Gradually replace legacy by routing traffic to new system incrementally |
+
 ### Theme 1: Ownership of Core Financial Services
 
 **Situation cues:** Scaling payments, reconciliation, or billing under volume pressure.
@@ -82,7 +95,7 @@ Prepare **2–3 polished stories** covering at least two of these themes. Have a
 |---------|-------------------|
 | **Idempotency** | "Every payment API accepted an idempotency key — retries from clients or network failures couldn't create duplicate charges" |
 | **Event-driven architecture** | "We moved from synchronous DB writes to an outbox pattern publishing to Kafka, decoupling payment capture from downstream reconciliation" |
-| **Distributed transactions** | "We used sagas instead of 2PC — each step had a compensating action if a downstream service failed" |
+| **Distributed transactions** | "We used **sagas** (orchestrated via Temporal) instead of **2PC** — each step had a compensating action if a downstream service failed" |
 | **Observability** | "I built dashboards tracking payment success rate, p99 latency, and reconciliation lag — we paged on discrepancy thresholds" |
 
 **Outcome examples:**
@@ -117,7 +130,7 @@ Prepare **2–3 polished stories** covering at least two of these themes. Have a
 | Concept | How to Mention It |
 |---------|-------------------|
 | **Strangler fig pattern** | "We routed 5% of traffic to the new service via feature flags, gradually increasing while comparing outputs" |
-| **Temporal / workflow orchestration** | "Replaced cron-based batch jobs with Temporal workflows — durable execution meant a pod crash mid-reconciliation didn't lose progress" |
+| **Temporal / workflow orchestration** | "Replaced cron-based batch jobs with Temporal **orchestrated** workflows — a central workflow directed each step; durable execution meant a pod crash mid-reconciliation didn't lose progress" |
 | **Concurrency handling** | "Used optimistic locking on ledger rows; conflicts triggered retry with exponential backoff" |
 | **Zero-downtime migration** | "Dual-write period: new and old systems ran in parallel for 2 weeks; nightly diff reports caught drift before cutover" |
 

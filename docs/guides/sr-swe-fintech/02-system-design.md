@@ -44,6 +44,8 @@ System design is **~50% of the interview**. Treat it as a collaborative design s
 | **Compliance** | PCI scope? Data residency requirements? Audit requirements? |
 | **Integrations** | How many payment vendors? Existing systems to integrate with? |
 
+**Terms:** **PCI scope** = which systems touch card data and must meet PCI-DSS. **RPO** = max acceptable data loss in a disaster. **RTO** = max acceptable downtime to restore service.
+
 ### Communication Tips
 
 - **Think out loud** — explain your reasoning as you draw
@@ -88,6 +90,15 @@ Design a real-time payment gateway handling **100k+ TPS** for global vehicle ord
 
 ### Core Concepts
 
+#### Architecture Components
+
+| Component | What it is |
+|-----------|------------|
+| **API Gateway** | Single entry point for clients — handles auth, rate limiting, routing, and TLS termination before requests hit internal services |
+| **Idempotency store** | Fast lookup table (usually Redis) mapping idempotency keys to prior responses so retries are safe |
+| **Outbox pattern** | Write business data *and* an outbound event record in the **same DB transaction**; a separate relay process publishes events to the message bus. Guarantees you never commit a payment without also recording the event to publish (avoids "money moved but nobody notified") |
+| **Event bus** | Durable message broker (Kafka, SQS) that decouples services — producers publish events, consumers subscribe asynchronously |
+
 #### Payment State Machine
 
 Every payment moves through defined states. Design explicit transitions:
@@ -105,6 +116,10 @@ INITIATED → AUTHORIZED → CAPTURED → SETTLED
 
 #### Idempotency
 
+**What it is:** An operation that produces the **same result** no matter how many times it's executed with the same input. Critical in payments because networks retry — a client may send the same charge request twice due to a timeout.
+
+**Why it matters:** Without idempotency, a retry becomes a duplicate charge. With idempotency keys, the second request returns the original result without re-processing.
+
 | Approach | Details |
 |----------|---------|
 | **Client-provided key** | Client sends `Idempotency-Key` header; server stores request hash + response for 24–72hrs |
@@ -121,11 +136,36 @@ Headers: Idempotency-Key: uuid-v4
 4. Return response
 ```
 
+#### ACID vs. BASE
+
+| Model | What it means | When it applies |
+|-------|---------------|-----------------|
+| **ACID** | **A**tomicity (all-or-nothing), **C**onsistency (valid state), **I**solation (concurrent txs don't interfere), **D**urability (committed = permanent) | Single-database transactions — ledger writes within one DB |
+| **BASE** | **B**asically **A**vailable, **S**oft state, **E**ventual consistency — prioritize availability; replicas may temporarily disagree | Distributed microservices at scale — reconcile drift asynchronously |
+| **Exactly-once** | Each operation applied exactly one time — ideal but **very hard** in distributed systems. Practically achieved via **idempotency keys** + **at-least-once delivery** + deduplication | Payment APIs: safe retries without duplicate charges |
+
 #### Distributed Transactions — Saga Pattern
 
-Avoid 2PC across microservices. Use **choreography** or **orchestration**:
+**The problem:** A payment spans multiple services (charge card → write ledger → send receipt). You need all steps to succeed or be undone — but coordinating this across independent databases is hard.
 
-**Orchestrated Saga (Temporal):**
+**2PC (two-phase commit):** A central coordinator asks all services to *prepare* (lock resources), then *commit* only if everyone agrees. Provides strong atomicity but creates tight coupling, holds locks, and fails badly when any participant is slow or down. **Rarely used across microservices** in modern fintech — only realistic within a single database.
+
+**Saga:** A sequence of **local transactions**, one per service. Each step commits on its own. If step 3 fails, run **compensating transactions** to undo steps 1 and 2 (e.g., refund the charge if the ledger write fails). Trade-off: the system is temporarily inconsistent between steps — reconciliation catches any drift.
+
+##### Choreography vs. orchestration
+
+These are the two ways to implement a saga:
+
+| | **Choreography** | **Orchestration** |
+|---|------------------|-------------------|
+| **What it is** | No central brain — each service **reacts to events** and decides its own next action | A central **orchestrator** (workflow engine) **directs** each step and tracks overall state |
+| **How it works** | Payment service publishes `PaymentCaptured` → ledger service hears it and writes an entry → notification service hears that and sends email | Orchestrator calls: (1) charge card → (2) write ledger → (3) notify; knows which step failed |
+| **Analogy** | Dancers responding to music — everyone knows their cue | A conductor directing each section of the orchestra |
+| **Pros** | Loose coupling; no orchestrator dependency | Clear visibility into flow; easy retries, timeouts, and compensation (e.g., Temporal) |
+| **Cons** | Hard to see end-to-end flow; debugging "who listens to what?" gets messy as services grow | Orchestrator must be highly available; can become a bottleneck if poorly designed |
+| **When to use** | Simple flows, few services, event-native teams | Complex multi-step financial workflows, payments, reconciliation |
+
+**Orchestrated Saga (Temporal)** — Temporal is an **orchestration** tool: it runs workflow code that explicitly sequences steps and handles failure:
 ```
 PaymentWorkflow:
   1. ReserveFunds(payment_provider)     → on failure: abort
@@ -136,13 +176,17 @@ PaymentWorkflow:
 
 Each step is an **activity** with retry policy and timeout. Compensation runs in reverse on failure.
 
+**Choreographed alternative:** Payment service commits and emits `PaymentCaptured` to Kafka; ledger and notification services each consume that event independently. No workflow engine — but you need clear event contracts and idempotent consumers.
+
 #### Concurrency Control
 
-| Strategy | When to Use |
-|----------|-------------|
-| **Pessimistic locking** | `SELECT ... FOR UPDATE` on account balance — high contention on same account |
-| **Optimistic locking** | Version column; retry on conflict — lower contention, many accounts |
-| **Partitioning** | Shard by `account_id` so concurrent payments on different accounts don't contend |
+**Why it matters:** Two requests might try to debit the same account simultaneously. Without coordination, you can overdraw or lose updates.
+
+| Strategy | What it is | When to Use |
+|----------|------------|-------------|
+| **Pessimistic locking** | Lock the row **before** reading (`SELECT ... FOR UPDATE`) — other transactions wait | High contention on the same account (hot merchant wallet) |
+| **Optimistic locking** | Read freely, but UPDATE includes a version check — if someone else modified the row, retry | Many accounts, low collision rate; better throughput |
+| **Partitioning (sharding)** | Split data so concurrent payments on *different* accounts hit different DB shards — no lock contention between them | Scale beyond single-node DB limits |
 
 #### Caching Strategy
 
@@ -161,8 +205,10 @@ Each step is an **activity** with retry policy and timeout. Compensation runs in
 |---------|----------|
 | **Pod crash mid-payment** | Durable workflow (Temporal) resumes from last completed step |
 | **Payment provider timeout** | Retry with same idempotency key; query provider status before re-attempting |
-| **Network partition** | Circuit breaker on vendor calls; queue for async retry; alert on sustained failures |
+| **Network partition** | **Circuit breaker** on vendor calls — after N failures, stop calling and fail fast instead of cascading timeouts; queue for async retry |
 | **DB failover** | Multi-AZ RDS/Cloud SQL; connection pooling with retry; RPO < 1 min |
+
+**Circuit breaker:** A wrapper around downstream calls that tracks failures. *Closed* = normal. After a threshold, *opens* = reject calls immediately. After a cooldown, *half-open* = try one request to see if the service recovered.
 
 #### API Design
 
@@ -207,7 +253,13 @@ Design a reconciliation engine matching invoices, payments, and ledger entries a
 
 ### Core Concepts
 
+#### What is Reconciliation?
+
+**Reconciliation** is the process of comparing records from multiple sources (internal ledger, payment vendor statements, invoices) to verify they match. Discrepancies — missing payments, duplicate charges, timing differences — must be detected and resolved. In fintech this often runs **async** (nightly batch or streaming) because perfect real-time match across all systems is impractical.
+
 #### Double-Entry Bookkeeping
+
+**What it is:** An accounting method where every transaction has equal **debit** and **credit** entries — money never appears or disappears, it moves between accounts. The books always balance.
 
 Every financial event has balanced debit/credit entries:
 
@@ -223,7 +275,11 @@ Payment Received:
 
 Reconciliation verifies: **sum(debits) == sum(credits)** for every period, and external records match internal ledger.
 
+**Ledger immutability:** Financial entries are append-only — corrections are new offsetting entries, not overwrites. Preserves audit trail.
+
 #### Event-Driven Workflows (Temporal)
+
+**What Temporal is:** A **workflow orchestration** engine for durable, long-running processes. Workflow state survives crashes; failed steps retry automatically. Replaces fragile cron jobs that lose progress if a pod dies mid-batch.
 
 Replace brittle cron jobs with durable workflows:
 
@@ -254,6 +310,10 @@ class DailyReconciliation:
 
 #### Hybrid Sync/Async
 
+**Sync:** Caller waits for the full operation to complete before getting a response (e.g., user sees "payment approved" at checkout).
+
+**Async:** Work is queued; caller gets acknowledgment immediately and result arrives later via webhook, polling, or email (e.g., nightly reconciliation report).
+
 | Operation | Pattern | Rationale |
 |-----------|---------|-----------|
 | Payment confirmation to user | **Sync** — return success/failure immediately | User waiting at checkout |
@@ -264,11 +324,15 @@ class DailyReconciliation:
 
 #### Sharding for Scale
 
+**Sharding** splits a database into smaller pieces (shards), each holding a subset of data. Queries route to the correct shard by a key (e.g., `account_id`). Enables horizontal scale when a single DB can't handle write volume.
+
 | Strategy | Details |
 |----------|---------|
 | **By tenant/region** | EU invoices in EU shard — data residency compliance |
 | **By time** | Monthly partitions for ledger tables — efficient range queries |
 | **By entity** | Hash on `account_id` for payment records — even distribution |
+
+**CDC (Change Data Capture):** Streams database changes (inserts/updates) to the reconciliation pipeline in near-real-time, instead of polling or nightly dumps. Tools like Debezium read the DB transaction log and publish row changes to Kafka.
 
 #### Anomaly Detection with AI
 
@@ -284,13 +348,13 @@ class DailyReconciliation:
 
 ### CI/CD for Safe Deployments
 
-| Practice | Purpose |
-|----------|---------|
-| **Canary deployments** | Route 5% traffic to new version; compare error rates |
-| **Feature flags** | Enable new matching logic for subset of transactions |
-| **Shadow mode** | Run new reconciliation logic in parallel, compare outputs without affecting production |
-| **Automated rollback** | Argo Rollouts or similar — auto-revert on SLO breach |
-| **DB migration safety** | Expand-contract pattern; backward-compatible schema changes |
+| Practice | What it is |
+|----------|------------|
+| **Canary deployments** | Route a small % of traffic (e.g., 5%) to the new version; monitor error rates before full rollout |
+| **Feature flags** | Toggle new logic on/off at runtime without redeploying — enable for a subset of users or transactions |
+| **Shadow mode** | Run new code in parallel, compare outputs to production, but **don't** act on results — validates correctness with zero user impact |
+| **Automated rollback** | Revert to previous version automatically if error rate or latency breaches an SLO |
+| **Expand-contract migrations** | Schema changes in phases: (1) add new column, (2) dual-write to old and new, (3) migrate reads, (4) drop old column — avoids downtime |
 
 **Further reading:** [Temporal — Durable Execution](https://docs.temporal.io/temporal) · [Debezium — CDC](https://debezium.io/documentation/reference/stable/index.html) · [Martin Fowler — Event Sourcing](https://martinfowler.com/eaaDev/EventSourcing.html) · [References — Reconciliation](references.md#reconciliation-billing)
 
@@ -326,6 +390,16 @@ Design automated invoicing with AI Agents for **10M+ users/transactions** — in
 
 ### Core Concepts
 
+#### Key AI Terms
+
+| Term | What it is |
+|------|------------|
+| **LLM** | Large Language Model — predicts text; useful for classification and matching but non-deterministic (same input can yield different output) |
+| **Embedding** | A numeric vector representing meaning of text — similar invoices have similar vectors |
+| **Vector DB** | Database optimized for similarity search on embeddings (Pinecone, pgvector) — "find invoices like this one" |
+| **RAG** | Retrieval-Augmented Generation — retrieve relevant documents first, then give them to the LLM as context so answers are grounded in real data, not hallucinated |
+| **LangChain** | Framework for chaining LLM steps (retrieve → prompt → parse → validate) into pipelines or agents |
+
 #### RAG Pipeline for Invoice Matching
 
 ```
@@ -339,12 +413,15 @@ Design automated invoicing with AI Agents for **10M+ users/transactions** — in
 
 #### Addressing Non-Determinism
 
-| Technique | Details |
-|-----------|---------|
-| **Temperature = 0** | Reduce randomness for classification tasks |
-| **Structured output** | Force JSON schema response; reject malformed output |
+LLMs are **non-deterministic** — they can give different answers to the same question. In finance you cannot auto-post ledger entries from raw LLM output.
+
+| Technique | What it does |
+|-----------|--------------|
+| **Temperature = 0** | Reduces randomness in model output — prefer for classification |
+| **Structured output** | Force response as JSON matching a schema; reject malformed output |
 | **Confidence thresholds** | Only auto-act above 0.90; 0.70–0.90 → human review; below 0.70 → reject |
-| **Ensemble validation** | LLM + rules engine must agree for auto-approval |
+| **Ensemble validation** | LLM + rules engine must both agree before auto-approval |
+| **Human-in-the-loop** | Low-confidence or high-stakes decisions route to a human queue |
 | **Feedback loops** | Human corrections stored; periodic prompt/retrieval tuning |
 | **Model versioning** | Pin model versions; A/B test new versions in shadow mode |
 
@@ -386,12 +463,12 @@ Use an **event-driven notification service** — publish `InvoiceValidated`, `Di
 
 ### Event Bus Patterns
 
-| Pattern | Use Case |
-|---------|----------|
-| **Event notification** | `PaymentCaptured` → trigger notification, reconciliation |
-| **Event-carried state transfer** | Include payment details in event to avoid sync calls |
-| **Event sourcing** | Store all state changes as events — full audit trail, replay capability |
-| **CQRS** | Separate write model (commands) from read model (queries/dashboards) |
+| Pattern | What it is |
+|---------|------------|
+| **Event notification** | Lightweight signal that something happened — consumers fetch details if needed (`PaymentCaptured` triggers reconciliation) |
+| **Event-carried state transfer** | Event payload includes full data so consumers don't need a callback (`PaymentCaptured` includes amount, account_id, timestamp) |
+| **Event sourcing** | Store every state change as an immutable event log; current state is derived by replaying events. Full audit trail; can rebuild state or debug "what happened?" |
+| **CQRS** | Command Query Responsibility Segregation — **separate models for writes** (commands that change state) and **reads** (optimized query views/dashboards). Write path enforces rules; read path can be denormalized for speed |
 
 **Further reading:** [*Designing Data-Intensive Applications*](https://dataintensive.net/) · [Kafka Documentation](https://kafka.apache.org/documentation/) · [Enterprise Integration Patterns](https://www.enterpriseintegrationpatterns.com/) · [References — System Design](references.md#system-design-architecture)
 
@@ -411,11 +488,12 @@ Use an **event-driven notification service** — publish `InvoiceValidated`, `Di
 
 ### Reliability Targets
 
-| Metric | Target | How to Achieve |
-|--------|--------|----------------|
-| **Availability** | 99.99% (~52 min downtime/year) | Multi-AZ, health checks, auto-failover, circuit breakers |
-| **Durability** | Zero data loss for financial records | Sync replication, WAL, regular backups with tested restore |
-| **Latency (p99)** | < 500ms payment confirmation | Caching, connection pooling, async non-critical paths |
+| Metric | What it means | Target | How to Achieve |
+|--------|---------------|--------|----------------|
+| **Availability** | % of time the service is up | 99.99% (~52 min downtime/year) | Multi-AZ, health checks, auto-failover, circuit breakers |
+| **Durability (RPO)** | Recovery Point Objective — max data loss in a disaster | Zero for financial records | Sync replication, WAL, tested backups |
+| **Recovery time (RTO)** | Recovery Time Objective — max time to restore service | Minutes | Automated failover, runbooks |
+| **Latency (p99)** | 99th percentile response time | < 500ms payment confirmation | Caching, connection pooling, async non-critical paths |
 
 ### Observability Stack
 
@@ -436,15 +514,17 @@ SLOs  →  Error budgets, burn-rate alerts
 - Idempotency cache hit rate
 - LLM inference latency and confidence distribution
 
+**SLOs (Service Level Objectives):** Target reliability (e.g., 99.9% success rate). **Error budget** = allowed failures before you must stop shipping features and fix reliability.
+
 ### Error Handling
 
-| Pattern | Details |
-|---------|---------|
-| **Retry with backoff** | Transient failures (network, vendor timeout) — exponential backoff + jitter |
-| **Dead letter queue** | Messages that fail max retries → DLQ for manual investigation |
-| **Circuit breaker** | Stop calling failing vendor after N failures; periodic half-open probe |
-| **Replay** | Re-process events from a checkpoint for recovery after bugs |
-| **Eventual consistency** | Accept temporary inconsistency; reconciliation catches drift |
+| Pattern | What it is |
+|---------|------------|
+| **Retry with backoff** | On transient failure, wait and retry — delay increases exponentially (+ jitter) to avoid hammering a recovering service |
+| **Dead letter queue (DLQ)** | Queue for messages that failed processing after max retries — humans or tools investigate poison messages |
+| **Circuit breaker** | Stop calling a failing downstream after N failures; probe periodically to detect recovery |
+| **Replay** | Re-process events from a checkpoint after fixing a bug — rebuilds state from the event log |
+| **Eventual consistency** | Replicas may temporarily disagree; given time (and reconciliation) they converge. Acceptable for dashboards; not for in-flight payment decisions |
 
 **Further reading:** [Google SRE — Monitoring](https://sre.google/sre-book/monitoring-distributed-systems/) · [OpenTelemetry](https://opentelemetry.io/docs/) · [AWS — Exponential Backoff and Jitter](https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/) · [References — Observability](references.md#observability-reliability)
 
@@ -452,15 +532,15 @@ SLOs  →  Error budgets, burn-rate alerts
 
 ## Security & Fintech Compliance
 
-| Area | Requirements |
-|------|-------------|
-| **Audit trails** | Immutable log of every financial operation — who, what, when, before/after state |
-| **RBAC** | Role-based access — Finance read-only, Ops limited write, Admin full |
-| **Encryption** | TLS 1.2+ in transit; AES-256 at rest; KMS-managed keys |
-| **PCI-DSS** | Minimize PCI scope — tokenize card data, use certified payment providers |
-| **Data residency** | EU customer data in EU region — affects sharding and vendor choice |
-| **Vendor integrations** | Direct APIs where possible to reduce fees; webhook signature verification |
-| **AI safeguards** | No PII in prompts sent to external LLMs without DPA; log all AI decisions |
+| Area | What it is / Why it matters |
+|------|----------------------------|
+| **Audit trails** | Immutable log of every financial operation — who, what, when, before/after state. Required for compliance and dispute resolution |
+| **RBAC** | Role-Based Access Control — users get permissions by role (Finance = read-only, Ops = limited write). **Least privilege** = minimum access needed |
+| **Encryption** | TLS in transit; AES-256 at rest. **KMS** manages encryption keys with rotation |
+| **PCI-DSS** | Payment Card Industry Data Security Standard — rules for handling card data. **Reduce scope** by tokenizing cards (Stripe/Adyen holds the PAN; you store a token) |
+| **Data residency** | Some regions require customer data stored in-country (e.g., EU). Affects where you shard and which vendors you use |
+| **Vendor integrations** | Direct APIs to payment providers; verify **webhook signatures** so attackers can't forge payment events |
+| **AI safeguards** | Don't send PII to external LLMs without a DPA; log every AI-assisted decision for audit |
 
 **Further reading:** [PCI DSS Documentation](https://www.pcisecuritystandards.org/document_library/) · [OWASP Top 10](https://owasp.org/www-project-top-ten/) · [OWASP LLM Top 10](https://owasp.org/www-project-top-10-for-large-language-model-applications/) · [References — Security](references.md#security-compliance-fintech)
 
@@ -479,6 +559,8 @@ SLOs  →  Error budgets, burn-rate alerts
 
 ### Legacy Migration Without Downtime
 
+**Strangler fig pattern:** Gradually replace a legacy system by routing increasing traffic to the new service — like a fig tree growing around an old trunk until the old system can be removed.
+
 ```
 Phase 1: Strangler — route new traffic to new service via API gateway
 Phase 2: Dual-write — write to both old and new systems
@@ -486,6 +568,8 @@ Phase 3: Shadow-read — read from new, compare with old, alert on drift
 Phase 4: Cutover — switch reads to new system
 Phase 5: Decommission — stop dual-write, retire old system
 ```
+
+**Dual-write:** Both systems receive the same data during migration so you can compare outputs before cutting over.
 
 ---
 

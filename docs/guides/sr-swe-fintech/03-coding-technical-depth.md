@@ -39,15 +39,15 @@ Coding is **~30% of the interview** — expect **light live coding** with heavy 
 
 ### Patterns You Should Know Cold
 
-| Pattern | Problem It Solves | Fintech Example |
-|---------|-------------------|-----------------|
-| **Idempotency key** | Duplicate requests from retries | Payment API receives same charge twice |
-| **Outbox pattern** | Atomic DB write + event publish | Write ledger entry and publish `PaymentCaptured` atomically |
-| **Saga** | Distributed transaction across services | Reserve funds → write ledger → notify; compensate on failure |
-| **Circuit breaker** | Cascading failures from downstream | Payment vendor API is down — stop calling, fail fast |
-| **Retry with backoff** | Transient failures | Network timeout to vendor — retry 3x with exponential backoff |
-| **Dead letter queue** | Poison messages | Malformed event fails processing 5x — route to DLQ for investigation |
-| **Rate limiting** | Abuse / overload protection | Token bucket on payment API per merchant |
+| Pattern | What it is | Fintech Example |
+|---------|------------|-----------------|
+| **Idempotency key** | Unique client-provided ID so retries return the same result without re-processing | Payment API receives same charge twice due to timeout — second request is a no-op |
+| **Outbox pattern** | Write business record + event to outbox table in one DB transaction; relay publishes to message bus | Ledger write and `PaymentCaptured` event are never out of sync |
+| **Saga** | Sequence of local transactions with compensating actions if a step fails | Reserve funds → write ledger → notify; refund if ledger fails |
+| **Circuit breaker** | Stop calling a failing service after N errors; probe later for recovery | Payment vendor API down — fail fast instead of 30s timeouts |
+| **Retry with backoff** | Retry transient failures with increasing delay (+ jitter) | Network blip to vendor — retry 3x before giving up |
+| **Dead letter queue (DLQ)** | Holding queue for messages that failed max retries | Malformed event after 5 attempts — route for manual investigation |
+| **Rate limiting** | Cap requests per client/time window (token bucket, sliding window) | 100 requests/min per merchant on payment API |
 
 **Further reading:** [Microservices.io — Saga](https://microservices.io/patterns/data/saga.html) · [Transactional Outbox](https://microservices.io/patterns/data/transactional-outbox.html) · [Martin Fowler — Circuit Breaker](https://martinfowler.com/bliki/CircuitBreaker.html) · [References — Resilience Patterns](references.md#resilience-patterns)
 
@@ -160,6 +160,10 @@ public async Task<TransactionResult> ProcessAsync(
 
 ## Concurrency Deep Dive
 
+**Goroutine:** Lightweight thread in Go — cheap to spawn thousands for I/O-bound work.
+
+**Backpressure:** When downstream can't keep up, slow or block upstream producers (bounded channels, semaphores) instead of buffering unbounded and running out of memory.
+
 ### Go — Goroutines & Channels
 
 ```go
@@ -243,7 +247,11 @@ var results = await Task.WhenAll(tasks);
 
 ### Locking Strategies
 
+**Why locking?** Two transactions updating the same account balance concurrently can cause lost updates or overdrafts without coordination.
+
 #### Pessimistic Locking
+
+**What it is:** Lock the row when you read it; other transactions **wait** until you commit.
 
 ```sql
 -- Lock the row for the duration of the transaction
@@ -254,9 +262,11 @@ UPDATE accounts SET balance = balance - $2 WHERE id = $1;
 COMMIT;
 ```
 
-**Use when:** High contention on same account (e.g., frequent debits on one merchant account).
+**Use when:** High contention on same account (e.g., frequent debits on one merchant wallet).
 
 #### Optimistic Locking
+
+**What it is:** Read without locking; on UPDATE, check a **version column** — if someone else changed the row since you read it, the update fails and you retry.
 
 ```sql
 -- Read with version
@@ -272,15 +282,20 @@ WHERE id = $1 AND version = $3;
 
 ### Eventual Consistency Models
 
-| Model | Description | Fintech Use Case |
-|-------|-------------|------------------|
-| **Read-your-writes** | After writing, you see your own write | Payment confirmation page shows just-processed payment |
-| **Causal consistency** | Related events seen in order | Refund appears after original charge |
-| **Eventual consistency** | All replicas converge given time | Reconciliation dashboard (minutes behind) |
+Distributed systems often can't guarantee all readers see the same data instantly.
+
+| Model | What it means | Fintech Use Case |
+|-------|---------------|------------------|
+| **Read-your-writes** | After you write, you always see your own write | Payment confirmation page shows the charge you just made |
+| **Causal consistency** | Related events appear in order | Refund shows up after the original charge |
+| **Eventual consistency** | All replicas converge given time | Reconciliation dashboard may lag minutes behind live payments |
+| **CRDTs** | Conflict-free Replicated Data Types — data structures that merge without conflicts | Rare in core ledgers; more common in collaborative or offline-first apps |
 
 ### Transaction Isolation Levels
 
-| Level | Prevents | Fintech Impact |
+**Isolation** controls what concurrent transactions can see from each other.
+
+| Level | What it prevents | Fintech Impact |
 |-------|----------|----------------|
 | **Read Uncommitted** | Nothing | Never use for financial data |
 | **Read Committed** | Dirty reads | Default for most apps; acceptable for reads |
@@ -292,6 +307,8 @@ WHERE id = $1 AND version = $3;
 ---
 
 ## Caching Strategies
+
+**Cache-aside:** App checks cache first; on miss, reads DB and populates cache. On write, update DB then invalidate cache.
 
 ### In-Memory vs. Distributed
 
@@ -319,13 +336,13 @@ Write:
 
 ### Cache Stampede Prevention
 
-When a popular cache key expires, many requests hit the DB simultaneously.
+**Cache stampede:** A popular key expires and hundreds of requests simultaneously hit the database.
 
-| Technique | How |
-|-----------|-----|
-| **Locking** | First miss acquires lock; others wait and read from cache after |
-| **Probabilistic early expiration** | Refresh cache before TTL with probability based on age |
-| **Stale-while-revalidate** | Return stale value immediately; async refresh in background |
+| Technique | What it does |
+|-----------|--------------|
+| **Locking** | First miss acquires a lock; others wait and read from cache after refresh |
+| **Probabilistic early expiration** | Refresh cache before TTL with probability based on key age |
+| **Stale-while-revalidate** | Return stale value immediately; refresh asynchronously in background |
 
 ### Financial Data Caching Rules
 
@@ -339,6 +356,10 @@ When a popular cache key expires, many requests hit the DB simultaneously.
 ---
 
 ## AI / Agentic Integrations
+
+### What is RAG?
+
+**RAG (Retrieval-Augmented Generation):** Instead of asking the LLM from memory alone, first **retrieve** similar historical records from a vector database, then **generate** an answer using that context. Reduces hallucination because the model grounds its response in real data.
 
 ### LangChain Pipeline for Anomaly Detection
 
@@ -396,13 +417,15 @@ Pipeline:
 
 ### Mitigating LLM Unreliability
 
+**Hallucination:** LLM invents facts not in its training or context. In finance, never trust generated dollar amounts — only classify, match, or triage using retrieved evidence.
+
 | Risk | Mitigation |
 |------|------------|
 | **Hallucination** | RAG with verified documents; never generate financial amounts — only classify/match |
 | **Inconsistent output** | `temperature=0`; JSON schema enforcement; reject malformed responses |
 | **Latency** | Cache embeddings; batch requests; smaller model for triage |
 | **Cost** | Token limits on prompts; cache frequent queries; rules engine handles obvious cases |
-| **Prompt injection** | Sanitize invoice text before including in prompts; separate system/user messages |
+| **Prompt injection** | Malicious text in invoice fields tries to override system instructions — sanitize input, separate system/user messages, never execute LLM-suggested SQL or API calls blindly |
 | **Audit** | Log prompt, retrieved docs, raw output, parsed output, final decision |
 
 ### Validation Loop Pattern
@@ -486,6 +509,8 @@ Code Push → Lint/Test → Build Docker Image → Push to Registry
 | **Docker** | Consistent build artifacts |
 
 ### Temporal Workflows
+
+**Temporal** is a **workflow orchestration** engine (see [System Design → Choreography vs. orchestration](02-system-design.md#choreography-vs-orchestration)). Workflow code is deterministic; all I/O happens in **activities**.
 
 ```go
 func PaymentWorkflow(ctx workflow.Context, req PaymentRequest) error {

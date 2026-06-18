@@ -86,7 +86,17 @@ Design a real-time payment gateway for **100k+ TPS**:
 - Discuss failure recovery (e.g., hardware faults via Kubernetes orchestration)
 - API design (REST/GraphQL for global vendors)
 
-**Key concepts:** ACID vs. BASE, saga patterns, outbox pattern, payment state machines, PCI-DSS scope, exactly-once semantics
+**Key concepts:** See definitions below and [System Design guide → Payments](02-system-design.md#payments-transaction-processing)
+
+| Concept | Brief definition |
+|---------|------------------|
+| **ACID** | Atomicity, Consistency, Isolation, Durability — traditional DB transactions; all-or-nothing, strong guarantees |
+| **BASE** | Basically Available, Soft state, Eventual consistency — distributed systems trade strict consistency for availability and scale |
+| **Saga** | Multi-step transaction across services with compensating rollbacks on failure |
+| **Outbox pattern** | Atomically write data + outbound event in one DB transaction; relay publishes later |
+| **Payment state machine** | Explicit lifecycle states (authorized → captured → settled) with valid transitions only |
+| **PCI-DSS** | Security standard for card data; minimize scope via tokenization |
+| **Exactly-once semantics** | Each operation applied once — hard in distributed systems; usually approximated via idempotency + at-least-once delivery |
 
 #### Reconciliation & Billing
 
@@ -98,7 +108,15 @@ Design a massive-scale reconciliation engine for vehicle sales and charging reve
 - Sharding for data consistency
 - CI/CD (Jenkins/Argo) for safe deployments
 
-**Key concepts:** Double-entry bookkeeping, ledger immutability, batch vs. streaming reconciliation, discrepancy resolution workflows, financial close cycles
+**Key concepts:**
+
+| Concept | Brief definition |
+|---------|------------------|
+| **Double-entry bookkeeping** | Every transaction has balanced debit/credit entries |
+| **Ledger immutability** | Append-only corrections; no silent overwrites |
+| **Batch vs. streaming reconciliation** | Batch = nightly compare all records; streaming = match events as they arrive via CDC |
+| **Discrepancy resolution** | Workflow to investigate and fix mismatches (timing diff, duplicate, missing payment) |
+| **Financial close** | End-of-period process to finalize books — reconciliation must complete before close |
 
 #### AI-Enhanced Services
 
@@ -109,7 +127,15 @@ Design automated invoicing with AI Agents for **10M+ users/transactions**:
 - Multi-channel user notifications post-validation
 - Address non-determinism with thresholds/feedback loops
 
-**Key concepts:** RAG architecture, confidence scoring, human-in-the-loop escalation, model versioning, prompt injection risks in financial contexts
+**Key concepts:**
+
+| Concept | Brief definition |
+|---------|------------------|
+| **RAG** | Retrieve relevant documents, then generate LLM response grounded in that context |
+| **Confidence scoring** | Model or rules assign a score; only auto-act above a threshold |
+| **Human-in-the-loop** | Route uncertain AI decisions to humans for review |
+| **Model versioning** | Pin specific model versions; test new versions in shadow before production |
+| **Prompt injection** | Attacker embeds instructions in input text to manipulate LLM behavior — sanitize untrusted content |
 
 ### General Elements to Cover
 
@@ -141,9 +167,9 @@ Light live coding; focus on **verbal/whiteboard walkthroughs** of code patterns,
 
 | Area | Concepts |
 |------|----------|
-| **Concurrency** | Go goroutines or C# async/await; worker pools; backpressure |
-| **Database interactions** | Locking for transactions (pessimistic vs. optimistic); eventual consistency models (CRDTs, conflict resolution) |
-| **Caching** | In-memory vs. distributed (Redis) for financial ops; cache invalidation, TTL strategies, stampede prevention |
+| **Concurrency** | Go goroutines or C# async/await; **worker pools** (fixed goroutines processing a job queue); **backpressure** (slow down producers when consumers are overloaded) |
+| **Database interactions** | **Pessimistic locking** (lock row on read) vs. **optimistic locking** (version check on write); eventual consistency models (**CRDTs** for conflict-free merges) |
+| **Caching** | In-memory (per-process) vs. distributed (**Redis**, shared across pods); cache invalidation, TTL strategies, **stampede prevention** (avoid thundering herd on cache expiry) |
 
 #### AI / Agentic Integrations
 
@@ -161,8 +187,8 @@ Light live coding; focus on **verbal/whiteboard walkthroughs** of code patterns,
 
 | Area | Concepts |
 |------|----------|
-| **Production ops** | Kubernetes configs, CI/CD pipelines, blue-green/canary deployments |
-| **Orchestration** | Temporal workflows — activities, retries, compensation |
+| **Production ops** | Kubernetes configs, CI/CD pipelines; **blue-green** (two identical envs, switch traffic) and **canary** (gradual % rollout) deployments |
+| **Orchestration** | **Temporal workflows** — orchestrator runs a sequence of **activities** (actual work) with retries and **compensation** (undo on failure) |
 | **Limitations** | Auditing low-traffic AI features; cost controls on LLM API calls |
 
 → **Full guide:** [03-coding-technical-depth.md](03-coding-technical-depth.md)
