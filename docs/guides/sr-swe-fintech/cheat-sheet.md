@@ -52,7 +52,7 @@ One-page reference for last-minute review. For depth, follow the links to full g
 |-------|----------|
 | **RBAC** | Role-based access — good baseline |
 | **Relation-based auth** | **Zanzibar** model (e.g., **SpiceDB**) — fine-grained permissions on hierarchical financial data where RBAC breaks down |
-| **High-cardinality metrics** | Tag metrics (region, card brand, API, vendor) — alert on slices: *"Supercharger API error rate, EU, Visa"* |
+| **High-cardinality metrics** | Tag metrics (region, card brand, API, vendor) — alert on slices: *"payments API error rate, EU, Visa"* |
 | **Stack** | Prometheus/Grafana, **Datadog**, distributed tracing (Jaeger/Tempo) |
 | **Trace propagation** | Pass `trace_id` (W3C `traceparent`) through API gateway → services → message brokers |
 | **Event sourcing** | Append-only financial log — never UPDATE/DELETE finalized records; append reversing entries |
@@ -154,6 +154,7 @@ These were light or missing in the deep guides and are now called out explicitly
 | Resource | Link |
 |----------|------|
 | Study Guide (overview) | [index.md](index.md) |
+| Visual Infographic | [infographic.md](infographic.md) |
 | System Design (full) | [02-system-design.md](02-system-design.md) |
 | Behavioral | [01-behavioral-past-experience.md](01-behavioral-past-experience.md) |
 | Coding | [03-coding-technical-depth.md](03-coding-technical-depth.md) |

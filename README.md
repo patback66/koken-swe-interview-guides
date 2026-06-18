@@ -18,6 +18,7 @@ Interview prep guides for software engineering roles — organized by position.
 |---------|------|
 | Study Guide | [docs/guides/sr-swe-fintech/index.md](docs/guides/sr-swe-fintech/index.md) |
 | Cheat Sheet | [docs/guides/sr-swe-fintech/cheat-sheet.md](docs/guides/sr-swe-fintech/cheat-sheet.md) |
+| Visual Infographic | [docs/guides/sr-swe-fintech/infographic.md](docs/guides/sr-swe-fintech/infographic.md) |
 | 48-Hour Cram Plan | [docs/guides/sr-swe-fintech/cram-plan.md](docs/guides/sr-swe-fintech/cram-plan.md) |
 | Behavioral | [docs/guides/sr-swe-fintech/01-behavioral-past-experience.md](docs/guides/sr-swe-fintech/01-behavioral-past-experience.md) |
 | System Design | [docs/guides/sr-swe-fintech/02-system-design.md](docs/guides/sr-swe-fintech/02-system-design.md) |

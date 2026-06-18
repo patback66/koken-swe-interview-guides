@@ -26,9 +26,10 @@ This guide covers key topics for your onsite interview with the company's FinTec
 | Coding & Technical Depth | ~30% | [03-coding-technical-depth.md](03-coding-technical-depth.md) |
 | References & Further Reading | — | [references.md](references.md) |
 | **Cheat Sheet** | — | **[cheat-sheet.md](cheat-sheet.md)** |
+| **Visual Infographic** | — | **[infographic.md](infographic.md)** |
 | **48-Hour Cram Plan** | — | **[cram-plan.md](cram-plan.md)** |
 
-> **Quick review?** Use the [Cheat Sheet](cheat-sheet.md) for a one-page reference. Short on time? Follow the [48-Hour Cram Plan](cram-plan.md).
+> **Quick review?** Use the [Cheat Sheet](cheat-sheet.md) or [Visual Infographic](infographic.md) for a one-page reference. Short on time? Follow the [48-Hour Cram Plan](cram-plan.md).
 
 ---
 
