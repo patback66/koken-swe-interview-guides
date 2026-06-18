@@ -142,7 +142,7 @@ A time-boxed study schedule for the onsite interview. Assumes **~16–20 hours o
 | 15 min | For each data type (ledger, cache, dashboard), state CP or AP | [CAP in Practice](02-system-design.md#cap-consistency-in-practice) |
 
 - [ ] Can explain C, A, P in one sentence each
-- [ ] Can justify PostgreSQL for ledger vs Redis for idempotency
+- [ ] Can justify PostgreSQL for ledger vs Redis for idempotency vs MongoDB for document data
 - [ ] Know why FLOAT is wrong for money
 - [ ] Can describe read replica vs sharding trade-off
 

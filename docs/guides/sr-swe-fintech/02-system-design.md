@@ -519,10 +519,39 @@ Database choices drive consistency, scale, and operational complexity. In fintec
 | **Redis** | In-memory key-value | Idempotency keys, rate limits, session cache, distributed locks | Not durable by default (use AOF/RDB); memory cost; not a system of record |
 | **Kafka** | Distributed log | Event bus, CDC stream, audit trail of events | Not a queryable database — consumers build views |
 | **DynamoDB / Cassandra** | Wide-column NoSQL | High-volume idempotency at scale, time-series events, global low-latency writes | Eventual consistency by default; no joins; schema design is access-pattern-first |
+| **MongoDB** | Document (NoSQL) | Flexible operational data — user profiles, KYC metadata, product catalogs, workflow payloads, configs where **record shape varies** | Multi-document ACID since v4.0, but weaker correctness story than Postgres for ledger; no native JOINs — embed vs `$lookup`; not a default choice for money |
 | **pgvector / Pinecone** | Vector store | Similarity search for RAG (invoice matching) | Complements OLTP DB; not for transactional money |
 | **Snowflake / BigQuery** | Warehouse | Analytics, reconciliation reports, financial close | Not for OLTP; batch/near-real-time ingestion |
 
-**Default fintech stack (interview-safe):** PostgreSQL as system of record + Redis for ephemeral/fast lookups + Kafka for events. Add DynamoDB or sharding only when Postgres write TPS or global latency forces it.
+**Default fintech stack (interview-safe):** PostgreSQL as system of record + Redis for ephemeral/fast lookups + Kafka for events. Add DynamoDB or sharding only when Postgres write TPS or global latency forces it. Add **MongoDB** only for **non-ledger document workloads** where flexible schema and horizontal shard matter more than cross-row relational integrity.
+
+#### MongoDB — where it fits (and where it doesn't)
+
+MongoDB stores **BSON documents** (JSON-like) in collections. It shines when records are **nested, heterogeneous, or evolving** — not when you need relational invariants across many rows.
+
+| Good fit in fintech | Poor fit in fintech |
+|---------------------|---------------------|
+| User profiles, preferences, notification settings | Double-entry ledger, account balances |
+| KYC / onboarding metadata (varying fields per jurisdiction) | Payment capture with strict state machine + FK constraints |
+| Product catalogs, pricing rules with nested attributes | Reconciliation queries joining payments ↔ ledger ↔ invoices |
+| Workflow / case management payloads (disputes, chargebacks) | Idempotency dedup as system of record (prefer SQL UNIQUE or Redis) |
+| Feature flags, A/B config, operational audit blobs | Anything where losing or corrupting a row costs real dollars |
+
+**Interview positioning:**
+
+- **Postgres for money; Mongo for documents.** Keep the ledger in SQL. Use Mongo for adjacent domains that benefit from schema flexibility.
+- **Embedding vs. referencing:** Store related data in one document when read together (`invoice` embeds `line_items`); use `account_id` references when data is shared or updated independently.
+- **Transactions:** Multi-document ACID exists (`startSession` + transaction), but interviewers expect you to **default to Postgres** for financial correctness unless you can articulate why document locality outweighs relational guarantees.
+- **Consistency:** Replica-set secondaries are **eventually consistent** by default — fine for dashboards, not for balance reads. Use `readConcern: "majority"` and write to primary when staleness matters.
+- **vs. DynamoDB:** Mongo is richer for ad-hoc queries and flexible documents; Dynamo wins for fully managed, key-value/wide-column access at extreme scale with minimal ops.
+
+```
+  payments / ledger          user profile / KYC docs
+        │                            │
+        ▼                            ▼
+   PostgreSQL (ACID)            MongoDB (flexible docs)
+   constraints, JOINs           nested fields, fast iteration
+```
 
 #### SQL vs. NoSQL — when to use which
 
@@ -530,8 +559,9 @@ Database choices drive consistency, scale, and operational complexity. In fintec
 |--------------|----------------|
 | Data has relationships (accounts → payments → ledger entries) | Access pattern is simple key-value or wide-column (e.g., `idempotency_key → response`) |
 | You need transactions across rows (double-entry) | You need horizontal write scale across regions with tunable consistency |
-| Schema integrity matters (foreign keys, CHECK constraints) | Schema is flexible or evolves rapidly (event payloads) |
-| You run complex queries (reconciliation joins) | You sacrifice ad-hoc queries for partition tolerance and throughput |
+| Schema integrity matters (foreign keys, CHECK constraints) | Schema is flexible or evolves rapidly (event payloads, per-country KYC fields) |
+| You run complex queries (reconciliation joins) | Documents are read/written as a unit (profile + nested preferences) |
+| | You sacrifice ad-hoc joins for partition tolerance and throughput (Dynamo, Cassandra) or document flexibility (Mongo) |
 
 **Rule of thumb for money:** If losing or corrupting a row costs real dollars, prefer **SQL with ACID** unless you have a specific scale problem and a reconciliation story.
 
@@ -620,6 +650,7 @@ Map data types to consistency expectations:
 | Payment idempotency key | Strong dedup | PostgreSQL UNIQUE or Redis SETNX | Reject duplicate or return cached |
 | Payment status (user UI) | Read-your-writes | Primary or sticky session to primary | Brief error → retry |
 | Reconciliation dashboard | Eventual | Read replica or warehouse | Stale by minutes is OK |
+| User profile / KYC metadata | Eventual (or primary read) | MongoDB | Stale profile OK briefly; not money |
 | Cache (vendor config) | Eventual | Redis with TTL | Stale config OK for seconds |
 | Event log | Ordered per partition | Kafka | Consumers track offset; replay on failure |
 
@@ -629,6 +660,7 @@ Map data types to consistency expectations:
 |-----------|----------|----------|------------------|
 | **One DB vs. many** | Monolith DB | DB per service | Per-service for microservices; shared only during migration |
 | **Postgres vs. DynamoDB** | Relational ACID | Managed NoSQL scale | Postgres until proven write/latency need; Dynamo for specific hot paths |
+| **Postgres vs. MongoDB** | Relational ACID + JOINs | Flexible documents + shard | Ledger, payments, reconciliation | Profiles, KYC blobs, configs, nested operational data |
 | **Sync replication vs. async** | Zero data loss (RPO=0) | Lower write latency | Sync for ledger primary; async OK for replicas |
 | **FK constraints vs. app-level** | DB enforces referential integrity | Service validates | Prefer FKs on ledger/payments — catch bugs early |
 | **Soft delete vs. hard delete** | `deleted_at` column | `DELETE` row | Financial records: **never hard delete** — soft delete or append-only |
@@ -721,7 +753,7 @@ SLOs  →  Error budgets, burn-rate alerts
 |-----------|----------|----------|-------------------|-------------------|
 | **Sync vs. async** | Sync confirmation | Async with polling/webhook | User waiting (checkout) | Batch reconciliation, reports |
 | **Caching vs. sharding** | Redis cache on single DB | Shard DB by account | < 10k TPS, simpler ops | > 50k TPS, hotspot accounts |
-| **SQL vs. NoSQL** | PostgreSQL ACID ledger | DynamoDB hot-path idempotency | Correctness-critical money flows | Proven horizontal write scale need |
+| **SQL vs. NoSQL** | PostgreSQL ACID ledger | DynamoDB hot-path / MongoDB documents | Correctness-critical money flows | Proven horizontal write scale (Dynamo) or flexible nested docs (Mongo) |
 | **CP vs. AP** | Fail on partition (ledger) | Stay available (cache/dashboard) | Balances, captures, idempotency | Analytics, config cache, read replicas |
 | **2PC vs. saga** | Distributed transaction | Saga with compensation | Rare; only within single DB | Cross-service financial flows |
 | **Rules vs. AI** | Deterministic rules engine | LLM classification | Known patterns, regulatory audit | Novel patterns, unstructured data |

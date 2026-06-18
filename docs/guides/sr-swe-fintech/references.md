@@ -91,6 +91,8 @@ Curated external resources for deeper study. Links are grouped by topic — star
 | [PostgreSQL — Table Partitioning](https://www.postgresql.org/docs/current/ddl-partitioning.html) | Time-based partitions for ledger tables |
 | [PostgreSQL — Explicit Locking](https://www.postgresql.org/docs/current/explicit-locking.html) | `FOR UPDATE`, advisory locks, deadlock behavior |
 | [PostgreSQL — Transaction Isolation](https://www.postgresql.org/docs/current/transaction-iso.html) | Isolation levels and anomaly prevention |
+| [MongoDB — Multi-Document Transactions](https://www.mongodb.com/docs/manual/core/transactions/) | When document DBs can span ACID across collections |
+| [MongoDB — Data Modeling](https://www.mongodb.com/docs/manual/data-modeling/) | Embedding vs referencing for document schemas |
 | [AWS — Data Persistence Guidance](https://docs.aws.amazon.com/prescriptive-guidance/latest/modernization-data-persistence/welcome.html) | When to choose SQL vs NoSQL |
 | [Use The Index, Luke](https://use-the-index-luke.com/) | SQL indexing and query performance |
 | [Martin Kleppmann — Distributed Locking](https://martin.kleppmann.com/2016/08/08/how-to-do-distributed-locking.html) | Why distributed locks are harder than they look |

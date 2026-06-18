@@ -124,7 +124,7 @@ The quick reference above is dense but **incomplete** without the deep guides. P
 
 | Topic | Why it matters | Where |
 |-------|----------------|-------|
-| **CAP theorem & DB choice** | Justify Postgres vs Redis vs DynamoDB under partition | [Database Design](02-system-design.md#database-design-cap-theorem) |
+| **CAP theorem & DB choice** | Justify Postgres vs Redis vs DynamoDB vs MongoDB under partition | [Database Design](02-system-design.md#database-design-cap-theorem) |
 | **Schema design** | `payments`, `ledger_entries`, outbox SQL; constraints | [Schema Design](02-system-design.md#schema-design-for-fintech) |
 | **Outbox pattern** | Atomic write + event publish | [Payments](02-system-design.md#architecture-components) |
 | **Double-entry bookkeeping** | Debit/credit balance; reconciliation logic | [Reconciliation](02-system-design.md#double-entry-bookkeeping) |
