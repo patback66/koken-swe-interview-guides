@@ -1,0 +1,4052 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Software engineering interview prep guides — behavioral, system design, and coding">
+      
+      
+      
+        <link rel="canonical" href="https://patback66.github.io/koken-swe-interview-guides/guides/sr-swe-fintech/02-system-design/">
+      
+      
+        <link rel="prev" href="../01-behavioral-past-experience/">
+      
+      
+        <link rel="next" href="../03-coding-technical-depth/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>System Design - Koken SWE Interview Guides</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#system-design-in-depth-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Koken SWE Interview Guides" class="md-header__button md-logo" aria-label="Koken SWE Interview Guides" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Koken SWE Interview Guides
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              System Design
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/patback66/koken-swe-interview-guides" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    patback66/koken-swe-interview-guides
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Koken SWE Interview Guides" class="md-nav__button md-logo" aria-label="Koken SWE Interview Guides" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Koken SWE Interview Guides
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/patback66/koken-swe-interview-guides" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    patback66/koken-swe-interview-guides
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sr. SWE, FinTech
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sr. SWE, FinTech
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cheat-sheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../infographic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visual Infographic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cram-plan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    48-Hour Cram Plan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-behavioral-past-experience/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Behavioral & Past Experience
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Design
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interview-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interview Approach
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Interview Approach">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recommended-flow-4560-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommended Flow (45–60 min)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clarifying-questions-to-always-ask" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clarifying Questions to Always Ask
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#communication-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Communication Tips
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#payments-transaction-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Payments &amp; Transaction Processing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Payments &amp; Transaction Processing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem Statement
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#high-level-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        High-Level Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#core-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#architecture-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Components
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#payment-state-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Payment State Machine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#idempotency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Idempotency
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#acid-vs-base" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ACID vs. BASE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#distributed-transactions-saga-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Distributed Transactions — Saga Pattern
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Distributed Transactions — Saga Pattern">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#choreography-vs-orchestration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choreography vs. orchestration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concurrency-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concurrency Control
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caching-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Caching Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#failure-recovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Failure Recovery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Design
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reconciliation-billing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reconciliation &amp; Billing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reconciliation &amp; Billing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-statement_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem Statement
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#high-level-architecture_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        High-Level Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#core-concepts_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-reconciliation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is Reconciliation?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#double-entry-bookkeeping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Double-Entry Bookkeeping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#event-driven-workflows-temporal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Event-Driven Workflows (Temporal)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hybrid-syncasync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hybrid Sync/Async
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sharding-for-scale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sharding for Scale
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anomaly-detection-with-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anomaly Detection with AI
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cicd-for-safe-deployments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CI/CD for Safe Deployments
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ai-enhanced-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AI-Enhanced Services
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AI-Enhanced Services">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-statement_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem Statement
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#core-concepts_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-ai-terms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key AI Terms
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rag-pipeline-for-invoice-matching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RAG Pipeline for Invoice Matching
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#addressing-non-determinism" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Addressing Non-Determinism
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-channel-notifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-Channel Notifications
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cross-cutting-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-Cutting Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cross-Cutting Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#microservices-go-c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Microservices (Go / C#)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Infrastructure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#event-bus-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Event Bus Patterns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-design-cap-theorem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database Design &amp; CAP Theorem
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Database Design &amp; CAP Theorem">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cap-theorem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CAP Theorem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#technology-choices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Technology Choices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Technology Choices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mongodb-where-it-fits-and-where-it-doesnt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MongoDB — where it fits (and where it doesn't)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sql-vs-nosql-when-to-use-which" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SQL vs. NoSQL — when to use which
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schema-design-for-fintech" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Schema Design for Fintech
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Schema Design for Fintech">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-tables-payments-ledger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core tables (payments + ledger)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schema-design-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Schema design principles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#normalization-vs-denormalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Normalization vs. denormalization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#database-architecture-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database Architecture Patterns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cap-consistency-in-practice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CAP + Consistency in Practice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-trade-offs-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Trade-offs (Database)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scalability-reliability-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scalability &amp; Reliability Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Scalability &amp; Reliability Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scaling-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scaling Strategies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reliability-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reliability Targets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#observability-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Observability Stack
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-fintech-compliance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security &amp; Fintech Compliance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-trade-offs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Trade-offs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Trade-offs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#legacy-migration-without-downtime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Legacy Migration Without Downtime
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diagram-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diagram Templates
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Diagram Templates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#component-diagram-start-here" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Component Diagram (start here)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-flow-diagram-for-reconciliation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Flow Diagram (for reconciliation)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sequence-diagram-for-payment-with-idempotency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sequence Diagram (for payment with idempotency)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references-further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References &amp; Further Reading
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-coding-technical-depth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Coding & Technical Depth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../references/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    References
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interview-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interview Approach
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Interview Approach">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recommended-flow-4560-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommended Flow (45–60 min)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clarifying-questions-to-always-ask" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clarifying Questions to Always Ask
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#communication-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Communication Tips
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#payments-transaction-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Payments &amp; Transaction Processing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Payments &amp; Transaction Processing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem Statement
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#high-level-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        High-Level Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#core-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#architecture-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Components
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#payment-state-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Payment State Machine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#idempotency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Idempotency
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#acid-vs-base" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ACID vs. BASE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#distributed-transactions-saga-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Distributed Transactions — Saga Pattern
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Distributed Transactions — Saga Pattern">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#choreography-vs-orchestration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choreography vs. orchestration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concurrency-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concurrency Control
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caching-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Caching Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#failure-recovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Failure Recovery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Design
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reconciliation-billing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reconciliation &amp; Billing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reconciliation &amp; Billing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-statement_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem Statement
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#high-level-architecture_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        High-Level Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#core-concepts_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-reconciliation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is Reconciliation?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#double-entry-bookkeeping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Double-Entry Bookkeeping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#event-driven-workflows-temporal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Event-Driven Workflows (Temporal)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hybrid-syncasync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hybrid Sync/Async
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sharding-for-scale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sharding for Scale
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anomaly-detection-with-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anomaly Detection with AI
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cicd-for-safe-deployments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CI/CD for Safe Deployments
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ai-enhanced-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AI-Enhanced Services
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AI-Enhanced Services">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-statement_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem Statement
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#core-concepts_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-ai-terms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key AI Terms
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rag-pipeline-for-invoice-matching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RAG Pipeline for Invoice Matching
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#addressing-non-determinism" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Addressing Non-Determinism
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-channel-notifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-Channel Notifications
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cross-cutting-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-Cutting Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cross-Cutting Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#microservices-go-c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Microservices (Go / C#)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Infrastructure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#event-bus-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Event Bus Patterns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-design-cap-theorem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database Design &amp; CAP Theorem
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Database Design &amp; CAP Theorem">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cap-theorem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CAP Theorem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#technology-choices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Technology Choices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Technology Choices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mongodb-where-it-fits-and-where-it-doesnt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MongoDB — where it fits (and where it doesn't)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sql-vs-nosql-when-to-use-which" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SQL vs. NoSQL — when to use which
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schema-design-for-fintech" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Schema Design for Fintech
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Schema Design for Fintech">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-tables-payments-ledger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core tables (payments + ledger)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schema-design-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Schema design principles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#normalization-vs-denormalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Normalization vs. denormalization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#database-architecture-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database Architecture Patterns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cap-consistency-in-practice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CAP + Consistency in Practice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-trade-offs-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Trade-offs (Database)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scalability-reliability-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scalability &amp; Reliability Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Scalability &amp; Reliability Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scaling-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scaling Strategies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reliability-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reliability Targets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#observability-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Observability Stack
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-fintech-compliance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security &amp; Fintech Compliance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-trade-offs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Trade-offs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Trade-offs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#legacy-migration-without-downtime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Legacy Migration Without Downtime
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diagram-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diagram Templates
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Diagram Templates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#component-diagram-start-here" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Component Diagram (start here)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-flow-diagram-for-reconciliation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Flow Diagram (for reconciliation)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sequence-diagram-for-payment-with-idempotency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sequence Diagram (for payment with idempotency)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references-further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References &amp; Further Reading
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="system-design-in-depth-guide">System Design — In-Depth Guide<a class="headerlink" href="#system-design-in-depth-guide" title="Permanent link">&para;</a></h1>
+<p><a href="../">← Sr. SWE, FinTech Study Guide</a> · <a href="../../">← All Guides</a></p>
+<hr />
+<h2 id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h2>
+<ol>
+<li><a href="#interview-approach">Interview Approach</a></li>
+<li><a href="#payments-transaction-processing">Payments &amp; Transaction Processing</a></li>
+<li><a href="#reconciliation-billing">Reconciliation &amp; Billing</a></li>
+<li><a href="#ai-enhanced-services">AI-Enhanced Services</a></li>
+<li><a href="#cross-cutting-architecture">Cross-Cutting Architecture</a></li>
+<li><a href="#database-design-cap-theorem">Database Design &amp; CAP Theorem</a></li>
+<li><a href="#scalability-reliability-patterns">Scalability &amp; Reliability Patterns</a></li>
+<li><a href="#security-fintech-compliance">Security &amp; Fintech Compliance</a></li>
+<li><a href="#key-trade-offs">Key Trade-offs</a></li>
+<li><a href="#diagram-templates">Diagram Templates</a></li>
+<li><a href="#references-further-reading">References &amp; Further Reading</a></li>
+</ol>
+<hr />
+<h2 id="interview-approach">Interview Approach<a class="headerlink" href="#interview-approach" title="Permanent link">&para;</a></h2>
+<p>System design is <strong>~50% of the interview</strong>. Treat it as a collaborative design session.</p>
+<h3 id="recommended-flow-4560-min">Recommended Flow (45–60 min)<a class="headerlink" href="#recommended-flow-4560-min" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>1. Clarify requirements        (5–10 min)
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>2. High-level architecture     (10 min)
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>3. Deep dive on core component (15–20 min)
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>4. Handle probes               (10–15 min)
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>5. Summarize &amp; trade-offs      (5 min)
+</code></pre></div>
+<h3 id="clarifying-questions-to-always-ask">Clarifying Questions to Always Ask<a class="headerlink" href="#clarifying-questions-to-always-ask" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Example Questions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Scale</strong></td>
+<td>How many TPS? Daily transaction volume? Number of users/regions?</td>
+</tr>
+<tr>
+<td><strong>Latency</strong></td>
+<td>What's the p99 SLA for payment confirmation? Is async acceptable for some flows?</td>
+</tr>
+<tr>
+<td><strong>Consistency</strong></td>
+<td>Strong consistency required, or eventual consistency with reconciliation?</td>
+</tr>
+<tr>
+<td><strong>Failure tolerance</strong></td>
+<td>What's acceptable downtime? RPO/RTO targets?</td>
+</tr>
+<tr>
+<td><strong>Compliance</strong></td>
+<td>PCI scope? Data residency requirements? Audit requirements?</td>
+</tr>
+<tr>
+<td><strong>Integrations</strong></td>
+<td>How many payment vendors? Existing systems to integrate with?</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Terms:</strong> <strong>PCI scope</strong> = which systems touch card data and must meet PCI-DSS. <strong>RPO</strong> = max acceptable data loss in a disaster. <strong>RTO</strong> = max acceptable downtime to restore service.</p>
+<h3 id="communication-tips">Communication Tips<a class="headerlink" href="#communication-tips" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Think out loud</strong> — explain your reasoning as you draw</li>
+<li><strong>Start simple</strong> — monolith or few services, then decompose when scale demands it</li>
+<li><strong>Name your trade-offs</strong> — "I'm choosing X over Y because..."</li>
+<li><strong>Adapt to feedback</strong> — if interviewer says "what if the DB goes down?", add failover, don't defend the original design</li>
+</ul>
+<hr />
+<h2 id="payments-transaction-processing">Payments &amp; Transaction Processing<a class="headerlink" href="#payments-transaction-processing" title="Permanent link">&para;</a></h2>
+<h3 id="problem-statement">Problem Statement<a class="headerlink" href="#problem-statement" title="Permanent link">&para;</a></h3>
+<p>Design a real-time payment gateway handling <strong>100k+ TPS</strong> for global vehicle orders, charging services, and subscription billing.</p>
+<h3 id="high-level-architecture">High-Level Architecture<a class="headerlink" href="#high-level-architecture" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>                    ┌─────────────┐
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>   Clients ────────►│  API Gateway │ (rate limiting, auth, routing)
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>                    └──────┬──────┘
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>                           │
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>              ┌────────────┼────────────┐
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>              ▼            ▼            ▼
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>        ┌──────────┐ ┌──────────┐ ┌──────────────┐
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>        │ Payment  │ │ Payment  │ │  Idempotency │
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>        │ Service  │ │ Validator│ │    Store     │
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>        └────┬─────┘ └──────────┘ └──────────────┘
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>             │
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>             ▼
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>        ┌──────────┐     ┌─────────────┐
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>        │  Outbox  │────►│  Event Bus  │ (Kafka / SQS)
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>        └──────────┘     └──────┬──────┘
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>                                │
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>              ┌─────────────────┼─────────────────┐
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>              ▼                 ▼                 ▼
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>        ┌──────────┐     ┌──────────┐     ┌──────────────┐
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>        │ Ledger   │     │ Notify   │     │ Reconcile    │
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>        │ Service  │     │ Service  │     │ Worker       │
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>        └──────────┘     └──────────┘     └──────────────┘
+</code></pre></div>
+<h3 id="core-concepts">Core Concepts<a class="headerlink" href="#core-concepts" title="Permanent link">&para;</a></h3>
+<h4 id="architecture-components">Architecture Components<a class="headerlink" href="#architecture-components" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>API Gateway</strong></td>
+<td>Single entry point for clients — handles auth, rate limiting, routing, and TLS termination before requests hit internal services</td>
+</tr>
+<tr>
+<td><strong>Idempotency store</strong></td>
+<td>Fast lookup table (usually Redis) mapping idempotency keys to prior responses so retries are safe</td>
+</tr>
+<tr>
+<td><strong>Outbox pattern</strong></td>
+<td>Write business data <em>and</em> an outbound event record in the <strong>same DB transaction</strong>; a separate relay process publishes events to the message bus. Guarantees you never commit a payment without also recording the event to publish (avoids "money moved but nobody notified")</td>
+</tr>
+<tr>
+<td><strong>Event bus</strong></td>
+<td>Durable message broker (Kafka, SQS) that decouples services — producers publish events, consumers subscribe asynchronously</td>
+</tr>
+</tbody>
+</table>
+<h4 id="payment-state-machine">Payment State Machine<a class="headerlink" href="#payment-state-machine" title="Permanent link">&para;</a></h4>
+<p>Every payment moves through defined states. Design explicit transitions:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>INITIATED → AUTHORIZED → CAPTURED → SETTLED
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>                ↓            ↓
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>            DECLINED     REFUNDED / PARTIALLY_REFUNDED
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>                ↓
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>            FAILED (retryable / non-retryable)
+</code></pre></div>
+<ul>
+<li><strong>Idempotent transitions</strong> — retrying <code>CAPTURE</code> with the same idempotency key must not double-charge</li>
+<li><strong>Terminal states</strong> — once SETTLED or REFUNDED, no further transitions without a new transaction</li>
+</ul>
+<h4 id="idempotency">Idempotency<a class="headerlink" href="#idempotency" title="Permanent link">&para;</a></h4>
+<p><strong>What it is:</strong> An operation that produces the <strong>same result</strong> no matter how many times it's executed with the same input. Critical in payments because networks retry — a client may send the same charge request twice due to a timeout.</p>
+<p><strong>Why it matters:</strong> Without idempotency, a retry becomes a duplicate charge. With idempotency keys, the second request returns the original result without re-processing.</p>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Client-provided key</strong></td>
+<td>Client sends <code>Idempotency-Key</code> header; server stores request hash + response for 24–72hrs</td>
+</tr>
+<tr>
+<td><strong>Server-generated key</strong></td>
+<td>For internal retries; keyed on <code>(merchant_id, order_id, amount, operation)</code></td>
+</tr>
+<tr>
+<td><strong>Storage</strong></td>
+<td>Redis or dedicated idempotency table with TTL; check before processing, store result after</td>
+</tr>
+<tr>
+<td><strong>3-state model</strong></td>
+<td>Track <code>STARTED</code> → <code>COMPLETED</code> or <code>FAILED</code>. If a duplicate arrives while <code>STARTED</code>, return <strong>409 Conflict</strong> or hold the connection — prevents concurrent double-processing (stronger than only checking terminal states)</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>POST /payments
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>Headers: Idempotency-Key: uuid-v4
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>1. Check idempotency store → if exists, return cached response
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>2. Process payment
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>3. Store result in idempotency store
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>4. Return response
+</code></pre></div>
+<h4 id="acid-vs-base">ACID vs. BASE<a class="headerlink" href="#acid-vs-base" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>What it means</th>
+<th>When it applies</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ACID</strong></td>
+<td><strong>A</strong>tomicity (all-or-nothing), <strong>C</strong>onsistency (valid state), <strong>I</strong>solation (concurrent txs don't interfere), <strong>D</strong>urability (committed = permanent)</td>
+<td>Single-database transactions — ledger writes within one DB</td>
+</tr>
+<tr>
+<td><strong>BASE</strong></td>
+<td><strong>B</strong>asically <strong>A</strong>vailable, <strong>S</strong>oft state, <strong>E</strong>ventual consistency — prioritize availability; replicas may temporarily disagree</td>
+<td>Distributed microservices at scale — reconcile drift asynchronously</td>
+</tr>
+<tr>
+<td><strong>Exactly-once</strong></td>
+<td>Each operation applied exactly one time — ideal but <strong>very hard</strong> in distributed systems. Practically achieved via <strong>idempotency keys</strong> + <strong>at-least-once delivery</strong> + deduplication</td>
+<td>Payment APIs: safe retries without duplicate charges</td>
+</tr>
+</tbody>
+</table>
+<h4 id="distributed-transactions-saga-pattern">Distributed Transactions — Saga Pattern<a class="headerlink" href="#distributed-transactions-saga-pattern" title="Permanent link">&para;</a></h4>
+<p><strong>The problem:</strong> A payment spans multiple services (charge card → write ledger → send receipt). You need all steps to succeed or be undone — but coordinating this across independent databases is hard.</p>
+<p><strong>2PC (two-phase commit):</strong> A central coordinator asks all services to <em>prepare</em> (lock resources), then <em>commit</em> only if everyone agrees. Provides strong atomicity but creates tight coupling, holds locks, and fails badly when any participant is slow or down. <strong>Rarely used across microservices</strong> in modern fintech — only realistic within a single database.</p>
+<p><strong>Saga:</strong> A sequence of <strong>local transactions</strong>, one per service. Each step commits on its own. If step 3 fails, run <strong>compensating transactions</strong> to undo steps 1 and 2 (e.g., refund the charge if the ledger write fails). Trade-off: the system is temporarily inconsistent between steps — reconciliation catches any drift.</p>
+<h5 id="choreography-vs-orchestration">Choreography vs. orchestration<a class="headerlink" href="#choreography-vs-orchestration" title="Permanent link">&para;</a></h5>
+<p>These are the two ways to implement a saga:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Choreography</strong></th>
+<th><strong>Orchestration</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>What it is</strong></td>
+<td>No central brain — each service <strong>reacts to events</strong> and decides its own next action</td>
+<td>A central <strong>orchestrator</strong> (workflow engine) <strong>directs</strong> each step and tracks overall state</td>
+</tr>
+<tr>
+<td><strong>How it works</strong></td>
+<td>Payment service publishes <code>PaymentCaptured</code> → ledger service hears it and writes an entry → notification service hears that and sends email</td>
+<td>Orchestrator calls: (1) charge card → (2) write ledger → (3) notify; knows which step failed</td>
+</tr>
+<tr>
+<td><strong>Analogy</strong></td>
+<td>Dancers responding to music — everyone knows their cue</td>
+<td>A conductor directing each section of the orchestra</td>
+</tr>
+<tr>
+<td><strong>Pros</strong></td>
+<td>Loose coupling; no orchestrator dependency</td>
+<td>Clear visibility into flow; easy retries, timeouts, and compensation (e.g., Temporal)</td>
+</tr>
+<tr>
+<td><strong>Cons</strong></td>
+<td>Hard to see end-to-end flow; debugging "who listens to what?" gets messy as services grow</td>
+<td>Orchestrator must be highly available; can become a bottleneck if poorly designed</td>
+</tr>
+<tr>
+<td><strong>When to use</strong></td>
+<td>Simple flows, few services, event-native teams</td>
+<td>Complex multi-step financial workflows, payments, reconciliation</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Orchestrated saga (Temporal)</strong> — Temporal is an <strong>orchestration</strong> tool: it runs workflow code that explicitly sequences steps and handles failure. Other options: <strong>AWS Step Functions</strong>, Cadence. Choreography uses the message bus alone (no central workflow engine).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>PaymentWorkflow:
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>  1. ReserveFunds(payment_provider)     → on failure: abort
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>  2. WriteLedgerEntry(ledger_service)   → on failure: ReleaseFunds (compensate)
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>  3. SendConfirmation(notify_service)   → on failure: log, retry (non-critical)
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>  4. EnqueueReconciliation(recon_queue)   → async, eventual
+</code></pre></div>
+<p>Each step is an <strong>activity</strong> with retry policy and timeout. Compensation runs in reverse on failure.</p>
+<p><strong>Choreographed alternative:</strong> Payment service commits and emits <code>PaymentCaptured</code> to Kafka; ledger and notification services each consume that event independently. No workflow engine — but you need clear event contracts and idempotent consumers.</p>
+<h4 id="concurrency-control">Concurrency Control<a class="headerlink" href="#concurrency-control" title="Permanent link">&para;</a></h4>
+<p><strong>Why it matters:</strong> Two requests might try to debit the same account simultaneously. Without coordination, you can overdraw or lose updates.</p>
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>What it is</th>
+<th>When to Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pessimistic locking</strong></td>
+<td>Lock the row <strong>before</strong> reading (<code>SELECT ... FOR UPDATE</code>) — other transactions wait</td>
+<td>High contention on the same account (hot merchant wallet)</td>
+</tr>
+<tr>
+<td><strong>Optimistic locking</strong></td>
+<td>Read freely, but UPDATE includes a version check — if someone else modified the row, retry</td>
+<td>Many accounts, low collision rate; better throughput</td>
+</tr>
+<tr>
+<td><strong>Partitioning (sharding)</strong></td>
+<td>Split data so concurrent payments on <em>different</em> accounts hit different DB shards — no lock contention between them</td>
+<td>Scale beyond single-node DB limits</td>
+</tr>
+</tbody>
+</table>
+<h4 id="caching-strategy">Caching Strategy<a class="headerlink" href="#caching-strategy" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Cache</th>
+<th>TTL</th>
+<th>Invalidation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Account balance</td>
+<td>Redis</td>
+<td>Short (seconds) or none for writes</td>
+<td>Invalidate on ledger write</td>
+</tr>
+<tr>
+<td>Payment vendor config</td>
+<td>Redis</td>
+<td>Minutes</td>
+<td>Pub/sub on config change</td>
+</tr>
+<tr>
+<td>Idempotency keys</td>
+<td>Redis</td>
+<td>24–72 hrs</td>
+<td>TTL expiry</td>
+</tr>
+<tr>
+<td>FX rates</td>
+<td>Redis</td>
+<td>1–5 min</td>
+<td>Scheduled refresh</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Critical:</strong> Never cache write-path decisions (e.g., "is this payment duplicate?") without strong consistency guarantees.</p>
+<h4 id="failure-recovery">Failure Recovery<a class="headerlink" href="#failure-recovery" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Failure</th>
+<th>Recovery</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pod crash mid-payment</strong></td>
+<td>Durable workflow (Temporal) resumes from last completed step</td>
+</tr>
+<tr>
+<td><strong>Payment provider timeout</strong></td>
+<td>Retry with same idempotency key; query provider status before re-attempting</td>
+</tr>
+<tr>
+<td><strong>Network partition</strong></td>
+<td><strong>Circuit breaker</strong> on vendor calls — after N failures, stop calling and fail fast instead of cascading timeouts; queue for async retry</td>
+</tr>
+<tr>
+<td><strong>DB failover</strong></td>
+<td>Multi-AZ RDS/Cloud SQL; connection pooling with retry; RPO &lt; 1 min</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Circuit breaker:</strong> A wrapper around downstream calls that tracks failures. <em>Closed</em> = normal. After a threshold, <em>opens</em> = reject calls immediately. After a cooldown, <em>half-open</em> = try one request to see if the service recovered.</p>
+<h4 id="api-design">API Design<a class="headerlink" href="#api-design" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Concern</th>
+<th>REST</th>
+<th>GraphQL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Vendor integrations</strong></td>
+<td>REST is standard for payment APIs (Stripe, Adyen)</td>
+<td>Less common in payments</td>
+</tr>
+<tr>
+<td><strong>Internal services</strong></td>
+<td>Simple CRUD, well-understood</td>
+<td>Flexible queries for dashboards</td>
+</tr>
+<tr>
+<td><strong>Recommendation</strong></td>
+<td>REST for payment operations; GraphQL optional for internal admin/reporting</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Key API properties:
+- <strong>Idempotency headers</strong> on all mutating endpoints
+- <strong>Webhook callbacks</strong> for async vendor events (with signature verification)
+- <strong>Versioning</strong> (<code>/v1/payments</code>) for backward compatibility</p>
+<p><strong>Further reading:</strong> <a href="https://docs.stripe.com/api/idempotent_requests">Stripe — Idempotent Requests</a> · <a href="https://microservices.io/patterns/data/saga.html">Microservices.io — Saga</a> · <a href="https://microservices.io/patterns/data/transactional-outbox.html">Microservices.io — Transactional Outbox</a> · <a href="https://docs.adyen.com/online-payments/payment-lifecycle/">Adyen — Payment Lifecycle</a> · <a href="../references/#payments-transactions">References — Payments</a></p>
+<hr />
+<h2 id="reconciliation-billing">Reconciliation &amp; Billing<a class="headerlink" href="#reconciliation-billing" title="Permanent link">&para;</a></h2>
+<h3 id="problem-statement_1">Problem Statement<a class="headerlink" href="#problem-statement_1" title="Permanent link">&para;</a></h3>
+<p>Design a reconciliation engine matching invoices, payments, and ledger entries across vehicle orders, charging sessions, and subscription billing at massive scale.</p>
+<h3 id="high-level-architecture_1">High-Level Architecture<a class="headerlink" href="#high-level-architecture_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>  Source Systems                    Reconciliation Pipeline
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>  ┌─────────────┐
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>  │ Payment DB  │──┐
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>  ├─────────────┤  │    ┌──────────┐    ┌─────────────┐    ┌──────────────┐
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>  │ Invoice DB  │──┼───►│ Ingestion│───►│  Matching   │───►│ Discrepancy  │
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>  ├─────────────┤  │    │ (CDC/ETL) │    │  Engine     │    │  Resolution  │
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>  │ Vendor APIs │──┘    └──────────┘    └──────┬──────┘    └──────────────┘
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>  └─────────────┘                               │
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>                                                ▼
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>                                         ┌─────────────┐
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>                                         │ AI Anomaly  │
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>                                         │  Detector   │
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>                                         └─────────────┘
+</code></pre></div>
+<h3 id="core-concepts_1">Core Concepts<a class="headerlink" href="#core-concepts_1" title="Permanent link">&para;</a></h3>
+<h4 id="what-is-reconciliation">What is Reconciliation?<a class="headerlink" href="#what-is-reconciliation" title="Permanent link">&para;</a></h4>
+<p><strong>Reconciliation</strong> is the process of comparing records from multiple sources (internal ledger, payment vendor statements, invoices) to verify they match. Discrepancies — missing payments, duplicate charges, timing differences — must be detected and resolved. In fintech this often runs <strong>async</strong> (nightly batch or streaming) because perfect real-time match across all systems is impractical.</p>
+<h4 id="double-entry-bookkeeping">Double-Entry Bookkeeping<a class="headerlink" href="#double-entry-bookkeeping" title="Permanent link">&para;</a></h4>
+<p><strong>What it is:</strong> An accounting method where every transaction has equal <strong>debit</strong> and <strong>credit</strong> entries — money never appears or disappears, it moves between accounts. The books always balance.</p>
+<p>Every financial event has balanced debit/credit entries:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Vehicle Purchase:
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>  Debit:  Accounts Receivable    $50,000
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>  Credit: Revenue                $50,000
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>Payment Received:
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>  Debit:  Cash                   $50,000
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>  Credit: Accounts Receivable    $50,000
+</code></pre></div>
+<p>Reconciliation verifies: <strong>sum(debits) == sum(credits)</strong> for every period, and external records match internal ledger.</p>
+<p><strong>Ledger immutability:</strong> Financial entries are append-only — corrections are new offsetting entries, not overwrites. Preserves audit trail.</p>
+<h4 id="event-driven-workflows-temporal">Event-Driven Workflows (Temporal)<a class="headerlink" href="#event-driven-workflows-temporal" title="Permanent link">&para;</a></h4>
+<p><strong>What Temporal is:</strong> A <strong>workflow orchestration</strong> engine for durable, long-running processes. Workflow state survives crashes; failed steps retry automatically. Replaces fragile cron jobs that lose progress if a pod dies mid-batch.</p>
+<p>Replace brittle cron jobs with durable workflows:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nd">@workflow</span><span class="o">.</span><span class="n">defn</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">DailyReconciliation</span><span class="p">:</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="nd">@workflow</span><span class="o">.</span><span class="n">run</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">date</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>        <span class="n">payments</span> <span class="o">=</span> <span class="k">await</span> <span class="n">workflow</span><span class="o">.</span><span class="n">execute_activity</span><span class="p">(</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>            <span class="n">fetch_payments</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">start_to_close_timeout</span><span class="o">=</span><span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>        <span class="p">)</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>        <span class="n">invoices</span> <span class="o">=</span> <span class="k">await</span> <span class="n">workflow</span><span class="o">.</span><span class="n">execute_activity</span><span class="p">(</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>            <span class="n">fetch_invoices</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">start_to_close_timeout</span><span class="o">=</span><span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>        <span class="p">)</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>        <span class="n">matches</span> <span class="o">=</span> <span class="k">await</span> <span class="n">workflow</span><span class="o">.</span><span class="n">execute_activity</span><span class="p">(</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>            <span class="n">match_records</span><span class="p">,</span> <span class="n">payments</span><span class="p">,</span> <span class="n">invoices</span><span class="p">,</span> <span class="n">start_to_close_timeout</span><span class="o">=</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>        <span class="p">)</span>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>        <span class="n">discrepancies</span> <span class="o">=</span> <span class="k">await</span> <span class="n">workflow</span><span class="o">.</span><span class="n">execute_activity</span><span class="p">(</span>
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>            <span class="n">detect_discrepancies</span><span class="p">,</span> <span class="n">matches</span><span class="p">,</span> <span class="n">start_to_close_timeout</span><span class="o">=</span><span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>        <span class="p">)</span>
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>        <span class="k">if</span> <span class="n">discrepancies</span><span class="p">:</span>
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>            <span class="k">await</span> <span class="n">workflow</span><span class="o">.</span><span class="n">execute_activity</span><span class="p">(</span>
+<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>                <span class="n">route_for_review</span><span class="p">,</span> <span class="n">discrepancies</span><span class="p">,</span> <span class="n">start_to_close_timeout</span><span class="o">=</span><span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>            <span class="p">)</span>
+</code></pre></div>
+<p><strong>Benefits:</strong> Automatic retries, visibility into workflow state, survives worker crashes.</p>
+<h4 id="hybrid-syncasync">Hybrid Sync/Async<a class="headerlink" href="#hybrid-syncasync" title="Permanent link">&para;</a></h4>
+<p><strong>Sync:</strong> Caller waits for the full operation to complete before getting a response (e.g., user sees "payment approved" at checkout).</p>
+<p><strong>Async:</strong> Work is queued; caller gets acknowledgment immediately and result arrives later via webhook, polling, or email (e.g., nightly reconciliation report).</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Pattern</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Payment confirmation to user</td>
+<td><strong>Sync</strong> — return success/failure immediately</td>
+<td>User waiting at checkout</td>
+</tr>
+<tr>
+<td>Ledger write</td>
+<td><strong>Sync</strong> within payment flow</td>
+<td>Financial correctness</td>
+</tr>
+<tr>
+<td>Reconciliation matching</td>
+<td><strong>Async</strong> — batch or stream</td>
+<td>Can tolerate minutes of delay</td>
+</tr>
+<tr>
+<td>Anomaly detection</td>
+<td><strong>Async</strong> — post-reconciliation</td>
+<td>AI inference is slow; not user-facing</td>
+</tr>
+<tr>
+<td>Audit report generation</td>
+<td><strong>Async</strong> — scheduled</td>
+<td>End-of-day / end-of-month</td>
+</tr>
+</tbody>
+</table>
+<h4 id="sharding-for-scale">Sharding for Scale<a class="headerlink" href="#sharding-for-scale" title="Permanent link">&para;</a></h4>
+<p><strong>Sharding</strong> splits a database into smaller pieces (shards), each holding a subset of data. Queries route to the correct shard by a key (e.g., <code>account_id</code>). Enables horizontal scale when a single DB can't handle write volume.</p>
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>By tenant/region</strong></td>
+<td>EU invoices in EU shard — data residency compliance</td>
+</tr>
+<tr>
+<td><strong>By time</strong></td>
+<td>Monthly partitions for ledger tables — efficient range queries</td>
+</tr>
+<tr>
+<td><strong>By entity</strong></td>
+<td>Hash on <code>account_id</code> for payment records — even distribution</td>
+</tr>
+</tbody>
+</table>
+<p><strong>CDC (Change Data Capture):</strong> Streams database changes (inserts/updates) to the reconciliation pipeline in near-real-time, instead of polling or nightly dumps. Tools like Debezium read the DB transaction log and publish row changes to Kafka.</p>
+<h4 id="anomaly-detection-with-ai">Anomaly Detection with AI<a class="headerlink" href="#anomaly-detection-with-ai" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>1. Batch reconciliation produces discrepancy set
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>2. For each discrepancy:
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>   a. Retrieve similar historical cases (vector DB)
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>   b. LLM classifies: timing difference / duplicate / fraud / data error
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>   c. Confidence &gt; threshold → auto-resolve with known pattern
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>   d. Confidence &lt; threshold → human review queue
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>3. Human resolution feeds back into training data / prompt tuning
+</code></pre></div>
+<h3 id="cicd-for-safe-deployments">CI/CD for Safe Deployments<a class="headerlink" href="#cicd-for-safe-deployments" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Practice</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Canary deployments</strong></td>
+<td>Route a small % of traffic (e.g., 5%) to the new version; monitor error rates before full rollout</td>
+</tr>
+<tr>
+<td><strong>Feature flags</strong></td>
+<td>Toggle new logic on/off at runtime without redeploying — enable for a subset of users or transactions</td>
+</tr>
+<tr>
+<td><strong>Shadow mode</strong></td>
+<td>Run new code in parallel, compare outputs to production, but <strong>don't</strong> act on results — validates correctness with zero user impact</td>
+</tr>
+<tr>
+<td><strong>Automated rollback</strong></td>
+<td>Revert to previous version automatically if error rate or latency breaches an SLO</td>
+</tr>
+<tr>
+<td><strong>Expand-contract migrations</strong></td>
+<td>Schema changes in phases: (1) add new column, (2) dual-write to old and new, (3) migrate reads, (4) drop old column — avoids downtime</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Further reading:</strong> <a href="https://docs.temporal.io/temporal">Temporal — Durable Execution</a> · <a href="https://debezium.io/documentation/reference/stable/index.html">Debezium — CDC</a> · <a href="https://martinfowler.com/eaaDev/EventSourcing.html">Martin Fowler — Event Sourcing</a> · <a href="../references/#reconciliation-billing">References — Reconciliation</a></p>
+<hr />
+<h2 id="ai-enhanced-services">AI-Enhanced Services<a class="headerlink" href="#ai-enhanced-services" title="Permanent link">&para;</a></h2>
+<h3 id="problem-statement_2">Problem Statement<a class="headerlink" href="#problem-statement_2" title="Permanent link">&para;</a></h3>
+<p>Design automated invoicing with AI Agents for <strong>10M+ users/transactions</strong> — invoice matching, fraud triage, and anomaly detection.</p>
+<h3 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>  ┌────────────┐     ┌──────────────┐     ┌─────────────┐
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>  │  Invoice   │────►│  Embedding   │────►│  Vector DB  │
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>  │  Ingestion │     │  Pipeline    │     │  (Pinecone/ │
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>  └────────────┘     └──────────────┘     │   pgvector) │
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>                                            └──────┬──────┘
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>                                                   │
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>  ┌────────────┐     ┌──────────────┐              │
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>  │  New       │────►│  LangChain   │◄─────────────┘
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>  │  Invoice   │     │  Agent       │
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>  └────────────┘     └──────┬───────┘
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>                            │
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>              ┌─────────────┼─────────────┐
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>              ▼             ▼             ▼
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>        ┌──────────┐  ┌──────────┐  ┌──────────┐
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>        │ Rules    │  │ Human    │  │ Notify   │
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>        │ Engine   │  │ Review Q │  │ Service  │
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>        └──────────┘  └──────────┘  └──────────┘
+</code></pre></div>
+<h3 id="core-concepts_2">Core Concepts<a class="headerlink" href="#core-concepts_2" title="Permanent link">&para;</a></h3>
+<h4 id="key-ai-terms">Key AI Terms<a class="headerlink" href="#key-ai-terms" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LLM</strong></td>
+<td>Large Language Model — predicts text; useful for classification and matching but non-deterministic (same input can yield different output)</td>
+</tr>
+<tr>
+<td><strong>Embedding</strong></td>
+<td>A numeric vector representing meaning of text — similar invoices have similar vectors</td>
+</tr>
+<tr>
+<td><strong>Vector DB</strong></td>
+<td>Database optimized for similarity search on embeddings (Pinecone, pgvector) — "find invoices like this one"</td>
+</tr>
+<tr>
+<td><strong>RAG</strong></td>
+<td>Retrieval-Augmented Generation — retrieve relevant documents first, then give them to the LLM as context so answers are grounded in real data, not hallucinated</td>
+</tr>
+<tr>
+<td><strong>LangChain</strong></td>
+<td>Framework for chaining LLM steps (retrieve → prompt → parse → validate) into pipelines or agents</td>
+</tr>
+</tbody>
+</table>
+<h4 id="rag-pipeline-for-invoice-matching">RAG Pipeline for Invoice Matching<a class="headerlink" href="#rag-pipeline-for-invoice-matching" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>1. Ingestion: Parse invoice (PDF/OCR) → extract structured fields
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>2. Embedding: Generate vector from (vendor, amount, line items, date)
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>3. Retrieval: Query vector DB for top-K similar historical invoices
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>4. Generation: LLM proposes match with reasoning, given retrieved context
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>5. Validation: Rules engine checks amount tolerance, date range, vendor ID
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>6. Decision: Auto-approve / escalate / reject
+</code></pre></div>
+<h4 id="addressing-non-determinism">Addressing Non-Determinism<a class="headerlink" href="#addressing-non-determinism" title="Permanent link">&para;</a></h4>
+<p>LLMs are <strong>non-deterministic</strong> — they can give different answers to the same question. In finance you cannot auto-post ledger entries from raw LLM output.</p>
+<table>
+<thead>
+<tr>
+<th>Technique</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Temperature = 0</strong></td>
+<td>Reduces randomness in model output — prefer for classification</td>
+</tr>
+<tr>
+<td><strong>Structured output</strong></td>
+<td>Force response as JSON matching a schema; reject malformed output</td>
+</tr>
+<tr>
+<td><strong>Confidence thresholds</strong></td>
+<td>Only auto-act above 0.90; 0.70–0.90 → human review; below 0.70 → reject</td>
+</tr>
+<tr>
+<td><strong>Ensemble validation</strong></td>
+<td>LLM + rules engine must both agree before auto-approval</td>
+</tr>
+<tr>
+<td><strong>Human-in-the-loop</strong></td>
+<td>Low-confidence or high-stakes decisions route to a human queue</td>
+</tr>
+<tr>
+<td><strong>Feedback loops</strong></td>
+<td>Human corrections stored; periodic prompt/retrieval tuning</td>
+</tr>
+<tr>
+<td><strong>Model versioning</strong></td>
+<td>Pin model versions; A/B test new versions in shadow mode</td>
+</tr>
+</tbody>
+</table>
+<h4 id="multi-channel-notifications">Multi-Channel Notifications<a class="headerlink" href="#multi-channel-notifications" title="Permanent link">&para;</a></h4>
+<p>After validation:
+- <strong>Email</strong> — invoice confirmation, discrepancy alert
+- <strong>Push/SMS</strong> — payment confirmation (time-sensitive)
+- <strong>In-app</strong> — reconciliation status, action required
+- <strong>Webhook</strong> — B2B partner integrations</p>
+<p>Use an <strong>event-driven notification service</strong> — publish <code>InvoiceValidated</code>, <code>DiscrepancyDetected</code> events; notification service routes to appropriate channels based on user preferences.</p>
+<p><strong>Further reading:</strong> <a href="https://arxiv.org/abs/2005.11401">RAG Paper</a> · <a href="https://www.pinecone.io/learn/retrieval-augmented-generation/">Pinecone — RAG Guide</a> · <a href="https://platform.openai.com/docs/guides/structured-outputs">OpenAI — Structured Outputs</a> · <a href="https://www.anthropic.com/research/building-effective-agents">Anthropic — Building Effective Agents</a> · <a href="../references/#ai-llm-in-production">References — AI / LLM</a></p>
+<hr />
+<h2 id="cross-cutting-architecture">Cross-Cutting Architecture<a class="headerlink" href="#cross-cutting-architecture" title="Permanent link">&para;</a></h2>
+<h3 id="microservices-go-c">Microservices (Go / C#)<a class="headerlink" href="#microservices-go-c" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Responsibility</th>
+<th>Language Choice Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Payment Service</td>
+<td>Process payments, manage state machine</td>
+<td>Go — high throughput, low latency</td>
+</tr>
+<tr>
+<td>Ledger Service</td>
+<td>Double-entry bookkeeping, balance queries</td>
+<td>Go or C# — strong typing for financial precision</td>
+</tr>
+<tr>
+<td>Reconciliation Worker</td>
+<td>Batch/stream matching</td>
+<td>Go — concurrency primitives</td>
+</tr>
+<tr>
+<td>Notification Service</td>
+<td>Multi-channel delivery</td>
+<td>C# — rich ecosystem for integrations</td>
+</tr>
+<tr>
+<td>AI Agent Service</td>
+<td>LLM orchestration, RAG</td>
+<td>Python or Go — LangChain ecosystem</td>
+</tr>
+</tbody>
+</table>
+<h3 id="infrastructure">Infrastructure<a class="headerlink" href="#infrastructure" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Technology</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Containers</td>
+<td>Docker</td>
+<td>Consistent dev/prod environments</td>
+</tr>
+<tr>
+<td>Orchestration</td>
+<td>Kubernetes</td>
+<td>Auto-scaling, self-healing, rolling deploys</td>
+</tr>
+<tr>
+<td>Workflow engine</td>
+<td>Temporal</td>
+<td>Durable workflows for payments, reconciliation</td>
+</tr>
+<tr>
+<td>Batch orchestration</td>
+<td>Airflow</td>
+<td>Scheduled ETL, report generation</td>
+</tr>
+<tr>
+<td>Message bus</td>
+<td>Kafka / SQS / <strong>Kinesis</strong></td>
+<td>Event-driven communication; Kinesis common on AWS</td>
+</tr>
+</tbody>
+</table>
+<h3 id="event-bus-patterns">Event Bus Patterns<a class="headerlink" href="#event-bus-patterns" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Event notification</strong></td>
+<td>Lightweight signal that something happened — consumers fetch details if needed (<code>PaymentCaptured</code> triggers reconciliation)</td>
+</tr>
+<tr>
+<td><strong>Event-carried state transfer</strong></td>
+<td>Event payload includes full data so consumers don't need a callback (<code>PaymentCaptured</code> includes amount, account_id, timestamp)</td>
+</tr>
+<tr>
+<td><strong>Event sourcing</strong></td>
+<td>Store every state change as an immutable event log; current state is derived by replaying events. Full audit trail; can rebuild state or debug "what happened?"</td>
+</tr>
+<tr>
+<td><strong>CQRS</strong></td>
+<td>Command Query Responsibility Segregation — <strong>separate models for writes</strong> (commands that change state) and <strong>reads</strong> (optimized query views/dashboards). Write path enforces rules; read path can be denormalized for speed</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Further reading:</strong> <a href="https://dataintensive.net/"><em>Designing Data-Intensive Applications</em></a> · <a href="https://kafka.apache.org/documentation/">Kafka Documentation</a> · <a href="https://www.enterpriseintegrationpatterns.com/">Enterprise Integration Patterns</a> · <a href="../references/#system-design-architecture">References — System Design</a></p>
+<hr />
+<h2 id="database-design-cap-theorem">Database Design &amp; CAP Theorem<a class="headerlink" href="#database-design-cap-theorem" title="Permanent link">&para;</a></h2>
+<p>Database choices drive consistency, scale, and operational complexity. In fintech interviews, be ready to justify <strong>what you store where</strong>, <strong>how schemas enforce correctness</strong>, and <strong>what you sacrifice under failure</strong>.</p>
+<h3 id="cap-theorem">CAP Theorem<a class="headerlink" href="#cap-theorem" title="Permanent link">&para;</a></h3>
+<p><strong>CAP</strong> states that a distributed data store can guarantee at most <strong>two</strong> of three properties during a <strong>network partition</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Consistency (C)</strong></td>
+<td>Every read returns the latest write (or an error) — all nodes agree on the same data</td>
+</tr>
+<tr>
+<td><strong>Availability (A)</strong></td>
+<td>Every request gets a response (not an error) — system stays up even if some nodes are stale</td>
+</tr>
+<tr>
+<td><strong>Partition tolerance (P)</strong></td>
+<td>System continues operating when network links between nodes fail</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The reality:</strong> Partitions <strong>will</strong> happen in distributed systems (AZ failure, network blip, split brain). So you are really choosing between <strong>CP</strong> and <strong>AP</strong> when things go wrong:</p>
+<table>
+<thead>
+<tr>
+<th>Choice</th>
+<th>Behavior during partition</th>
+<th>Fintech example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CP</strong></td>
+<td>Reject reads/writes rather than return stale data</td>
+<td>Ledger balance query — return error if primary is unreachable; don't guess</td>
+</tr>
+<tr>
+<td><strong>AP</strong></td>
+<td>Stay available; replicas may temporarily disagree</td>
+<td>Payment status dashboard — show "processing" while replicas catch up; reconciliation fixes drift</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Important nuance:</strong> CAP is about <strong>distributed</strong> stores under partition. A single PostgreSQL instance gives you ACID consistency without this trade-off until you add replicas or shard. Most fintech cores use <strong>strong consistency for money</strong> (CP-ish within the ledger DB) and <strong>eventual consistency at the edges</strong> (AP with reconciliation for analytics, caches, read replicas).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>                    ┌─────────────────────────────────┐
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>                    │         Network partition         │
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>                    └─────────────────────────────────┘
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>           CP choice                          AP choice
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>    &quot;I&#39;d rather error than lie&quot;        &quot;I&#39;d rather serve stale than go down&quot;
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>         Ledger write fails               Cache shows old balance
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>         Client retries safely            Reconciliation catches up later
+</code></pre></div>
+<h3 id="technology-choices">Technology Choices<a class="headerlink" href="#technology-choices" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Technology</th>
+<th>Type</th>
+<th>Best for in fintech</th>
+<th>Trade-offs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PostgreSQL</strong></td>
+<td>Relational (SQL)</td>
+<td>Ledger, payments, invoices — anything needing <strong>ACID</strong>, joins, constraints</td>
+<td>Vertical scale limits; sharding is manual; excellent for correctness-first workloads</td>
+</tr>
+<tr>
+<td><strong>MySQL / Aurora</strong></td>
+<td>Relational (SQL)</td>
+<td>Same as Postgres; common in AWS-native stacks</td>
+<td>Similar trade-offs; Aurora adds managed replication/failover</td>
+</tr>
+<tr>
+<td><strong>Redis</strong></td>
+<td>In-memory key-value</td>
+<td>Idempotency keys, rate limits, session cache, distributed locks</td>
+<td>Not durable by default (use AOF/RDB); memory cost; not a system of record</td>
+</tr>
+<tr>
+<td><strong>Kafka</strong></td>
+<td>Distributed log</td>
+<td>Event bus, CDC stream, audit trail of events</td>
+<td>Not a queryable database — consumers build views</td>
+</tr>
+<tr>
+<td><strong>DynamoDB / Cassandra</strong></td>
+<td>Wide-column NoSQL</td>
+<td>High-volume idempotency at scale, time-series events, global low-latency writes</td>
+<td>Eventual consistency by default; no joins; schema design is access-pattern-first</td>
+</tr>
+<tr>
+<td><strong>MongoDB</strong></td>
+<td>Document (NoSQL)</td>
+<td>Flexible operational data — user profiles, KYC metadata, product catalogs, workflow payloads, configs where <strong>record shape varies</strong></td>
+<td>Multi-document ACID since v4.0, but weaker correctness story than Postgres for ledger; no native JOINs — embed vs <code>$lookup</code>; not a default choice for money</td>
+</tr>
+<tr>
+<td><strong>pgvector / Pinecone</strong></td>
+<td>Vector store</td>
+<td>Similarity search for RAG (invoice matching)</td>
+<td>Complements OLTP DB; not for transactional money</td>
+</tr>
+<tr>
+<td><strong>Snowflake / BigQuery</strong></td>
+<td>Warehouse</td>
+<td>Analytics, reconciliation reports, financial close</td>
+<td>Not for OLTP; batch/near-real-time ingestion</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Default fintech stack (interview-safe):</strong> PostgreSQL as system of record + Redis for ephemeral/fast lookups + Kafka for events. Add DynamoDB or sharding only when Postgres write TPS or global latency forces it. Add <strong>MongoDB</strong> only for <strong>non-ledger document workloads</strong> where flexible schema and horizontal shard matter more than cross-row relational integrity.</p>
+<h4 id="mongodb-where-it-fits-and-where-it-doesnt">MongoDB — where it fits (and where it doesn't)<a class="headerlink" href="#mongodb-where-it-fits-and-where-it-doesnt" title="Permanent link">&para;</a></h4>
+<p>MongoDB stores <strong>BSON documents</strong> (JSON-like) in collections. It shines when records are <strong>nested, heterogeneous, or evolving</strong> — not when you need relational invariants across many rows.</p>
+<table>
+<thead>
+<tr>
+<th>Good fit in fintech</th>
+<th>Poor fit in fintech</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>User profiles, preferences, notification settings</td>
+<td>Double-entry ledger, account balances</td>
+</tr>
+<tr>
+<td>KYC / onboarding metadata (varying fields per jurisdiction)</td>
+<td>Payment capture with strict state machine + FK constraints</td>
+</tr>
+<tr>
+<td>Product catalogs, pricing rules with nested attributes</td>
+<td>Reconciliation queries joining payments ↔ ledger ↔ invoices</td>
+</tr>
+<tr>
+<td>Workflow / case management payloads (disputes, chargebacks)</td>
+<td>Idempotency dedup as system of record (prefer SQL UNIQUE or Redis)</td>
+</tr>
+<tr>
+<td>Feature flags, A/B config, operational audit blobs</td>
+<td>Anything where losing or corrupting a row costs real dollars</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Interview positioning:</strong></p>
+<ul>
+<li><strong>Postgres for money; Mongo for documents.</strong> Keep the ledger in SQL. Use Mongo for adjacent domains that benefit from schema flexibility.</li>
+<li><strong>Embedding vs. referencing:</strong> Store related data in one document when read together (<code>invoice</code> embeds <code>line_items</code>); use <code>account_id</code> references when data is shared or updated independently.</li>
+<li><strong>Transactions:</strong> Multi-document ACID exists (<code>startSession</code> + transaction), but interviewers expect you to <strong>default to Postgres</strong> for financial correctness unless you can articulate why document locality outweighs relational guarantees.</li>
+<li><strong>Consistency:</strong> Replica-set secondaries are <strong>eventually consistent</strong> by default — fine for dashboards, not for balance reads. Use <code>readConcern: "majority"</code> and write to primary when staleness matters.</li>
+<li><strong>vs. DynamoDB:</strong> Mongo is richer for ad-hoc queries and flexible documents; Dynamo wins for fully managed, key-value/wide-column access at extreme scale with minimal ops.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>  payments / ledger          user profile / KYC docs
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>        │                            │
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>        ▼                            ▼
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>   PostgreSQL (ACID)            MongoDB (flexible docs)
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>   constraints, JOINs           nested fields, fast iteration
+</code></pre></div>
+<h4 id="sql-vs-nosql-when-to-use-which">SQL vs. NoSQL — when to use which<a class="headerlink" href="#sql-vs-nosql-when-to-use-which" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Use SQL when</th>
+<th>Use NoSQL when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Data has relationships (accounts → payments → ledger entries)</td>
+<td>Access pattern is simple key-value or wide-column (e.g., <code>idempotency_key → response</code>)</td>
+</tr>
+<tr>
+<td>You need transactions across rows (double-entry)</td>
+<td>You need horizontal write scale across regions with tunable consistency</td>
+</tr>
+<tr>
+<td>Schema integrity matters (foreign keys, CHECK constraints)</td>
+<td>Schema is flexible or evolves rapidly (event payloads, per-country KYC fields)</td>
+</tr>
+<tr>
+<td>You run complex queries (reconciliation joins)</td>
+<td>Documents are read/written as a unit (profile + nested preferences)</td>
+</tr>
+<tr>
+<td></td>
+<td>You sacrifice ad-hoc joins for partition tolerance and throughput (Dynamo, Cassandra) or document flexibility (Mongo)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rule of thumb for money:</strong> If losing or corrupting a row costs real dollars, prefer <strong>SQL with ACID</strong> unless you have a specific scale problem and a reconciliation story.</p>
+<h3 id="schema-design-for-fintech">Schema Design for Fintech<a class="headerlink" href="#schema-design-for-fintech" title="Permanent link">&para;</a></h3>
+<p>Design schemas to make <strong>incorrect states unrepresentable</strong> where possible.</p>
+<h4 id="core-tables-payments-ledger">Core tables (payments + ledger)<a class="headerlink" href="#core-tables-payments-ledger" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1">-- Payments: lifecycle state machine</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">payments</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="n">id</span><span class="w">              </span><span class="n">UUID</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="n">idempotency_key</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">    </span><span class="n">account_id</span><span class="w">      </span><span class="n">UUID</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">accounts</span><span class="p">(</span><span class="n">id</span><span class="p">),</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span><span class="n">amount_cents</span><span class="w">    </span><span class="nb">BIGINT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="n">amount_cents</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">    </span><span class="n">currency</span><span class="w">        </span><span class="nb">CHAR</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">    </span><span class="n">status</span><span class="w">          </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">  </span><span class="c1">-- INITIATED, AUTHORIZED, CAPTURED, ...</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="w">    </span><span class="k">version</span><span class="w">         </span><span class="nb">INT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="c1">-- optimistic locking</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="w">    </span><span class="n">created_at</span><span class="w">      </span><span class="n">TIMESTAMPTZ</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">now</span><span class="p">(),</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="w">    </span><span class="n">updated_at</span><span class="w">      </span><span class="n">TIMESTAMPTZ</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">now</span><span class="p">()</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="p">);</span>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="c1">-- Ledger: append-only double-entry</span>
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">ledger_entries</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="w">    </span><span class="n">id</span><span class="w">              </span><span class="n">UUID</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a><span class="w">    </span><span class="n">transaction_id</span><span class="w">  </span><span class="n">UUID</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a><span class="w">    </span><span class="n">account_id</span><span class="w">      </span><span class="n">UUID</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a><span class="w">    </span><span class="n">debit_cents</span><span class="w">     </span><span class="nb">BIGINT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="n">debit_cents</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span>
+<a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a><span class="w">    </span><span class="n">credit_cents</span><span class="w">    </span><span class="nb">BIGINT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="n">credit_cents</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span>
+<a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a><span class="w">    </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="n">debit_cents</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="n">credit_cents</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w">  </span><span class="c1">-- one side only</span>
+<a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a><span class="w">    </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="k">NOT</span><span class="w"> </span><span class="p">(</span><span class="n">debit_cents</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">credit_cents</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">)),</span>
+<a id="__codelineno-13-23" name="__codelineno-13-23" href="#__codelineno-13-23"></a><span class="w">    </span><span class="n">currency</span><span class="w">        </span><span class="nb">CHAR</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<a id="__codelineno-13-24" name="__codelineno-13-24" href="#__codelineno-13-24"></a><span class="w">    </span><span class="n">created_at</span><span class="w">      </span><span class="n">TIMESTAMPTZ</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">now</span><span class="p">()</span>
+<a id="__codelineno-13-25" name="__codelineno-13-25" href="#__codelineno-13-25"></a><span class="w">    </span><span class="c1">-- no updated_at: entries are immutable</span>
+<a id="__codelineno-13-26" name="__codelineno-13-26" href="#__codelineno-13-26"></a><span class="p">);</span>
+<a id="__codelineno-13-27" name="__codelineno-13-27" href="#__codelineno-13-27"></a>
+<a id="__codelineno-13-28" name="__codelineno-13-28" href="#__codelineno-13-28"></a><span class="c1">-- Outbox: atomic publish with business write</span>
+<a id="__codelineno-13-29" name="__codelineno-13-29" href="#__codelineno-13-29"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">outbox</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-13-30" name="__codelineno-13-30" href="#__codelineno-13-30"></a><span class="w">    </span><span class="n">id</span><span class="w">              </span><span class="n">UUID</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<a id="__codelineno-13-31" name="__codelineno-13-31" href="#__codelineno-13-31"></a><span class="w">    </span><span class="n">aggregate_id</span><span class="w">    </span><span class="n">UUID</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<a id="__codelineno-13-32" name="__codelineno-13-32" href="#__codelineno-13-32"></a><span class="w">    </span><span class="n">event_type</span><span class="w">      </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<a id="__codelineno-13-33" name="__codelineno-13-33" href="#__codelineno-13-33"></a><span class="w">    </span><span class="n">payload</span><span class="w">         </span><span class="n">JSONB</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<a id="__codelineno-13-34" name="__codelineno-13-34" href="#__codelineno-13-34"></a><span class="w">    </span><span class="n">created_at</span><span class="w">      </span><span class="n">TIMESTAMPTZ</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">now</span><span class="p">(),</span>
+<a id="__codelineno-13-35" name="__codelineno-13-35" href="#__codelineno-13-35"></a><span class="w">    </span><span class="n">published_at</span><span class="w">    </span><span class="n">TIMESTAMPTZ</span><span class="w">  </span><span class="c1">-- NULL until relay confirms</span>
+<a id="__codelineno-13-36" name="__codelineno-13-36" href="#__codelineno-13-36"></a><span class="p">);</span>
+</code></pre></div>
+<h4 id="schema-design-principles">Schema design principles<a class="headerlink" href="#schema-design-principles" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Principle</th>
+<th>Why it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Store money as integers (cents)</strong></td>
+<td>Never <code>FLOAT</code>/<code>DOUBLE</code> — rounding errors compound at scale</td>
+</tr>
+<tr>
+<td><strong>Immutable ledger rows</strong></td>
+<td>Corrections are new entries, not UPDATEs — audit trail stays intact</td>
+</tr>
+<tr>
+<td><strong>Idempotency key as UNIQUE constraint</strong></td>
+<td>DB enforces dedup even if application logic fails</td>
+</tr>
+<tr>
+<td><strong>Optimistic <code>version</code> column</strong></td>
+<td>Safe concurrent updates without long-held locks</td>
+</tr>
+<tr>
+<td><strong>Status as enum / CHECK constraint</strong></td>
+<td>Illegal state transitions rejected at DB layer</td>
+</tr>
+<tr>
+<td><strong>Timestamps in UTC (<code>TIMESTAMPTZ</code>)</strong></td>
+<td>Global ops; convert at display layer</td>
+</tr>
+<tr>
+<td><strong>Partition large tables by time</strong></td>
+<td><code>ledger_entries_2026_01</code> — efficient range scans for reconciliation</td>
+</tr>
+</tbody>
+</table>
+<h4 id="normalization-vs-denormalization">Normalization vs. denormalization<a class="headerlink" href="#normalization-vs-denormalization" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>When to use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Normalized (3NF)</strong></td>
+<td>Write path — payments, ledger, accounts. Avoid update anomalies</td>
+</tr>
+<tr>
+<td><strong>Denormalized read models</strong></td>
+<td>CQRS dashboards — <code>daily_revenue_by_region</code> materialized view updated from events</td>
+</tr>
+<tr>
+<td><strong>Denormalize cautiously</strong></td>
+<td>Only when read latency matters and you have a clear invalidation/rebuild path</td>
+</tr>
+</tbody>
+</table>
+<h3 id="database-architecture-patterns">Database Architecture Patterns<a class="headerlink" href="#database-architecture-patterns" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>What it is</th>
+<th>Fintech use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Database per service</strong></td>
+<td>Each microservice owns its schema; no cross-service JOINs</td>
+<td>Payment service DB, ledger service DB — communicate via APIs/events</td>
+</tr>
+<tr>
+<td><strong>Shared database (anti-pattern)</strong></td>
+<td>Multiple services write same tables</td>
+<td>Avoid — coupling, schema conflicts, unclear ownership</td>
+</tr>
+<tr>
+<td><strong>Read replicas</strong></td>
+<td>Async copy of primary for SELECT queries</td>
+<td>Dashboards, reporting — accept replication lag (eventual consistency)</td>
+</tr>
+<tr>
+<td><strong>Sharding</strong></td>
+<td>Split rows across DB instances by key</td>
+<td>Scale writes when single Postgres maxes out (~10k+ sustained write TPS depending on workload)</td>
+</tr>
+<tr>
+<td><strong>Connection pooling (PgBouncer)</strong></td>
+<td>Reuse DB connections</td>
+<td>Essential at scale — pods don't open 1 connection each unbounded</td>
+</tr>
+</tbody>
+</table>
+<h3 id="cap-consistency-in-practice">CAP + Consistency in Practice<a class="headerlink" href="#cap-consistency-in-practice" title="Permanent link">&para;</a></h3>
+<p>Map data types to consistency expectations:</p>
+<table>
+<thead>
+<tr>
+<th>Data type</th>
+<th>Consistency model</th>
+<th>Technology</th>
+<th>On partition / failure</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ledger balance</td>
+<td>Strong (linearizable within shard)</td>
+<td>PostgreSQL primary</td>
+<td>Fail writes; don't serve stale balance</td>
+</tr>
+<tr>
+<td>Payment idempotency key</td>
+<td>Strong dedup</td>
+<td>PostgreSQL UNIQUE or Redis SETNX</td>
+<td>Reject duplicate or return cached</td>
+</tr>
+<tr>
+<td>Payment status (user UI)</td>
+<td>Read-your-writes</td>
+<td>Primary or sticky session to primary</td>
+<td>Brief error → retry</td>
+</tr>
+<tr>
+<td>Reconciliation dashboard</td>
+<td>Eventual</td>
+<td>Read replica or warehouse</td>
+<td>Stale by minutes is OK</td>
+</tr>
+<tr>
+<td>User profile / KYC metadata</td>
+<td>Eventual (or primary read)</td>
+<td>MongoDB</td>
+<td>Stale profile OK briefly; not money</td>
+</tr>
+<tr>
+<td>Cache (vendor config)</td>
+<td>Eventual</td>
+<td>Redis with TTL</td>
+<td>Stale config OK for seconds</td>
+</tr>
+<tr>
+<td>Event log</td>
+<td>Ordered per partition</td>
+<td>Kafka</td>
+<td>Consumers track offset; replay on failure</td>
+</tr>
+</tbody>
+</table>
+<h3 id="key-trade-offs-database">Key Trade-offs (Database)<a class="headerlink" href="#key-trade-offs-database" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Trade-off</th>
+<th>Option A</th>
+<th>Option B</th>
+<th>Fintech guidance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>One DB vs. many</strong></td>
+<td>Monolith DB</td>
+<td>DB per service</td>
+<td>Per-service for microservices; shared only during migration</td>
+</tr>
+<tr>
+<td><strong>Postgres vs. DynamoDB</strong></td>
+<td>Relational ACID</td>
+<td>Managed NoSQL scale</td>
+<td>Postgres until proven write/latency need; Dynamo for specific hot paths</td>
+</tr>
+<tr>
+<td><strong>Postgres vs. MongoDB</strong></td>
+<td>Relational ACID + JOINs</td>
+<td>Flexible documents + shard</td>
+<td>Ledger, payments, reconciliation</td>
+</tr>
+<tr>
+<td><strong>Sync replication vs. async</strong></td>
+<td>Zero data loss (RPO=0)</td>
+<td>Lower write latency</td>
+<td>Sync for ledger primary; async OK for replicas</td>
+</tr>
+<tr>
+<td><strong>FK constraints vs. app-level</strong></td>
+<td>DB enforces referential integrity</td>
+<td>Service validates</td>
+<td>Prefer FKs on ledger/payments — catch bugs early</td>
+</tr>
+<tr>
+<td><strong>Soft delete vs. hard delete</strong></td>
+<td><code>deleted_at</code> column</td>
+<td><code>DELETE</code> row</td>
+<td>Financial records: <strong>never hard delete</strong> — soft delete or append-only</td>
+</tr>
+<tr>
+<td><strong>JSONB columns vs. rigid schema</strong></td>
+<td>Flexible payloads (events, metadata)</td>
+<td>All columns typed</td>
+<td>JSONB for outbox/events; core money fields always typed columns</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Further reading:</strong> <a href="https://dataintensive.net/"><em>DDIA</em> Ch. 5–9</a> · <a href="https://www.postgresql.org/docs/current/datatype-numeric.html">PostgreSQL Data Types — Numeric</a> · <a href="https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/">CAP Twelve Years Later</a> · <a href="../references/#database-design">References — Database Design</a></p>
+<hr />
+<h2 id="scalability-reliability-patterns">Scalability &amp; Reliability Patterns<a class="headerlink" href="#scalability-reliability-patterns" title="Permanent link">&para;</a></h2>
+<h3 id="scaling-strategies">Scaling Strategies<a class="headerlink" href="#scaling-strategies" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Strategy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>API</strong></td>
+<td>Horizontal pod autoscaling on CPU/request rate; CDN for static assets</td>
+</tr>
+<tr>
+<td><strong>Database</strong></td>
+<td>Read replicas, connection pooling (PgBouncer), sharding by account/region</td>
+</tr>
+<tr>
+<td><strong>Cache</strong></td>
+<td>Redis cluster; cache-aside pattern; avoid cache stampede with locking</td>
+</tr>
+<tr>
+<td><strong>Queue</strong></td>
+<td>Partitioned Kafka topics by entity; consumer groups for parallelism</td>
+</tr>
+<tr>
+<td><strong>Workflows</strong></td>
+<td>Temporal task queues per domain; scale workers independently</td>
+</tr>
+</tbody>
+</table>
+<h3 id="reliability-targets">Reliability Targets<a class="headerlink" href="#reliability-targets" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>What it means</th>
+<th>Target</th>
+<th>How to Achieve</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Availability</strong></td>
+<td>% of time the service is up</td>
+<td>99.99% (~52 min downtime/year)</td>
+<td>Multi-AZ, health checks, auto-failover, circuit breakers</td>
+</tr>
+<tr>
+<td><strong>Durability (RPO)</strong></td>
+<td>Recovery Point Objective — max data loss in a disaster</td>
+<td>Zero for financial records</td>
+<td>Sync replication, WAL, tested backups</td>
+</tr>
+<tr>
+<td><strong>Recovery time (RTO)</strong></td>
+<td>Recovery Time Objective — max time to restore service</td>
+<td>Minutes</td>
+<td>Automated failover, runbooks</td>
+</tr>
+<tr>
+<td><strong>Latency (p99)</strong></td>
+<td>99th percentile response time</td>
+<td>&lt; 500ms payment confirmation</td>
+<td>Caching, connection pooling, async non-critical paths</td>
+</tr>
+</tbody>
+</table>
+<h3 id="observability-stack">Observability Stack<a class="headerlink" href="#observability-stack" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>Metrics (Prometheus / Datadog)  →  Dashboards (Grafana)  →  Alerting (PagerDuty)
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>        +                              ↑
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>Tracing (Jaeger/Tempo)  →  Propagate trace_id / traceparent headers through gateway, services, brokers
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>        +
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>Logging (ELK/Loki)  →  Structured JSON logs, correlation IDs
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>        +
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>SLOs  →  Error budgets, burn-rate alerts
+</code></pre></div>
+<p><strong>High-cardinality metrics:</strong> Tag every request with dimensions (region, payment_method, vendor, API). Enables alerts like <em>"error rate for charging API in EU for Visa"</em> instead of only global error rate. Watch cardinality explosion — don't tag unbounded values (user_id) on every metric.</p>
+<p><strong>Distributed tracing:</strong> Inject <code>trace_id</code> (W3C <code>traceparent</code> header) at the API gateway and pass through async boundaries (Kafka message headers, gRPC metadata) so a stalled saga is debuggable end-to-end.</p>
+<p><strong>Key dashboards for fintech:</strong>
+- Payment success rate (by vendor, region, payment method)
+- Reconciliation lag (time since last successful run)
+- Discrepancy count and resolution time
+- Idempotency cache hit rate
+- LLM inference latency and confidence distribution</p>
+<p><strong>SLOs (Service Level Objectives):</strong> Target reliability (e.g., 99.9% success rate). <strong>Error budget</strong> = allowed failures before you must stop shipping features and fix reliability.</p>
+<h3 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Retry with backoff</strong></td>
+<td>On transient failure, wait and retry — delay increases exponentially (+ jitter) to avoid hammering a recovering service</td>
+</tr>
+<tr>
+<td><strong>Dead letter queue (DLQ)</strong></td>
+<td>Queue for messages that failed processing after max retries — humans or tools investigate poison messages</td>
+</tr>
+<tr>
+<td><strong>Circuit breaker</strong></td>
+<td>Stop calling a failing downstream after N failures; probe periodically to detect recovery</td>
+</tr>
+<tr>
+<td><strong>Replay</strong></td>
+<td>Re-process events from a checkpoint after fixing a bug — rebuilds state from the event log</td>
+</tr>
+<tr>
+<td><strong>Eventual consistency</strong></td>
+<td>Replicas may temporarily disagree; given time (and reconciliation) they converge. Acceptable for dashboards; not for in-flight payment decisions</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Further reading:</strong> <a href="https://sre.google/sre-book/monitoring-distributed-systems/">Google SRE — Monitoring</a> · <a href="https://opentelemetry.io/docs/">OpenTelemetry</a> · <a href="https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/">AWS — Exponential Backoff and Jitter</a> · <a href="../references/#observability-reliability">References — Observability</a></p>
+<hr />
+<h2 id="security-fintech-compliance">Security &amp; Fintech Compliance<a class="headerlink" href="#security-fintech-compliance" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>What it is / Why it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Audit trails</strong></td>
+<td>Immutable log of every financial operation — who, what, when, before/after state. Required for compliance and dispute resolution</td>
+</tr>
+<tr>
+<td><strong>RBAC</strong></td>
+<td>Role-Based Access Control — users get permissions by role (Finance = read-only, Ops = limited write). <strong>Least privilege</strong> = minimum access needed</td>
+</tr>
+<tr>
+<td><strong>Relation-based access (Zanzibar)</strong></td>
+<td>Fine-grained permissions on hierarchical data (e.g., "user X can view account Y's invoices in region Z") — models like <strong>Google Zanzibar</strong> / <strong>SpiceDB</strong> when flat RBAC isn't enough</td>
+</tr>
+<tr>
+<td><strong>Encryption</strong></td>
+<td>TLS in transit; AES-256 at rest. <strong>KMS</strong> manages encryption keys with rotation</td>
+</tr>
+<tr>
+<td><strong>PCI-DSS</strong></td>
+<td>Payment Card Industry Data Security Standard — rules for handling card data. <strong>Reduce scope</strong> by tokenizing cards (Stripe/Adyen holds the PAN; you store a token)</td>
+</tr>
+<tr>
+<td><strong>Data residency</strong></td>
+<td>Some regions require customer data stored in-country (e.g., EU). Affects where you shard and which vendors you use</td>
+</tr>
+<tr>
+<td><strong>Vendor integrations</strong></td>
+<td>Direct APIs to payment providers; verify <strong>webhook signatures</strong> so attackers can't forge payment events</td>
+</tr>
+<tr>
+<td><strong>AI safeguards</strong></td>
+<td>Don't send PII to external LLMs without a DPA; log every AI-assisted decision for audit</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Further reading:</strong> <a href="https://www.pcisecuritystandards.org/document_library/">PCI DSS Documentation</a> · <a href="https://owasp.org/www-project-top-ten/">OWASP Top 10</a> · <a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/">OWASP LLM Top 10</a> · <a href="../references/#security-compliance-fintech">References — Security</a></p>
+<hr />
+<h2 id="key-trade-offs">Key Trade-offs<a class="headerlink" href="#key-trade-offs" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Trade-off</th>
+<th>Option A</th>
+<th>Option B</th>
+<th>When to Choose A</th>
+<th>When to Choose B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sync vs. async</strong></td>
+<td>Sync confirmation</td>
+<td>Async with polling/webhook</td>
+<td>User waiting (checkout)</td>
+<td>Batch reconciliation, reports</td>
+</tr>
+<tr>
+<td><strong>Caching vs. sharding</strong></td>
+<td>Redis cache on single DB</td>
+<td>Shard DB by account</td>
+<td>&lt; 10k TPS, simpler ops</td>
+<td>&gt; 50k TPS, hotspot accounts</td>
+</tr>
+<tr>
+<td><strong>SQL vs. NoSQL</strong></td>
+<td>PostgreSQL ACID ledger</td>
+<td>DynamoDB hot-path / MongoDB documents</td>
+<td>Correctness-critical money flows</td>
+<td>Proven horizontal write scale (Dynamo) or flexible nested docs (Mongo)</td>
+</tr>
+<tr>
+<td><strong>CP vs. AP</strong></td>
+<td>Fail on partition (ledger)</td>
+<td>Stay available (cache/dashboard)</td>
+<td>Balances, captures, idempotency</td>
+<td>Analytics, config cache, read replicas</td>
+</tr>
+<tr>
+<td><strong>2PC vs. saga</strong></td>
+<td>Distributed transaction</td>
+<td>Saga with compensation</td>
+<td>Rare; only within single DB</td>
+<td>Cross-service financial flows</td>
+</tr>
+<tr>
+<td><strong>Rules vs. AI</strong></td>
+<td>Deterministic rules engine</td>
+<td>LLM classification</td>
+<td>Known patterns, regulatory audit</td>
+<td>Novel patterns, unstructured data</td>
+</tr>
+<tr>
+<td><strong>Monolith vs. microservices</strong></td>
+<td>Single deployable</td>
+<td>Service per domain</td>
+<td>Early stage, small team</td>
+<td>Independent scaling, team ownership</td>
+</tr>
+<tr>
+<td><strong>Build vs. buy</strong></td>
+<td>Custom payment gateway</td>
+<td>Stripe/Adyen integration</td>
+<td>Unique requirements, cost at scale</td>
+<td>Speed to market, compliance handled</td>
+</tr>
+</tbody>
+</table>
+<h3 id="legacy-migration-without-downtime">Legacy Migration Without Downtime<a class="headerlink" href="#legacy-migration-without-downtime" title="Permanent link">&para;</a></h3>
+<p><strong>Strangler fig pattern:</strong> Gradually replace a legacy system by routing increasing traffic to the new service — like a fig tree growing around an old trunk until the old system can be removed.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>Phase 1: Strangler — route new traffic to new service via API gateway
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>Phase 2: Dual-write — write to both old and new systems
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>Phase 3: Shadow-read — read from new, compare with old, alert on drift
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>Phase 4: Cutover — switch reads to new system
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>Phase 5: Decommission — stop dual-write, retire old system
+</code></pre></div>
+<p><strong>Dual-write:</strong> Both systems receive the same data during migration so you can compare outputs before cutting over.</p>
+<hr />
+<h2 id="diagram-templates">Diagram Templates<a class="headerlink" href="#diagram-templates" title="Permanent link">&para;</a></h2>
+<h3 id="component-diagram-start-here">Component Diagram (start here)<a class="headerlink" href="#component-diagram-start-here" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>[Client] → [API Gateway] → [Service A] → [DB]
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>                              ↓
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>                         [Event Bus] → [Service B] → [DB]
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>                              ↓
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>                         [Service C]
+</code></pre></div>
+<h3 id="data-flow-diagram-for-reconciliation">Data Flow Diagram (for reconciliation)<a class="headerlink" href="#data-flow-diagram-for-reconciliation" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>[Source A] ──┐
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>[Source B] ──┼──► [Ingest] ──► [Transform] ──► [Match] ──► [Resolve]
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>[Source C] ──┘                                                      │
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>                                                                    ▼
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>                                                              [Report/Audit]
+</code></pre></div>
+<h3 id="sequence-diagram-for-payment-with-idempotency">Sequence Diagram (for payment with idempotency)<a class="headerlink" href="#sequence-diagram-for-payment-with-idempotency" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>Client          API Gateway       Payment Svc       Idempotency Store    Vendor
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>  │                 │                 │                    │               │
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>  │── POST /pay ───►│                 │                    │               │
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>  │  Idempotency-Key│                 │                    │               │
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>  │                 │── forward ─────►│                    │               │
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>  │                 │                 │── check key ──────►│               │
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>  │                 │                 │◄── miss ────────────│               │
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>  │                 │                 │── charge ──────────────────────────►│
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>  │                 │                 │◄── success ─────────────────────────│
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>  │                 │                 │── store result ───►│               │
+<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>  │                 │◄── 200 OK ──────│                    │               │
+<a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>  │◄── 200 OK ──────│                 │                    │               │
+</code></pre></div>
+<hr />
+<h2 id="references-further-reading">References &amp; Further Reading<a class="headerlink" href="#references-further-reading" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Resources</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Foundational</strong></td>
+<td><a href="https://dataintensive.net/"><em>Designing Data-Intensive Applications</em></a>, <a href="https://github.com/donnemartin/system-design-primer">System Design Primer</a></td>
+</tr>
+<tr>
+<td><strong>Payments &amp; idempotency</strong></td>
+<td><a href="https://docs.stripe.com/api/idempotent_requests">Stripe — Idempotent Requests</a>, <a href="https://stripe.com/blog/engineering">Stripe Engineering Blog</a></td>
+</tr>
+<tr>
+<td><strong>Distributed transactions</strong></td>
+<td><a href="https://microservices.io/patterns/data/saga.html">Saga Pattern</a>, <a href="https://microservices.io/patterns/data/transactional-outbox.html">Transactional Outbox</a>, <a href="https://docs.temporal.io/">Temporal Docs</a></td>
+</tr>
+<tr>
+<td><strong>Database design &amp; CAP</strong></td>
+<td><a href="https://dataintensive.net/"><em>DDIA</em></a>, <a href="https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/">CAP — Twelve Years Later</a></td>
+</tr>
+<tr>
+<td><strong>Observability &amp; SRE</strong></td>
+<td><a href="https://sre.google/sre-book/table-of-contents/">Google SRE Book</a>, <a href="https://prometheus.io/docs/introduction/overview/">Prometheus Docs</a></td>
+</tr>
+<tr>
+<td><strong>AI in production</strong></td>
+<td><a href="https://arxiv.org/abs/2005.11401">RAG Paper</a>, <a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/">OWASP LLM Top 10</a></td>
+</tr>
+<tr>
+<td><strong>Full bibliography</strong></td>
+<td><a href="../references/">References &amp; Further Reading</a></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../01-behavioral-past-experience/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Behavioral &amp; Past Experience">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Behavioral & Past Experience
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../03-coding-technical-depth/" class="md-footer__link md-footer__link--next" aria-label="Next: Coding &amp; Technical Depth">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Coding & Technical Depth
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/patback66/koken-swe-interview-guides" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy", "toc.follow"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

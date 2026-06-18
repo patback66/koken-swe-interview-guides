@@ -1,0 +1,2022 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Software engineering interview prep guides — behavioral, system design, and coding">
+      
+      
+      
+        <link rel="canonical" href="https://patback66.github.io/koken-swe-interview-guides/guides/sr-swe-fintech/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="cheat-sheet/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Study Guide - Koken SWE Interview Guides</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#sr-software-engineer-fintech-study-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Koken SWE Interview Guides" class="md-header__button md-logo" aria-label="Koken SWE Interview Guides" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Koken SWE Interview Guides
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Study Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/patback66/koken-swe-interview-guides" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    patback66/koken-swe-interview-guides
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Koken SWE Interview Guides" class="md-nav__button md-logo" aria-label="Koken SWE Interview Guides" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Koken SWE Interview Guides
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/patback66/koken-swe-interview-guides" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    patback66/koken-swe-interview-guides
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sr. SWE, FinTech
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sr. SWE, FinTech
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Guide
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interview-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interview Format
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#section-weighting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Section Weighting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-behavioral-past-experience-20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Behavioral &amp; Past Experience (~20%)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Behavioral &amp; Past Experience (~20%)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-to-prepare" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What to Prepare
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What to Prepare">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-projects-use-star-situation-task-action-result" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Projects — Use STAR (Situation, Task, Action, Result)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#important-concepts-to-weave-in" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important Concepts to Weave In
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-probes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Probes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-system-design-50" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. System Design (~50%)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. System Design (~50%)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#targeted-topics-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Targeted Topics &amp; Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Targeted Topics &amp; Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#payments-transaction-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Payments &amp; Transaction Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reconciliation-billing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reconciliation &amp; Billing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ai-enhanced-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AI-Enhanced Services
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#general-elements-to-cover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        General Elements to Cover
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tips
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-coding-technical-depth-30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Coding &amp; Technical Depth (~30%)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Coding &amp; Technical Depth (~30%)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-to-prepare_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What to Prepare
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What to Prepare">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#backend-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backend &amp; Systems
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ai-agentic-integrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AI / Agentic Integrations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coding-style" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Coding Style
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tech-depth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tech Depth
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#general-interview-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        General Interview Tips
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="General Interview Tips">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#style-duration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Style &amp; Duration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#company-fintech-fit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Company FinTech Fit
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference-technologies-mentioned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Reference — Technologies Mentioned
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further Reading
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="cheat-sheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="infographic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visual Infographic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="cram-plan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    48-Hour Cram Plan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="01-behavioral-past-experience/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Behavioral & Past Experience
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="02-system-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="03-coding-technical-depth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Coding & Technical Depth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="references/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    References
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interview-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interview Format
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#section-weighting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Section Weighting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-behavioral-past-experience-20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Behavioral &amp; Past Experience (~20%)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Behavioral &amp; Past Experience (~20%)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-to-prepare" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What to Prepare
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What to Prepare">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-projects-use-star-situation-task-action-result" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Projects — Use STAR (Situation, Task, Action, Result)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#important-concepts-to-weave-in" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important Concepts to Weave In
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-probes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Probes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-system-design-50" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. System Design (~50%)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. System Design (~50%)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#targeted-topics-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Targeted Topics &amp; Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Targeted Topics &amp; Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#payments-transaction-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Payments &amp; Transaction Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reconciliation-billing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reconciliation &amp; Billing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ai-enhanced-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AI-Enhanced Services
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#general-elements-to-cover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        General Elements to Cover
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tips
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-coding-technical-depth-30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Coding &amp; Technical Depth (~30%)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Coding &amp; Technical Depth (~30%)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-to-prepare_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What to Prepare
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What to Prepare">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#backend-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backend &amp; Systems
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ai-agentic-integrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AI / Agentic Integrations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coding-style" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Coding Style
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tech-depth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tech Depth
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#general-interview-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        General Interview Tips
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="General Interview Tips">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#style-duration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Style &amp; Duration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#company-fintech-fit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Company FinTech Fit
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference-technologies-mentioned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Reference — Technologies Mentioned
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further Reading
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="sr-software-engineer-fintech-study-guide">Sr. Software Engineer, FinTech — Study Guide<a class="headerlink" href="#sr-software-engineer-fintech-study-guide" title="Permanent link">&para;</a></h1>
+<p><a href="../">← All Guides</a></p>
+<blockquote>
+<p><strong>Role:</strong> Sr. Software Engineer, FinTech</p>
+</blockquote>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>This guide covers key topics for your onsite interview with the company's FinTech team, focusing on building scalable systems for <strong>payments processing</strong>, <strong>financial reconciliation</strong>, <strong>billing/invoicing</strong>, and <strong>AI-driven workflows</strong> that handle global transaction volumes and impact billions in revenue (e.g., from vehicle orders, charging services, and emerging mobility operations).</p>
+<h3 id="interview-format">Interview Format<a class="headerlink" href="#interview-format" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Format</strong></td>
+<td>One-on-one sessions, 45 minutes–1 hour each</td>
+</tr>
+<tr>
+<td><strong>Style</strong></td>
+<td>Behavioral discussions on past projects + live system design + coding</td>
+</tr>
+<tr>
+<td><strong>Emphasis</strong></td>
+<td>Ownership ("You build it, you run it"), pragmatic solutions, integrating AI Agents into mission-critical financial tasks like anomaly detection and invoice matching</td>
+</tr>
+<tr>
+<td><strong>Structure</strong></td>
+<td>Each interviewer covers a primary area — one focused on <strong>coding</strong>, one on <strong>system design</strong>, one on <strong>behavioral/cultural fit</strong>. Not every interviewer will combine all aspects.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="section-weighting">Section Weighting<a class="headerlink" href="#section-weighting" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>Weight</th>
+<th>Deep-Dive Guide</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Behavioral &amp; Past Experience</td>
+<td>~20%</td>
+<td><a href="01-behavioral-past-experience/">01-behavioral-past-experience.md</a></td>
+</tr>
+<tr>
+<td>System Design</td>
+<td>~50%</td>
+<td><a href="02-system-design/">02-system-design.md</a></td>
+</tr>
+<tr>
+<td>Coding &amp; Technical Depth</td>
+<td>~30%</td>
+<td><a href="03-coding-technical-depth/">03-coding-technical-depth.md</a></td>
+</tr>
+<tr>
+<td>References &amp; Further Reading</td>
+<td>—</td>
+<td><a href="references/">references.md</a></td>
+</tr>
+<tr>
+<td><strong>Cheat Sheet</strong></td>
+<td>—</td>
+<td><strong><a href="cheat-sheet/">cheat-sheet.md</a></strong></td>
+</tr>
+<tr>
+<td><strong>Visual Infographic</strong></td>
+<td>—</td>
+<td><strong><a href="infographic/">infographic.md</a></strong></td>
+</tr>
+<tr>
+<td><strong>48-Hour Cram Plan</strong></td>
+<td>—</td>
+<td><strong><a href="cram-plan/">cram-plan.md</a></strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Quick review?</strong> Use the <a href="cheat-sheet/">Cheat Sheet</a> or <a href="infographic/">Visual Infographic</a> for a one-page reference. Short on time? Follow the <a href="cram-plan/">48-Hour Cram Plan</a>.</p>
+</blockquote>
+<hr />
+<h2 id="1-behavioral-past-experience-20">1. Behavioral &amp; Past Experience (~20%)<a class="headerlink" href="#1-behavioral-past-experience-20" title="Permanent link">&para;</a></h2>
+<p>Interviewers will cover your background to assess fit for the company's <strong>builder culture</strong> in a fast-paced fintech environment, probing challenges in <strong>distributed transactions</strong>, <strong>data consistency</strong>, and transitions to modern, <strong>AI-enhanced systems</strong>.</p>
+<h3 id="what-to-prepare">What to Prepare<a class="headerlink" href="#what-to-prepare" title="Permanent link">&para;</a></h3>
+<h4 id="key-projects-use-star-situation-task-action-result">Key Projects — Use STAR (Situation, Task, Action, Result)<a class="headerlink" href="#key-projects-use-star-situation-task-action-result" title="Permanent link">&para;</a></h4>
+<p>Prepare <strong>2–3 experiences</strong> across these themes:</p>
+<table>
+<thead>
+<tr>
+<th>Theme</th>
+<th>Example Story Arc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ownership of core financial services</strong></td>
+<td>Problem: scaling payments or reconciliation for high-volume transactions → Initiative: architecting microservices with idempotency → Solution: event-driven workflows for consistency → Outcomes: improved reliability and reduced operational load</td>
+</tr>
+<tr>
+<td><strong>AI integrations in finance</strong></td>
+<td>Using LLMs for automating tasks like ledger anomaly detection or support triage; safeguards for non-deterministic models → Outcomes: efficiency gains in workflows</td>
+</tr>
+<tr>
+<td><strong>Legacy migrations</strong></td>
+<td>Moving to orchestration engines like Temporal; handling concurrency and caching → Outcomes: reduced technical debt and higher availability</td>
+</tr>
+</tbody>
+</table>
+<h4 id="important-concepts-to-weave-in">Important Concepts to Weave In<a class="headerlink" href="#important-concepts-to-weave-in" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>End-to-end ownership</strong> — You wrote it, deployed it, monitored it, and fixed it in production</li>
+<li><strong>Incident response</strong> — How you handled a production outage or data discrepancy in a financial system</li>
+<li><strong>Cross-functional collaboration</strong> — Working with Finance, Legal, or Compliance under deadline pressure</li>
+<li><strong>Technical leadership</strong> — Mentoring, code reviews, driving architectural decisions without formal authority</li>
+<li><strong>Trade-off articulation</strong> — Why you chose one approach over another (speed vs. correctness, build vs. buy)</li>
+</ul>
+<h4 id="common-probes">Common Probes<a class="headerlink" href="#common-probes" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Probe Area</th>
+<th>What They're Assessing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sensitive financial data</strong></td>
+<td>Access controls, auditability, least-privilege, encryption at rest/in transit</td>
+</tr>
+<tr>
+<td><strong>AI reliability in production</strong></td>
+<td>Making LLMs viable for transactions via Vector DBs, LangChain, validation layers, human-in-the-loop</td>
+</tr>
+<tr>
+<td><strong>Non-technical stakeholders</strong></td>
+<td>Translating business needs (e.g., tax regulations, revenue recognition) into technical specs</td>
+</tr>
+<tr>
+<td><strong>Mentoring / code reviews</strong></td>
+<td>Raising the bar on a team, giving constructive feedback, unblocking others</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>Full guide:</strong> <a href="01-behavioral-past-experience/">01-behavioral-past-experience.md</a></p>
+<hr />
+<h2 id="2-system-design-50">2. System Design (~50%)<a class="headerlink" href="#2-system-design-50" title="Permanent link">&para;</a></h2>
+<p><strong>Core focus:</strong> Design end-to-end systems for fintech scale (e.g., billions in transactions, global ops), emphasizing <strong>microservices</strong>, <strong>event-driven architectures</strong>, <strong>data consistency (idempotency)</strong>, and <strong>AI integration</strong>.</p>
+<p>Start with clarifying questions; iterate based on feedback. Cover ops like <strong>observability</strong> (Prometheus/Grafana) for <strong>99.99% availability</strong>.</p>
+<h3 id="targeted-topics-examples">Targeted Topics &amp; Examples<a class="headerlink" href="#targeted-topics-examples" title="Permanent link">&para;</a></h3>
+<h4 id="payments-transaction-processing">Payments &amp; Transaction Processing<a class="headerlink" href="#payments-transaction-processing" title="Permanent link">&para;</a></h4>
+<p>Design a real-time payment gateway for <strong>100k+ TPS</strong>:</p>
+<ul>
+<li>Handle distributed transactions with concurrency (DB locking, caching strategies)</li>
+<li>Ensure <strong>idempotency</strong> to prevent duplicates</li>
+<li>Integrate async reconciliation queues</li>
+<li>Discuss failure recovery (e.g., hardware faults via Kubernetes orchestration)</li>
+<li>API design (REST/GraphQL for global vendors)</li>
+</ul>
+<p><strong>Key concepts:</strong> See definitions below and <a href="02-system-design/#payments-transaction-processing">System Design guide → Payments</a></p>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Brief definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CAP theorem</strong></td>
+<td>Distributed systems trade Consistency, Availability, or Partition tolerance — fintech ledgers lean CP; caches/dashboards may lean AP with reconciliation</td>
+</tr>
+<tr>
+<td><strong>ACID</strong></td>
+<td>Atomicity, Consistency, Isolation, Durability — traditional DB transactions; all-or-nothing, strong guarantees</td>
+</tr>
+<tr>
+<td><strong>BASE</strong></td>
+<td>Basically Available, Soft state, Eventual consistency — distributed systems trade strict consistency for availability and scale</td>
+</tr>
+<tr>
+<td><strong>Saga</strong></td>
+<td>Multi-step transaction across services with compensating rollbacks on failure</td>
+</tr>
+<tr>
+<td><strong>Outbox pattern</strong></td>
+<td>Atomically write data + outbound event in one DB transaction; relay publishes later</td>
+</tr>
+<tr>
+<td><strong>Payment state machine</strong></td>
+<td>Explicit lifecycle states (authorized → captured → settled) with valid transitions only</td>
+</tr>
+<tr>
+<td><strong>PCI-DSS</strong></td>
+<td>Security standard for card data; minimize scope via tokenization</td>
+</tr>
+<tr>
+<td><strong>Exactly-once semantics</strong></td>
+<td>Each operation applied once — hard in distributed systems; usually approximated via idempotency + at-least-once delivery</td>
+</tr>
+</tbody>
+</table>
+<h4 id="reconciliation-billing">Reconciliation &amp; Billing<a class="headerlink" href="#reconciliation-billing" title="Permanent link">&para;</a></h4>
+<p>Design a massive-scale reconciliation engine for vehicle sales and charging revenue:</p>
+<ul>
+<li>Event-driven workflows (e.g., Temporal for orchestration) to match invoices and detect anomalies</li>
+<li>Hybrid sync/async (synchronous confirmations, async audits)</li>
+<li>AI Agents for pattern analysis</li>
+<li>Sharding for data consistency</li>
+<li>CI/CD (Jenkins/Argo) for safe deployments</li>
+</ul>
+<p><strong>Key concepts:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Brief definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Double-entry bookkeeping</strong></td>
+<td>Every transaction has balanced debit/credit entries</td>
+</tr>
+<tr>
+<td><strong>Ledger immutability</strong></td>
+<td>Append-only corrections; no silent overwrites</td>
+</tr>
+<tr>
+<td><strong>Batch vs. streaming reconciliation</strong></td>
+<td>Batch = nightly compare all records; streaming = match events as they arrive via CDC</td>
+</tr>
+<tr>
+<td><strong>Discrepancy resolution</strong></td>
+<td>Workflow to investigate and fix mismatches (timing diff, duplicate, missing payment)</td>
+</tr>
+<tr>
+<td><strong>Financial close</strong></td>
+<td>End-of-period process to finalize books — reconciliation must complete before close</td>
+</tr>
+</tbody>
+</table>
+<h4 id="ai-enhanced-services">AI-Enhanced Services<a class="headerlink" href="#ai-enhanced-services" title="Permanent link">&para;</a></h4>
+<p>Design automated invoicing with AI Agents for <strong>10M+ users/transactions</strong>:</p>
+<ul>
+<li>LLMs (OpenAI API/LangChain) for invoice matching or fraud triage</li>
+<li>Embeddings in Vector DBs for reliable retrieval (RAG)</li>
+<li>Multi-channel user notifications post-validation</li>
+<li>Address non-determinism with thresholds/feedback loops</li>
+</ul>
+<p><strong>Key concepts:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Brief definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>RAG</strong></td>
+<td>Retrieve relevant documents, then generate LLM response grounded in that context</td>
+</tr>
+<tr>
+<td><strong>Confidence scoring</strong></td>
+<td>Model or rules assign a score; only auto-act above a threshold</td>
+</tr>
+<tr>
+<td><strong>Human-in-the-loop</strong></td>
+<td>Route uncertain AI decisions to humans for review</td>
+</tr>
+<tr>
+<td><strong>Model versioning</strong></td>
+<td>Pin specific model versions; test new versions in shadow before production</td>
+</tr>
+<tr>
+<td><strong>Prompt injection</strong></td>
+<td>Attacker embeds instructions in input text to manipulate LLM behavior — sanitize untrusted content</td>
+</tr>
+</tbody>
+</table>
+<h3 id="general-elements-to-cover">General Elements to Cover<a class="headerlink" href="#general-elements-to-cover" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Topics</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Architecture</strong></td>
+<td>Microservices in Go/C# (or modern langs); Docker/Kubernetes for production; workflow tools (Temporal/Cadence/Airflow) for migrations</td>
+</tr>
+<tr>
+<td><strong>Scalability &amp; Reliability</strong></td>
+<td>Event buses for async flows; caching (Redis for session data); error handling (replays, eventual consistency); monitoring (distributed tracing, metrics for incident resolution)</td>
+</tr>
+<tr>
+<td><strong>Database design</strong></td>
+<td>CAP theorem (CP vs AP); SQL vs NoSQL; schema design for ledgers; read replicas vs sharding</td>
+</tr>
+<tr>
+<td><strong>Security / Fintech Nuances</strong></td>
+<td>Compliance for financial data (audit trails, role-based access); vendor integrations (direct APIs to optimize costs); AI safeguards (making models deterministic for workflows)</td>
+</tr>
+<tr>
+<td><strong>Trade-offs</strong></td>
+<td>Sync vs. async for user feedback; simple caching vs. complex sharding; legacy migration paths without downtime</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tips">Tips<a class="headerlink" href="#tips" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Clarify requirements first</strong> — volume, latency SLAs, failure rates, consistency requirements</li>
+<li><strong>Draw diagrams</strong> — components, data flows, failure domains</li>
+<li><strong>Adapt to probes</strong> — e.g., add observability when asked about restarts</li>
+<li><strong>Explain decisions pragmatically</strong> — e.g., why Go for performance in high-throughput payments</li>
+</ol>
+<p>→ <strong>Full guide:</strong> <a href="02-system-design/">02-system-design.md</a></p>
+<hr />
+<h2 id="3-coding-technical-depth-30">3. Coding &amp; Technical Depth (~30%)<a class="headerlink" href="#3-coding-technical-depth-30" title="Permanent link">&para;</a></h2>
+<p>Light live coding; focus on <strong>verbal/whiteboard walkthroughs</strong> of code patterns, especially for backend and AI reliability.</p>
+<h3 id="what-to-prepare_1">What to Prepare<a class="headerlink" href="#what-to-prepare_1" title="Permanent link">&para;</a></h3>
+<h4 id="backend-systems">Backend &amp; Systems<a class="headerlink" href="#backend-systems" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Concepts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Concurrency</strong></td>
+<td>Go goroutines or C# async/await; <strong>worker pools</strong> (fixed goroutines processing a job queue); <strong>backpressure</strong> (slow down producers when consumers are overloaded)</td>
+</tr>
+<tr>
+<td><strong>Database interactions</strong></td>
+<td><strong>Pessimistic locking</strong> (lock row on read) vs. <strong>optimistic locking</strong> (version check on write); eventual consistency models (<strong>CRDTs</strong> for conflict-free merges)</td>
+</tr>
+<tr>
+<td><strong>Caching</strong></td>
+<td>In-memory (per-process) vs. distributed (<strong>Redis</strong>, shared across pods); cache invalidation, TTL strategies, <strong>stampede prevention</strong> (avoid thundering herd on cache expiry)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="ai-agentic-integrations">AI / Agentic Integrations<a class="headerlink" href="#ai-agentic-integrations" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Concepts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LLM pipelines</strong></td>
+<td>LangChain for chaining tasks in anomaly detection; Vector DBs for RAG in invoice matching</td>
+</tr>
+<tr>
+<td><strong>Reliability mitigations</strong></td>
+<td>Validation loops, sampling to avoid hallucinations, structured output enforcement, fallback to rules-based logic</td>
+</tr>
+</tbody>
+</table>
+<h4 id="coding-style">Coding Style<a class="headerlink" href="#coding-style" title="Permanent link">&para;</a></h4>
+<ul>
+<li>For exercises (e.g., simple idempotent transaction handler), <strong>verbalize your process</strong> — edge cases like failures, optimizations for scale</li>
+<li>Emphasize <strong>testable code</strong> — comprehensive unit/integration tests in fintech stacks (Go/C#, Docker for local dev)</li>
+</ul>
+<h4 id="tech-depth">Tech Depth<a class="headerlink" href="#tech-depth" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Concepts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Production ops</strong></td>
+<td>Kubernetes configs, CI/CD pipelines; <strong>blue-green</strong> (two identical envs, switch traffic) and <strong>canary</strong> (gradual % rollout) deployments</td>
+</tr>
+<tr>
+<td><strong>Orchestration</strong></td>
+<td><strong>Temporal workflows</strong> — orchestrator runs a sequence of <strong>activities</strong> (actual work) with retries and <strong>compensation</strong> (undo on failure)</td>
+</tr>
+<tr>
+<td><strong>Limitations</strong></td>
+<td>Auditing low-traffic AI features; cost controls on LLM API calls</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>Full guide:</strong> <a href="03-coding-technical-depth/">03-coding-technical-depth.md</a></p>
+<hr />
+<h2 id="general-interview-tips">General Interview Tips<a class="headerlink" href="#general-interview-tips" title="Permanent link">&para;</a></h2>
+<h3 id="style-duration">Style &amp; Duration<a class="headerlink" href="#style-duration" title="Permanent link">&para;</a></h3>
+<ul>
+<li>One-on-one — 45 min–1 hour sessions</li>
+<li>Be <strong>collaborative and pragmatic</strong> — treat it as a working session, not an exam</li>
+<li>Think out loud; invite feedback on your approach</li>
+</ul>
+<h3 id="company-fintech-fit">Company FinTech Fit<a class="headerlink" href="#company-fintech-fit" title="Permanent link">&para;</a></h3>
+<p>Stress these themes throughout:</p>
+<table>
+<thead>
+<tr>
+<th>Theme</th>
+<th>How to Demonstrate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ownership</strong></td>
+<td>Services from code to production health — on-call, dashboards, runbooks</td>
+</tr>
+<tr>
+<td><strong>Cross-functional collaboration</strong></td>
+<td>Working with PMs/Finance (e.g., for market expansions)</td>
+</tr>
+<tr>
+<td><strong>AI passion</strong></td>
+<td>Prototype to production — not just demos, but production-grade AI with guardrails</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="quick-reference-technologies-mentioned">Quick Reference — Technologies Mentioned<a class="headerlink" href="#quick-reference-technologies-mentioned" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Technologies</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Languages</td>
+<td>Go, C#</td>
+</tr>
+<tr>
+<td>Infrastructure</td>
+<td>Docker, Kubernetes</td>
+</tr>
+<tr>
+<td>Orchestration</td>
+<td>Temporal, Cadence, Airflow</td>
+</tr>
+<tr>
+<td>Observability</td>
+<td>Prometheus, Grafana, distributed tracing</td>
+</tr>
+<tr>
+<td>Caching</td>
+<td>Redis</td>
+</tr>
+<tr>
+<td>AI/ML</td>
+<td>OpenAI API, LangChain, Vector DBs</td>
+</tr>
+<tr>
+<td>CI/CD</td>
+<td>Jenkins, Argo</td>
+</tr>
+<tr>
+<td>APIs</td>
+<td>REST, GraphQL</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="further-reading">Further Reading<a class="headerlink" href="#further-reading" title="Permanent link">&para;</a></h2>
+<p>See the full <strong><a href="references/">References &amp; Further Reading</a></strong> page for curated links by topic. Essentials to start with:</p>
+<ul>
+<li><a href="https://dataintensive.net/"><em>Designing Data-Intensive Applications</em></a> — transactions, consistency, stream processing</li>
+<li><a href="https://docs.stripe.com/api/idempotent_requests">Stripe — Idempotent Requests</a> — production idempotency patterns</li>
+<li><a href="https://sre.google/sre-book/table-of-contents/">Google SRE Book</a> — reliability, on-call, SLOs</li>
+<li><a href="https://microservices.io/patterns/data/saga.html">Microservices.io — Saga Pattern</a> — distributed transactions without 2PC</li>
+<li><a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/">OWASP LLM Top 10</a> — AI safety in production</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Overview">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Overview
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="cheat-sheet/" class="md-footer__link md-footer__link--next" aria-label="Next: Cheat Sheet">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Cheat Sheet
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/patback66/koken-swe-interview-guides" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
