@@ -1,18 +1,18 @@
 # System Design — In-Depth Guide
 
-[← Back to Study Guide](../study-guide.md)
+[← Back to Study Guide](../index.md)
 
 ---
 
 ## Table of Contents
 
 1. [Interview Approach](#interview-approach)
-2. [Payments & Transaction Processing](#payments--transaction-processing)
-3. [Reconciliation & Billing](#reconciliation--billing)
+2. [Payments & Transaction Processing](#payments-transaction-processing)
+3. [Reconciliation & Billing](#reconciliation-billing)
 4. [AI-Enhanced Services](#ai-enhanced-services)
 5. [Cross-Cutting Architecture](#cross-cutting-architecture)
-6. [Scalability & Reliability Patterns](#scalability--reliability-patterns)
-7. [Security & Fintech Compliance](#security--fintech-compliance)
+6. [Scalability & Reliability Patterns](#scalability-reliability-patterns)
+7. [Security & Fintech Compliance](#security-fintech-compliance)
 8. [Key Trade-offs](#key-trade-offs)
 9. [Diagram Templates](#diagram-templates)
 

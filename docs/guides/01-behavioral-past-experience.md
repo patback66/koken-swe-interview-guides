@@ -1,6 +1,6 @@
 # Behavioral & Past Experience — In-Depth Guide
 
-[← Back to Study Guide](../study-guide.md)
+[← Back to Study Guide](../index.md)
 
 ---
 
@@ -9,7 +9,7 @@
 1. [What Interviewers Are Evaluating](#what-interviewers-are-evaluating)
 2. [The STAR Framework](#the-star-framework)
 3. [Core Story Themes](#core-story-themes)
-4. [Common Probes — Deep Dive](#common-probes--deep-dive)
+4. [Common Probes — Deep Dive](#common-probes-deep-dive)
 5. [Tesla Builder Culture Signals](#tesla-builder-culture-signals)
 6. [Preparation Checklist](#preparation-checklist)
 

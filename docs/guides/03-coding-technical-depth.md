@@ -1,18 +1,18 @@
 # Coding & Technical Depth — In-Depth Guide
 
-[← Back to Study Guide](../study-guide.md)
+[← Back to Study Guide](../index.md)
 
 ---
 
 ## Table of Contents
 
 1. [Interview Format](#interview-format)
-2. [Backend & Systems Patterns](#backend--systems-patterns)
+2. [Backend & Systems Patterns](#backend-systems-patterns)
 3. [Idempotent Transaction Handler](#idempotent-transaction-handler)
 4. [Concurrency Deep Dive](#concurrency-deep-dive)
 5. [Database Interactions](#database-interactions)
 6. [Caching Strategies](#caching-strategies)
-7. [AI / Agentic Integrations](#ai--agentic-integrations)
+7. [AI / Agentic Integrations](#ai-agentic-integrations)
 8. [Production Operations](#production-operations)
 9. [Testing in Fintech](#testing-in-fintech)
 10. [Practice Problems](#practice-problems)
