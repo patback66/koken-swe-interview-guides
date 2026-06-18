@@ -224,4 +224,5 @@ Curated external resources for deeper study. Links are grouped by topic — star
 | System Design | [02-system-design.md](02-system-design.md) |
 | Coding & Technical Depth | [03-coding-technical-depth.md](03-coding-technical-depth.md) |
 | 48-Hour Cram Plan | [cram-plan.md](cram-plan.md) |
+| Cheat Sheet | [cheat-sheet.md](cheat-sheet.md) |
 | All guides | [Guides overview](../index.md) |

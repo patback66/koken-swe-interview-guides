@@ -15,6 +15,7 @@ Position-specific interview prep. Pick a guide based on the role you're preparin
 | Section | Link |
 |---------|------|
 | Overview | [Study guide](sr-swe-fintech/index.md) |
+| Cheat Sheet | [cheat-sheet.md](sr-swe-fintech/cheat-sheet.md) |
 | 48-Hour Cram Plan | [cram-plan.md](sr-swe-fintech/cram-plan.md) |
 | Behavioral & Past Experience | [01-behavioral-past-experience.md](sr-swe-fintech/01-behavioral-past-experience.md) |
 | System Design | [02-system-design.md](sr-swe-fintech/02-system-design.md) |

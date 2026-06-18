@@ -211,6 +211,7 @@ The company's FinTech team values engineers who **build and run** their systems.
 
 | Signal | Example Phrasing |
 |--------|-----------------|
+| **First principles & pragmatism** | "We didn't need Kubernetes and Kafka yet — a monolithic Go service with Postgres handled our volume; we chose simplicity and iterated" |
 | **"You build it, you run it"** | "I was on-call for the payment service I designed — I built the runbooks and dashboards I'd want at 3am" |
 | **Pragmatism over perfection** | "We shipped v1 with Redis caching and a nightly reconciliation job. It wasn't elegant, but it handled Black Friday volume and we iterated" |
 | **Bias for action** | "Instead of a 6-month rewrite proposal, I extracted the highest-risk component into a microservice in 3 weeks" |

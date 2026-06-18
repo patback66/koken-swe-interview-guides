@@ -126,6 +126,7 @@ INITIATED → AUTHORIZED → CAPTURED → SETTLED
 | **Client-provided key** | Client sends `Idempotency-Key` header; server stores request hash + response for 24–72hrs |
 | **Server-generated key** | For internal retries; keyed on `(merchant_id, order_id, amount, operation)` |
 | **Storage** | Redis or dedicated idempotency table with TTL; check before processing, store result after |
+| **3-state model** | Track `STARTED` → `COMPLETED` or `FAILED`. If a duplicate arrives while `STARTED`, return **409 Conflict** or hold the connection — prevents concurrent double-processing (stronger than only checking terminal states) |
 
 ```
 POST /payments
@@ -166,7 +167,8 @@ These are the two ways to implement a saga:
 | **Cons** | Hard to see end-to-end flow; debugging "who listens to what?" gets messy as services grow | Orchestrator must be highly available; can become a bottleneck if poorly designed |
 | **When to use** | Simple flows, few services, event-native teams | Complex multi-step financial workflows, payments, reconciliation |
 
-**Orchestrated Saga (Temporal)** — Temporal is an **orchestration** tool: it runs workflow code that explicitly sequences steps and handles failure:
+**Orchestrated saga (Temporal)** — Temporal is an **orchestration** tool: it runs workflow code that explicitly sequences steps and handles failure. Other options: **AWS Step Functions**, Cadence. Choreography uses the message bus alone (no central workflow engine).
+
 ```
 PaymentWorkflow:
   1. ReserveFunds(payment_provider)     → on failure: abort
@@ -460,7 +462,7 @@ Use an **event-driven notification service** — publish `InvoiceValidated`, `Di
 | Orchestration | Kubernetes | Auto-scaling, self-healing, rolling deploys |
 | Workflow engine | Temporal | Durable workflows for payments, reconciliation |
 | Batch orchestration | Airflow | Scheduled ETL, report generation |
-| Message bus | Kafka / SQS | Event-driven communication between services |
+| Message bus | Kafka / SQS / **Kinesis** | Event-driven communication; Kinesis common on AWS |
 
 ### Event Bus Patterns
 
@@ -660,14 +662,18 @@ Map data types to consistency expectations:
 ### Observability Stack
 
 ```
-Metrics (Prometheus)  →  Dashboards (Grafana)  →  Alerting (PagerDuty)
-        +
-Tracing (Jaeger/Tempo)  →  Distributed request visibility
+Metrics (Prometheus / Datadog)  →  Dashboards (Grafana)  →  Alerting (PagerDuty)
+        +                              ↑
+Tracing (Jaeger/Tempo)  →  Propagate trace_id / traceparent headers through gateway, services, brokers
         +
 Logging (ELK/Loki)  →  Structured JSON logs, correlation IDs
         +
 SLOs  →  Error budgets, burn-rate alerts
 ```
+
+**High-cardinality metrics:** Tag every request with dimensions (region, payment_method, vendor, API). Enables alerts like *"error rate for charging API in EU for Visa"* instead of only global error rate. Watch cardinality explosion — don't tag unbounded values (user_id) on every metric.
+
+**Distributed tracing:** Inject `trace_id` (W3C `traceparent` header) at the API gateway and pass through async boundaries (Kafka message headers, gRPC metadata) so a stalled saga is debuggable end-to-end.
 
 **Key dashboards for fintech:**
 - Payment success rate (by vendor, region, payment method)
@@ -698,6 +704,7 @@ SLOs  →  Error budgets, burn-rate alerts
 |------|----------------------------|
 | **Audit trails** | Immutable log of every financial operation — who, what, when, before/after state. Required for compliance and dispute resolution |
 | **RBAC** | Role-Based Access Control — users get permissions by role (Finance = read-only, Ops = limited write). **Least privilege** = minimum access needed |
+| **Relation-based access (Zanzibar)** | Fine-grained permissions on hierarchical data (e.g., "user X can view account Y's invoices in region Z") — models like **Google Zanzibar** / **SpiceDB** when flat RBAC isn't enough |
 | **Encryption** | TLS in transit; AES-256 at rest. **KMS** manages encryption keys with rotation |
 | **PCI-DSS** | Payment Card Industry Data Security Standard — rules for handling card data. **Reduce scope** by tokenizing cards (Stripe/Adyen holds the PAN; you store a token) |
 | **Data residency** | Some regions require customer data stored in-country (e.g., EU). Affects where you shard and which vendors you use |

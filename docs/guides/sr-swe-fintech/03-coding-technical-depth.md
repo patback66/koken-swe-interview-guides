@@ -301,8 +301,8 @@ Distributed systems often can't guarantee all readers see the same data instantl
 |-------|----------|----------------|
 | **Read Uncommitted** | Nothing | Never use for financial data |
 | **Read Committed** | Dirty reads | Default for most apps; acceptable for reads |
-| **Repeatable Read** | Non-repeatable reads | Good for balance checks within a transaction |
-| **Serializable** | All anomalies | Use for ledger writes; highest safety, lowest concurrency |
+| **Repeatable Read** | Non-repeatable reads | **Pragmatic default** for many fintech workloads — good for balance checks; handle phantom reads in app logic if needed |
+| **Serializable** | All anomalies | Highest safety, lowest throughput — use for hottest ledger paths if anomalies are unacceptable |
 
 **Further reading:** [PostgreSQL — Explicit Locking](https://www.postgresql.org/docs/current/explicit-locking.html) · [PostgreSQL — Transaction Isolation](https://www.postgresql.org/docs/current/transaction-iso.html) · [References — Database & Locking](references.md#database-locking)
 
