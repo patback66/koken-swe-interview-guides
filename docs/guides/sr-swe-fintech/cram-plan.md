@@ -280,15 +280,13 @@ A time-boxed study schedule for the onsite interview. Assumes **~16–20 hours o
 
 ## Morning of Interview (20 min)
 
-| | |
-|---|---|
-| ☐ | 3 STAR stories — can deliver opening line for each |
-| ☐ | Idempotency flow — say it in 30 seconds |
-| ☐ | Saga + outbox — one sentence each |
-| ☐ | RAG + validation — draw on napkin |
-| ☐ | "You build it, you run it" — one personal example |
-| ☐ | 3 questions to ask ready |
-| ☐ | Collaborative mindset: "working session, not exam" |
+- [ ] 3 STAR stories — can deliver opening line for each
+- [ ] Idempotency flow — say it in 30 seconds
+- [ ] Saga + outbox — one sentence each
+- [ ] RAG + validation — draw on napkin
+- [ ] "You build it, you run it" — one personal example
+- [ ] 3 questions to ask ready
+- [ ] Collaborative mindset: "working session, not exam"
 
 ---
 
