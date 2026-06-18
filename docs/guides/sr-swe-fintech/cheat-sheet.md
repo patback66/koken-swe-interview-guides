@@ -40,7 +40,7 @@ One-page reference for last-minute review. For depth, follow the links to full g
 
 **Also know:** outbox pattern (atomic DB write + event), double-entry ledger, CDC/Debezium for reconciliation pipelines.
 
-→ Deep dive: [Sagas & choreography](02-system-design.md#distributed-transactions--saga-pattern) · [Reconciliation](02-system-design.md#reconciliation-billing)
+→ Deep dive: [Sagas & choreography](02-system-design.md#distributed-transactions-saga-pattern) · [Reconciliation](02-system-design.md#reconciliation-billing)
 
 ---
 
