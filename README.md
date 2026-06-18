@@ -1,6 +1,6 @@
 # Koken SWE Interview Guides
 
-Structured software engineering interview prep guides — starting with Tesla FinTech (behavioral, system design, coding).
+Structured software engineering interview prep guides for a **Sr. Software Engineer, FinTech** role (behavioral, system design, coding).
 
 **Live site:** [patback66.github.io/koken-swe-interview-guides](https://patback66.github.io/koken-swe-interview-guides/)  
 **Repo:** [github.com/patback66/koken-swe-interview-guides](https://github.com/patback66/koken-swe-interview-guides)
@@ -35,4 +35,4 @@ After the first deploy, enable GitHub Pages: **Settings → Pages → Source: De
 
 ## License
 
-Personal study material. Not affiliated with or endorsed by Tesla, Inc.
+Personal study material for interview preparation.

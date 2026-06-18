@@ -10,14 +10,14 @@
 2. [The STAR Framework](#the-star-framework)
 3. [Core Story Themes](#core-story-themes)
 4. [Common Probes — Deep Dive](#common-probes-deep-dive)
-5. [Tesla Builder Culture Signals](#tesla-builder-culture-signals)
+5. [Builder Culture Signals](#builder-culture-signals)
 6. [Preparation Checklist](#preparation-checklist)
 
 ---
 
 ## What Interviewers Are Evaluating
 
-Behavioral interviews at Tesla FinTech assess whether you can thrive in a **fast-paced, high-stakes financial environment** where systems directly impact revenue. They probe:
+Behavioral interviews for the company's FinTech team assess whether you can thrive in a **fast-paced, high-stakes financial environment** where systems directly impact revenue. They probe:
 
 | Dimension | What "Good" Looks Like |
 |-----------|------------------------|
@@ -183,9 +183,9 @@ Prepare **2–3 polished stories** covering at least two of these themes. Have a
 
 ---
 
-## Tesla Builder Culture Signals
+## Builder Culture Signals
 
-Tesla FinTech values engineers who **build and run** their systems. Weave these signals into every answer:
+The company's FinTech team values engineers who **build and run** their systems. Weave these signals into every answer:
 
 | Signal | Example Phrasing |
 |--------|-----------------|
@@ -205,14 +205,14 @@ Tesla FinTech values engineers who **build and run** their systems. Weave these 
 - [ ] Quantify outcomes for each story (%, $, time saved, error reduction)
 - [ ] Practice 2-level-deep follow-ups for each story
 - [ ] Prepare 2–3 thoughtful questions about the team, tech stack, and on-call culture
-- [ ] Review the [job posting](https://www.tesla.com/careers/search/job/sr-software-engineer-fintech-262638) and map your experience to listed requirements
+- [ ] Review the job description for **Sr. Software Engineer, FinTech** and map your experience to listed requirements
 
 ### During the Interview
 
 - [ ] Listen fully before answering — address the specific probe, not a prepared monologue
 - [ ] Use "I" for your contributions, "we" for team context
 - [ ] If you don't know something, say so and explain how you'd find out
-- [ ] Connect your experience to Tesla's domain (payments, vehicle orders, Supercharging, global scale)
+- [ ] Connect your experience to the company's domain (payments, vehicle orders, charging services, global scale)
 
 ### Questions to Ask Interviewers
 

@@ -56,7 +56,7 @@ System design is **~50% of the interview**. Treat it as a collaborative design s
 
 ### Problem Statement
 
-Design a real-time payment gateway handling **100k+ TPS** for global vehicle orders, Supercharging, and subscription billing.
+Design a real-time payment gateway handling **100k+ TPS** for global vehicle orders, charging services, and subscription billing.
 
 ### High-Level Architecture
 
@@ -182,7 +182,7 @@ Key API properties:
 
 ### Problem Statement
 
-Design a reconciliation engine matching invoices, payments, and ledger entries across vehicle orders, Supercharging sessions, and subscription billing at massive scale.
+Design a reconciliation engine matching invoices, payments, and ledger entries across vehicle orders, charging sessions, and subscription billing at massive scale.
 
 ### High-Level Architecture
 

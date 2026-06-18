@@ -1,14 +1,10 @@
-# Tesla FinTech — Onsite Interview Study Guide
+# Onsite Interview Study Guide
 
-> **Role:** [Sr. Software Engineer, FinTech](https://www.tesla.com/careers/search/job/sr-software-engineer-fintech-262638)
-
-Below is a prep guide for the interview. Let me know if you have any additional questions.
-
----
+> **Role:** Sr. Software Engineer, FinTech
 
 ## Overview
 
-This guide covers key topics for your onsite interview at Tesla's FinTech Team, focusing on building scalable systems for **payments processing**, **financial reconciliation**, **billing/invoicing**, and **AI-driven workflows** that handle global transaction volumes and impact billions in revenue (e.g., from vehicle orders, Supercharging, and emerging Robotaxi operations).
+This guide covers key topics for your onsite interview with the company's FinTech team, focusing on building scalable systems for **payments processing**, **financial reconciliation**, **billing/invoicing**, and **AI-driven workflows** that handle global transaction volumes and impact billions in revenue (e.g., from vehicle orders, charging services, and emerging mobility operations).
 
 ### Interview Format
 
@@ -33,7 +29,7 @@ This guide covers key topics for your onsite interview at Tesla's FinTech Team, 
 
 ## 1. Behavioral & Past Experience (~20%)
 
-Interviewers will cover your background to assess fit for Tesla's **builder culture** in a fast-paced fintech environment, probing challenges in **distributed transactions**, **data consistency**, and transitions to modern, **AI-enhanced systems**.
+Interviewers will cover your background to assess fit for the company's **builder culture** in a fast-paced fintech environment, probing challenges in **distributed transactions**, **data consistency**, and transitions to modern, **AI-enhanced systems**.
 
 ### What to Prepare
 
@@ -90,7 +86,7 @@ Design a real-time payment gateway for **100k+ TPS**:
 
 #### Reconciliation & Billing
 
-Design a massive-scale reconciliation engine for vehicle/Supercharging revenue:
+Design a massive-scale reconciliation engine for vehicle sales and charging revenue:
 
 - Event-driven workflows (e.g., Temporal for orchestration) to match invoices and detect anomalies
 - Hybrid sync/async (synchronous confirmations, async audits)
@@ -177,7 +173,7 @@ Light live coding; focus on **verbal/whiteboard walkthroughs** of code patterns,
 - Be **collaborative and pragmatic** — treat it as a working session, not an exam
 - Think out loud; invite feedback on your approach
 
-### Tesla FinTech Fit
+### Company FinTech Fit
 
 Stress these themes throughout:
 
