@@ -13,6 +13,7 @@ Structured software engineering interview prep guides for a **Sr. Software Engin
 | [Behavioral & Past Experience](docs/guides/01-behavioral-past-experience.md) | STAR stories, culture fit, common probes |
 | [System Design](docs/guides/02-system-design.md) | Payments, reconciliation, AI-enhanced services |
 | [Coding & Technical Depth](docs/guides/03-coding-technical-depth.md) | Idempotency, concurrency, LLM pipelines, testing |
+| [References & Further Reading](docs/references.md) | Curated external resources by topic |
 
 ## Local development
 

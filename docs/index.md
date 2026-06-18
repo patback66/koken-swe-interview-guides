@@ -22,6 +22,7 @@ This guide covers key topics for your onsite interview with the company's FinTec
 | Behavioral & Past Experience | ~20% | [guides/01-behavioral-past-experience.md](guides/01-behavioral-past-experience.md) |
 | System Design | ~50% | [guides/02-system-design.md](guides/02-system-design.md) |
 | Coding & Technical Depth | ~30% | [guides/03-coding-technical-depth.md](guides/03-coding-technical-depth.md) |
+| References & Further Reading | — | [references.md](references.md) |
 
 > This guide is in depth, as I like to over prepare candidates.
 
@@ -197,3 +198,15 @@ Stress these themes throughout:
 | AI/ML | OpenAI API, LangChain, Vector DBs |
 | CI/CD | Jenkins, Argo |
 | APIs | REST, GraphQL |
+
+---
+
+## Further Reading
+
+See the full **[References & Further Reading](references.md)** page for curated links by topic. Essentials to start with:
+
+- [*Designing Data-Intensive Applications*](https://dataintensive.net/) — transactions, consistency, stream processing
+- [Stripe — Idempotent Requests](https://docs.stripe.com/api/idempotent_requests) — production idempotency patterns
+- [Google SRE Book](https://sre.google/sre-book/table-of-contents/) — reliability, on-call, SLOs
+- [Microservices.io — Saga Pattern](https://microservices.io/patterns/data/saga.html) — distributed transactions without 2PC
+- [OWASP LLM Top 10](https://owasp.org/www-project-top-10-for-large-language-model-applications/) — AI safety in production

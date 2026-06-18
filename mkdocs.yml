@@ -38,6 +38,7 @@ nav:
     - Behavioral & Past Experience: guides/01-behavioral-past-experience.md
     - System Design: guides/02-system-design.md
     - Coding & Technical Depth: guides/03-coding-technical-depth.md
+  - References: references.md
 
 markdown_extensions:
   - tables

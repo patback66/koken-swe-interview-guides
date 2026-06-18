@@ -15,6 +15,7 @@
 7. [Security & Fintech Compliance](#security-fintech-compliance)
 8. [Key Trade-offs](#key-trade-offs)
 9. [Diagram Templates](#diagram-templates)
+10. [References & Further Reading](#references-further-reading)
 
 ---
 
@@ -176,6 +177,8 @@ Key API properties:
 - **Webhook callbacks** for async vendor events (with signature verification)
 - **Versioning** (`/v1/payments`) for backward compatibility
 
+**Further reading:** [Stripe — Idempotent Requests](https://docs.stripe.com/api/idempotent_requests) · [Microservices.io — Saga](https://microservices.io/patterns/data/saga.html) · [Microservices.io — Transactional Outbox](https://microservices.io/patterns/data/transactional-outbox.html) · [Adyen — Payment Lifecycle](https://docs.adyen.com/online-payments/payment-lifecycle/) · [References — Payments](../references.md#payments-transactions)
+
 ---
 
 ## Reconciliation & Billing
@@ -289,6 +292,8 @@ class DailyReconciliation:
 | **Automated rollback** | Argo Rollouts or similar — auto-revert on SLO breach |
 | **DB migration safety** | Expand-contract pattern; backward-compatible schema changes |
 
+**Further reading:** [Temporal — Durable Execution](https://docs.temporal.io/temporal) · [Debezium — CDC](https://debezium.io/documentation/reference/stable/index.html) · [Martin Fowler — Event Sourcing](https://martinfowler.com/eaaDev/EventSourcing.html) · [References — Reconciliation](../references.md#reconciliation-billing)
+
 ---
 
 ## AI-Enhanced Services
@@ -353,6 +358,8 @@ After validation:
 
 Use an **event-driven notification service** — publish `InvoiceValidated`, `DiscrepancyDetected` events; notification service routes to appropriate channels based on user preferences.
 
+**Further reading:** [RAG Paper](https://arxiv.org/abs/2005.11401) · [Pinecone — RAG Guide](https://www.pinecone.io/learn/retrieval-augmented-generation/) · [OpenAI — Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs) · [Anthropic — Building Effective Agents](https://www.anthropic.com/research/building-effective-agents) · [References — AI / LLM](../references.md#ai-llm-in-production)
+
 ---
 
 ## Cross-Cutting Architecture
@@ -385,6 +392,8 @@ Use an **event-driven notification service** — publish `InvoiceValidated`, `Di
 | **Event-carried state transfer** | Include payment details in event to avoid sync calls |
 | **Event sourcing** | Store all state changes as events — full audit trail, replay capability |
 | **CQRS** | Separate write model (commands) from read model (queries/dashboards) |
+
+**Further reading:** [*Designing Data-Intensive Applications*](https://dataintensive.net/) · [Kafka Documentation](https://kafka.apache.org/documentation/) · [Enterprise Integration Patterns](https://www.enterpriseintegrationpatterns.com/) · [References — System Design](../references.md#system-design-architecture)
 
 ---
 
@@ -437,6 +446,8 @@ SLOs  →  Error budgets, burn-rate alerts
 | **Replay** | Re-process events from a checkpoint for recovery after bugs |
 | **Eventual consistency** | Accept temporary inconsistency; reconciliation catches drift |
 
+**Further reading:** [Google SRE — Monitoring](https://sre.google/sre-book/monitoring-distributed-systems/) · [OpenTelemetry](https://opentelemetry.io/docs/) · [AWS — Exponential Backoff and Jitter](https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/) · [References — Observability](../references.md#observability-reliability)
+
 ---
 
 ## Security & Fintech Compliance
@@ -450,6 +461,8 @@ SLOs  →  Error budgets, burn-rate alerts
 | **Data residency** | EU customer data in EU region — affects sharding and vendor choice |
 | **Vendor integrations** | Direct APIs where possible to reduce fees; webhook signature verification |
 | **AI safeguards** | No PII in prompts sent to external LLMs without DPA; log all AI decisions |
+
+**Further reading:** [PCI DSS Documentation](https://www.pcisecuritystandards.org/document_library/) · [OWASP Top 10](https://owasp.org/www-project-top-ten/) · [OWASP LLM Top 10](https://owasp.org/www-project-top-10-for-large-language-model-applications/) · [References — Security](../references.md#security-compliance-fintech)
 
 ---
 
@@ -514,3 +527,16 @@ Client          API Gateway       Payment Svc       Idempotency Store    Vendor
   │                 │◄── 200 OK ──────│                    │               │
   │◄── 200 OK ──────│                 │                    │               │
 ```
+
+---
+
+## References & Further Reading
+
+| Topic | Resources |
+|-------|-----------|
+| **Foundational** | [*Designing Data-Intensive Applications*](https://dataintensive.net/), [System Design Primer](https://github.com/donnemartin/system-design-primer) |
+| **Payments & idempotency** | [Stripe — Idempotent Requests](https://docs.stripe.com/api/idempotent_requests), [Stripe Engineering Blog](https://stripe.com/blog/engineering) |
+| **Distributed transactions** | [Saga Pattern](https://microservices.io/patterns/data/saga.html), [Transactional Outbox](https://microservices.io/patterns/data/transactional-outbox.html), [Temporal Docs](https://docs.temporal.io/) |
+| **Observability & SRE** | [Google SRE Book](https://sre.google/sre-book/table-of-contents/), [Prometheus Docs](https://prometheus.io/docs/introduction/overview/) |
+| **AI in production** | [RAG Paper](https://arxiv.org/abs/2005.11401), [OWASP LLM Top 10](https://owasp.org/www-project-top-10-for-large-language-model-applications/) |
+| **Full bibliography** | [References & Further Reading](../references.md) |
